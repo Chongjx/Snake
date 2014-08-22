@@ -347,37 +347,6 @@ void checkcollision()
 	}
 }
 
-void colourOptions()
-{
-	int color = 0;
-
-	colour(0xB);
-	cout << "						1) OOOOOO" << endl;
-	colour(0xC);
-	cout << "						2) OOOOOO" << endl;
-	colour(0xD);
-	cout << "						3) OOOOOO" << endl;
-	colour(0xE);
-	cout << "						4) OOOOOO" << endl;
-	colour(0x7);
-	cout << "					Choose your colour: ";
-	cin >> color;
-	cout << "						You have chosen ";
-	switch (color)
-	{
-		case LIGHT_BLUE: colour(0xB); chosencolour[0] = 0xB;
-			break;
-		case RED: colour(0xC); chosencolour[0] = 0xC;
-			break;
-		case PINK: colour(0xD); chosencolour[0] = 0xD;
-			break;
-		case YELLOW: colour(0xE); chosencolour[0] = 0xE;
-			break;
-	}
-	cout << "OOOOOO" << endl;
-	colour(0x7);
-}
-
 void highscore()
 {
 	colour(0x02);

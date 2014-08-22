@@ -1,19 +1,19 @@
 #include<iostream>
-#include "game.h"
 #include<string>
 #include "Framework\console.h"
+#include "menu.h"
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
 
-void mainmenu()
+void MainMenu()
 {
-    for (bool check = true; check != false;)
+    for (bool B_Check = true; B_Check != false;)
     {
-        string Menu[5] = {"Play" , "Instruction" , "Highscore", "Options", "Exit"};
-        int choice = 0;
+        string S_Menu[5] = {"Play" , "Instruction" , "Highscore", "Options", "Exit"};
+        int I_Choice = 0;
 
         while(true)
         {
@@ -36,15 +36,15 @@ void mainmenu()
 
             for (int i = 0; i < 5; ++i)
             {
-                if (i == choice)
+                if (i == I_Choice)
                 {
                     colour(0x03);
-                    cout << "						" << Menu[i] << endl;
+                    cout << "						" << char(16) << Menu[i] << endl;
                 }
                 else
                 {
                     colour(0x02);
-                    cout << "						" << Menu[i] << endl;
+                    cout << "						" << char(16)Menu[i] << endl;
                 }
             }
 
@@ -155,4 +155,35 @@ void options()
 	cls();
 	colourOptions();
 	cout << "                            Press UP arrow key to return to the main menu!" << endl; 
+}
+
+void colourOptions()
+{
+	int color = 0;
+
+	colour(0xB);
+	cout << "						1) OOOOOO" << endl;
+	colour(0xC);
+	cout << "						2) OOOOOO" << endl;
+	colour(0xD);
+	cout << "						3) OOOOOO" << endl;
+	colour(0xE);
+	cout << "						4) OOOOOO" << endl;
+	colour(0x7);
+	cout << "					Choose your colour: ";
+	cin >> color;
+	cout << "						You have chosen ";
+	switch (color)
+	{
+		case LIGHT_BLUE: colour(0xB); chosencolour[0] = 0xB;
+			break;
+		case RED: colour(0xC); chosencolour[0] = 0xC;
+			break;
+		case PINK: colour(0xD); chosencolour[0] = 0xD;
+			break;
+		case YELLOW: colour(0xE); chosencolour[0] = 0xE;
+			break;
+	}
+	cout << "OOOOOO" << endl;
+	colour(0x7);
 }

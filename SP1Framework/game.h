@@ -10,7 +10,7 @@
 //s_ static
 //c _ constant
 extern StopWatch g_timer;
-extern bool g_bQuitGame;
+extern bool QuitGame;
 extern bool gameover;
 
 struct snake
@@ -18,16 +18,7 @@ struct snake
 	COORD charLocation;
 };
 
-enum ECOLOR
-{
-	E_LIGHT_BLUE = 1,
-	RED,
-	PINK,
-	YELLOW,
-	COLOR_MAX 
-};
-
-enum EKEY
+enum E_KEY
 {
     E_UP,
     E_DOWN,
@@ -37,45 +28,27 @@ enum EKEY
     E_COUNT
 };
 
-enum direction
+enum E_P1_DIRECTION
 {
-	E_DIRECTION_UP = 1,
-	down,
-	left,
-	right,
-	norm
+	E_P1_UP,
+	E_P1_DOWN,
+	E_P1_LEFT,
+	E_P1_RIGHT,
+	E_P1_NORM
 };
 
-enum ESQUENCE
-{
-	E_MAINMENU,
-	GAME,
-	INSTRUCTION,
-	HIGHSCORE,
-	EXIT,
-	MAX_STATES
-};
+void Init();					// initialize your variables, allocate memory, etc
+void GetInput();				// get input from player
+int Update(double);			// update the game and the state of the game
+void Render();					// renders the current state of the game to the console
+void ShutDown();				// do clean up, free memory
+void Map();						// border around the map using 2D array
+void Spawn();					// random food spawn
+void GameLoop();				// The loop
+void CheckCollision();
 
-void init();					// initialize your variables, allocate memory, etc
-void getInput();				// get input from player
-int update(double dt);			// update the game and the state of the game
-void render();					// renders the current state of the game to the console
-void shutdown();				// do clean up, free memory
-void map();						// border around the map using 2D array
-void spawn();					// random food spawn
-void gameLoop();				// The loop
-void hiscore(int);				// Highscore system
-void checkcollision();
-
-void MainMenu();				// Main menu screen
-void Instruction();				// Into the instruction for user
-void game();					// Into the game
-void highscore();				// Into the highscore
-void quitGame();				// Quit the game
-void createsnake(int size);		// Create my snake at the intial location
-int updatesnake();
-void gg();
-void colourOptions();
-void options();
+void CreateSnake(int);		// Create my snake at the intial location
+int UpdateSnake();
+void GG();
 
 #endif // _GAME_H
