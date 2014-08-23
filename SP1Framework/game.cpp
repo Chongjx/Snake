@@ -348,7 +348,7 @@ void ColorOptions()
 
 	colour(0xB);
 	cout << "						1) OOOOOO" << endl;
-	colour(0xC);
+	colour(0xA);
 	cout << "						2) OOOOOO" << endl;
 	colour(0xD);
 	cout << "						3) OOOOOO" << endl;
@@ -363,7 +363,7 @@ void ColorOptions()
 		case E_LIGHTBLUE: colour(0xB); 
 			ChosenColour[0] = 0xB;
 			break;
-		case E_RED: colour(0xC);
+		case E_GREEN: colour(0xA);
 			ChosenColour[0] = 0xC;
 			break;
 		case E_PINK: colour(0xD);
