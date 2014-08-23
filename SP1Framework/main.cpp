@@ -3,9 +3,11 @@
 #include "Framework\timer.h"
 #include "Framework\console.h"
 #include "game.h"
+#include "menu.h"
 
 StopWatch g_timer;            // Timer function to keep track of time and the frame rate
-bool g_quitGame = false;      // Set to true if you want to quit the game
+bool GB_QuitGame = false;      // Set to true if you want to quit the game
+bool GB_GameOver = false;
 const unsigned char FPS = 5; // FPS of this game
 
 void mainLoop();
@@ -15,32 +17,32 @@ void mainLoop();
 
 int main()
 {
-	init();				// initialize your variables
-	while (!g_quitGame) // run this loop until user wants to quit 
+	Init();				// initialize your variables
+	while (!GB_QuitGame) // run this loop until user wants to quit 
 	{
-		mainmenu(); // runs the menu screen
+		MainMenu(); // runs the menu screen
 	}
-	shutdown(); // do clean up, if any. free memory.
+	ShutDown(); // do clean up, if any. free memory.
 
 	return 0;
 }
 
 // This main loop calls functions to get input, update and render the game
 // at a specific frame rate
-void game()
+void Game()
 {
-	int current = 500;
-	createsnake(3);
+	int I_Current = 500;
+	CreateSnake(3);
 	cls();
-	map();
+	Map();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
-	while (!gameover)      // run this loop until user wants to quit 
+	while (!GB_GameOver)      // run this loop until user wants to quit
 	{
-		getInput();							// get keyboard input
-		current = update(g_timer.getElapsedTime());	// update the game
-		render();							 // render the graphics output to screen
-		g_timer.waitUntil(current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
+		GetInput();							// get keyboard input
+		I_Current = Update(g_timer.getElapsedTime());	// update the game
+		Render();							 // render the graphics output to screen
+		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
-	highscore();
-	gg();
+	HighScore();
+	GG();
 }

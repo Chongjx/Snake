@@ -10,12 +10,12 @@
 //s_ static
 //c _ constant
 extern StopWatch g_timer;
-extern bool QuitGame;
-extern bool gameover;
+extern bool GB_QuitGame;
+extern bool GB_GameOver;
 
-struct snake
+struct s_Snake
 {
-	COORD charLocation;
+	COORD CharLocation;
 };
 
 enum E_KEY
@@ -24,18 +24,19 @@ enum E_KEY
     E_DOWN,
     E_LEFT,
     E_RIGHT,
-    E_ESCAPE,
+    E_NORM,
     E_COUNT
 };
 
-enum E_P1_DIRECTION
+/*enum E_P1
 {
 	E_P1_UP,
 	E_P1_DOWN,
 	E_P1_LEFT,
 	E_P1_RIGHT,
-	E_P1_NORM
-};
+	E_P1_NORM,
+	E_P1_MAX
+};*/
 
 void Init();					// initialize your variables, allocate memory, etc
 void GetInput();				// get input from player

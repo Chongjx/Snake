@@ -1,5 +1,8 @@
-#include<iostream>
-#include<string>
+#include <iostream>
+#include <string>
+#include <sstream>
+#include <fstream>
+#include <vector>
 #include "Framework\console.h"
 #include "menu.h"
 
@@ -7,6 +10,10 @@ using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
+using std::ifstream;
+using std::ofstream;
+using std::vector;
+using std::stringstream;
 
 void MainMenu()
 {
@@ -33,18 +40,17 @@ void MainMenu()
             cout <<     "                       *                                                    *" << endl;
             cout <<     "                       ******************************************************" << endl;
 
-
             for (int i = 0; i < 5; ++i)
             {
                 if (i == I_Choice)
                 {
                     colour(0x03);
-                    cout << "						" << char(16) << Menu[i] << endl;
+                    cout << "						" << char(16) << S_Menu[i] << endl;
                 }
                 else
                 {
                     colour(0x02);
-                    cout << "						" << char(16)Menu[i] << endl;
+                    cout << "						" << char(16) << S_Menu[i] << endl;
                 }
             }
 
@@ -52,53 +58,52 @@ void MainMenu()
             {
                 if (GetAsyncKeyState(VK_UP) != 0)
                 {
-                    choice -= 1;
-                    if (choice == -1)
+                    I_Choice -= 1;
+                    if (I_Choice == -1)
                     {
-                        choice = 4;
+                        I_Choice = 4;
                     }
                     break;
                 }
 
                 else if (GetAsyncKeyState(VK_DOWN) != 0)
                 {
-                    choice += 1;
-                    if (choice == 5)
+                    I_Choice += 1;
+                    if (I_Choice == 5)
                     {
-                        choice = 0;
+                        I_Choice = 0;
                     }
                     break;
                 }
 
                 else if (GetAsyncKeyState(VK_RETURN) != 0)
                 {
-                    switch(choice)
+                    switch(I_Choice)
                     {
                     case 0:
                         {
-                            game();
+                            Game();
                             Sleep(1000);
                         } break;
                     case 1:
                         {
-                            instruction();
+                            Instruction();
 							Sleep (200);
 						} break;
                     case 2:
                         {
-                            highscore();
+                            HighScore();
                             Sleep (200);
                         } break;
 					case 3:
 						{
-							options();
+							Options();
 							Sleep(200);
 						} break;
                     case 4:
                         {
                             colour(0x02);
-                            quitGame();
-                            g_quitGame = true;
+                            QuitGame();
                         } break;
                     }
                 }
@@ -108,7 +113,7 @@ void MainMenu()
     }
 }
 
-void instruction()
+void Instruction()
 {
     cls();
     cout << endl << endl << endl << endl << endl;
@@ -122,11 +127,10 @@ void instruction()
     cout << "                   Eat more food produced randomly in the map to progress further."<< endl;
     cout << "                       The game gets more challenging as the snake gets longer."<< endl; 
     cout << "             However,the snake will die if it touches its own body or touches the walls."<< endl << endl;
-    cout << "                       Press UP or Down arrow keys to return to the main menu!" << endl;
     cout << "                            Press UP arrow key to return to the main menu!" << endl;
 }
 
-void quitGame()
+void QuitGame()
 {
     cls();
     cout << endl << endl << endl << endl << endl << endl;
@@ -146,20 +150,19 @@ void quitGame()
     cout << endl;
     cout << endl;
     cout << "                                      ";
-    g_quitGame = true;
     exit(0);
 }
 
-void options()
+void Options()
 {
 	cls();
-	colourOptions();
+	//ColorOptions();
 	cout << "                            Press UP arrow key to return to the main menu!" << endl; 
 }
 
-void colourOptions()
+/*void ColorOptions()
 {
-	int color = 0;
+	int I_Color = 0;
 
 	colour(0xB);
 	cout << "						1) OOOOOO" << endl;
@@ -171,19 +174,97 @@ void colourOptions()
 	cout << "						4) OOOOOO" << endl;
 	colour(0x7);
 	cout << "					Choose your colour: ";
-	cin >> color;
+	cin >> I_Color;
 	cout << "						You have chosen ";
-	switch (color)
+	switch (I_Color)
 	{
-		case LIGHT_BLUE: colour(0xB); chosencolour[0] = 0xB;
+		case E_LIGHTBLUE: colour(0xB); ChosenColour[0] = 0xB;
 			break;
-		case RED: colour(0xC); chosencolour[0] = 0xC;
+		case E_RED: colour(0xC); ChosenColour[0] = 0xC;
 			break;
-		case PINK: colour(0xD); chosencolour[0] = 0xD;
+		case E_PINK: colour(0xD); ChosenColour[0] = 0xD;
 			break;
-		case YELLOW: colour(0xE); chosencolour[0] = 0xE;
+		case E_YELLOW: colour(0xE); ChosenColour[0] = 0xE;
+			break;
+		default : colour(0x7); ChosenColour[0] = 0x7;
 			break;
 	}
 	cout << "OOOOOO" << endl;
 	colour(0x7);
+}*/
+
+void HiScore(int I_PlayerScore)
+{
+	int A_Store[5] = {0};
+	int I_Temp = 0;
+
+	vector<int> VI_Score;
+	vector<int> VI_Replace;
+	ifstream PrintScore;
+	ofstream NewScore;
+	string S_Data;
+	int z = 0;
+
+	cout << "					Your score is : " << I_PlayerScore << endl;
+	cout << endl;
+
+	PrintScore.open ("Highscore.txt");
+
+	for(int q = 0; q < 5; q++)
+	{
+		while(getline(PrintScore, S_Data))
+		{
+			stringstream ss(S_Data);
+			while ( ss >> A_Store[z] )
+			{
+				VI_Replace.push_back(A_Store[z]);
+				z++;
+			}
+		}
+	}
+
+	for (int x = 0; x < 5; x++)
+	{
+		if(I_PlayerScore >= A_Store[x])
+		{
+			VI_Score.push_back(I_PlayerScore);
+
+			for(int j = x; j < VI_Replace.size();j++)
+			{
+				I_Temp = A_Store[j];
+				VI_Score.push_back(I_Temp);
+				if(VI_Score.size() == 5)
+				{
+					break;
+				}
+			}
+		}
+		else
+		{
+			VI_Score.push_back(A_Store[x]);
+		}
+	}
+	
+	VI_Replace.erase(VI_Replace.begin(),VI_Replace.begin()+5);
+
+	PrintScore.close();
+	NewScore.open ("Highscore.txt");
+
+	for(int p = 0; p < 5; p++)
+	{
+		NewScore << VI_Score[p] << endl;
+	}
+
+	VI_Score.erase(VI_Score.begin(),VI_Score.begin()+5);
+
+	NewScore.close();
+
+	PrintScore.open("Highscore.txt");
+
+	while(!PrintScore.eof()) //
+	{
+		getline(PrintScore, S_Data);
+		cout << "						" << S_Data << endl;
+	}
+	PrintScore.close();
 }

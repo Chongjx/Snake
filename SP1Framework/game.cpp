@@ -2,6 +2,7 @@
 //
 //
 #include "game.h"
+#include "menu.h"
 #include "Framework\console.h"
 #include <iostream>
 #include <iomanip>
@@ -23,23 +24,18 @@ char level[Height][Width];
 
 double elapsedTime;
 double deltaTime;
-bool keyPressed[K_COUNT];
-bool gameover = false;
-COORD consoleSize;
-COORD position;
-COORD apple;
-COORD scoreplace;
-int foodspawned = 0;
-int score;
-int current = 0;
-WORD chosencolour[] = {0x7};
+COORD coord_ConsoleSize;
+COORD coord_Apple;
+int I_Food = 0;
+int I_Score;
+int I_Current;
+int I_Move;
+int I_Prev;
+bool KeyPressed[E_COUNT];
 
-vector<snake> body;
+vector<s_Snake> Vs_Body;
 
-int move = 5;
-int prev = 0;
-
-void init()
+void Init()
 {
 	// Set precision for floating point output
 	cout << std::fixed << std::setprecision(3);
@@ -49,147 +45,149 @@ void init()
 
 	/* get the number of character cells in the current buffer */ 
 	GetConsoleScreenBufferInfo( GetStdHandle( STD_OUTPUT_HANDLE ), &csbi );
-	consoleSize.X = 100;
-	consoleSize.Y = 40;
+	coord_ConsoleSize.X = 100;
+	coord_ConsoleSize.Y = 40;
 
 	elapsedTime = 0.0;
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
+
+	I_Move = 4;
+	I_Prev = 0;
 }
 
-void shutdown()
+void ShutDown()
 {
 	// Reset to white text on black background
 	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
 }
 
-void getInput()
+void GetInput()
 {    
-	keyPressed[K_UP] = isKeyPressed(VK_UP);
-	keyPressed[K_DOWN] = isKeyPressed(VK_DOWN);
-	keyPressed[K_LEFT] = isKeyPressed(VK_LEFT);
-	keyPressed[K_RIGHT] = isKeyPressed(VK_RIGHT);
-	keyPressed[K_ESCAPE] = isKeyPressed(VK_ESCAPE);
+	KeyPressed[E_UP] = isKeyPressed(VK_UP);
+	KeyPressed[E_DOWN] = isKeyPressed(VK_DOWN);
+	KeyPressed[E_LEFT] = isKeyPressed(VK_LEFT);
+	KeyPressed[E_RIGHT] = isKeyPressed(VK_RIGHT);
 }
 
-int update(double dt)
+int Update(double dt)
 {
 	// get the delta time
 	elapsedTime += dt;
 	deltaTime = dt;
 	// Updating the location of the character based on the key press
 
-	gotoXY(body[body.size()-1].charLocation);
+	gotoXY(Vs_Body[Vs_Body.size()-1].CharLocation);
 	cout << ' ';
 
 	// if the player press up and the snake is not moving down, the snake will move up
-	if (keyPressed[K_UP] && prev != 2 && move != 5)
+	if (KeyPressed[E_UP] && I_Prev != 1 && I_Move != 4)
 	{
-		move = 1;
-		prev = move;
-	}
-
-	// if the player press left and the snake is not moving right, the snake will move left
-	else if (keyPressed[K_LEFT] && prev != 4)
-	{
-		move = 3;
-		prev = move;
+		I_Move = 0;
+		I_Prev = I_Move;
 	}
 
 	// if the player press down and the snake is not moving up, the snake will move down
-	else if (keyPressed[K_DOWN] && prev != 1)
+	else if (KeyPressed[E_DOWN] && I_Prev != 0)
 	{
-		move = 2;
-		prev = move;
+		I_Move = 1;
+		I_Prev = I_Move;
+	}
+
+	// if the player press left and the snake is not moving right, the snake will move left
+	else if (KeyPressed[E_LEFT] && I_Prev != 3)
+	{
+		I_Move = 2;
+		I_Prev = I_Move;
 	}
 
 	// if the player press right and the snake is not moving left, the snake will move right
-	else if (keyPressed[K_RIGHT] && prev != 3)
+	else if (KeyPressed[E_RIGHT] && I_Prev != 2)
 	{
-		move = 4;
-		prev = move;
+		I_Move = 3;
+		I_Prev = I_Move;
 	}
 
 	// change the coordinates of the snake
-	switch(move)
+	switch(I_Move)
 	{
-	case up:
-		for (int i = body.size()-1; i > 0 ; i--)
+	case E_UP:
+		for (int i = Vs_Body.size()-1; i > 0 ; i--)
 		{
-			body[i].charLocation.X = body[i-1].charLocation.X;
-			body[i].charLocation.Y = body[i-1].charLocation.Y;
+			Vs_Body[i].CharLocation.X = Vs_Body[i-1].CharLocation.X;
+			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
-		body[0].charLocation.Y--;
-		checkcollision();
+		Vs_Body[0].CharLocation.Y--;
+		CheckCollision();
 		break;
 
-	case down:
-		for (int i = body.size()-1; i > 0 ; i--)
+	case E_DOWN:
+		for (int i = Vs_Body.size()-1; i > 0 ; i--)
 		{
-			body[i].charLocation.X = body[i-1].charLocation.X;
-			body[i].charLocation.Y = body[i-1].charLocation.Y;
+			Vs_Body[i].CharLocation.X = Vs_Body[i-1].CharLocation.X;
+			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
-		body[0].charLocation.Y++;
-		checkcollision();
+		Vs_Body[0].CharLocation.Y++;
+		CheckCollision();
 		break;
 
-	case left:
-		for (int i = body.size()-1; i > 0 ; i--)
+	case E_LEFT:
+		for (int i = Vs_Body.size()-1; i > 0 ; i--)
 		{
-			body[i].charLocation.X = body[i-1].charLocation.X;
-			body[i].charLocation.Y = body[i-1].charLocation.Y;
+			Vs_Body[i].CharLocation.X = Vs_Body[i-1].CharLocation.X;
+			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
-		body[0].charLocation.X--;
-		checkcollision();
+		Vs_Body[0].CharLocation.X--;
+		CheckCollision();
 		break;
 
-	case right:
-		for (int i = body.size()-1; i > 0 ; i--)
+	case E_RIGHT:
+		for (int i = Vs_Body.size()-1; i > 0 ; i--)
 		{
-			body[i].charLocation.X = body[i-1].charLocation.X;
-			body[i].charLocation.Y = body[i-1].charLocation.Y;
+			Vs_Body[i].CharLocation.X = Vs_Body[i-1].CharLocation.X;
+			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
-		body[0].charLocation.X++;
-		checkcollision();
+		Vs_Body[0].CharLocation.X++;
+		CheckCollision();
 		break;
 
-	case norm:
-		for (int i = body.size()-1; i > 0 ; i--)
+	case E_NORM:
+		for (int i = Vs_Body.size()-1; i > 0 ; i--)
 		{
-			body[i].charLocation.X = body[i-1].charLocation.X;
-			body[i].charLocation.Y = body[i-1].charLocation.Y;
+			Vs_Body[i].CharLocation.X = Vs_Body[i-1].CharLocation.X;
+			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
-		body[0].charLocation.Y++;
-		checkcollision();
+		Vs_Body[0].CharLocation.Y++;
+		CheckCollision();
 		break;
 	}
 
-	current = updatesnake();
+	I_Current = UpdateSnake();
 
-	if (current <= 100)
+	if (I_Current <= 100)
 	{
 		return 500;
 	}
 
-	else if (current <= 200)
+	else if (I_Current <= 200)
 	{
 		return 400;
 	}
 
-	else if ( current <= 400)
+	else if (I_Current <= 400)
 	{
 		return 200;
 	}
 
-	else if ( current > 500)
+	else if (I_Current > 500)
 	{
 		return 100;
 	}
 }
 
-void render()
+void Render()
 {
-	colour(chosencolour[0]);
+	colour(0x07);
 
 	//render the game
 
@@ -216,21 +214,22 @@ void render()
 	cout << elapsedTime << "secs" << endl;*/
 
 	// render the snake
-	gotoXY(body[0].charLocation);
+	gotoXY(Vs_Body[0].CharLocation);
 	cout << char(254);
 
-	gotoXY(12, 40);
-	cout << score;
+	gotoXY(0, 41);
+	cout << I_Score;
 
+	COORD coord_Position;
 	// set the cursor location at the top of the screen
 	HANDLE hOut;
 	hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-	position.X = 0;
-	position.Y = 0;
-	SetConsoleCursorPosition (hOut, position);
+	coord_Position.X = 0;
+	coord_Position.Y = 0;
+	SetConsoleCursorPosition (hOut, coord_Position);
 }
 
-void map()
+void Map()
 {
 	// create a 2D array that will store the location of the snake and the food
 	for (int row = 0; row < Height; row++)
@@ -266,88 +265,94 @@ void map()
 			cout << level[row][col];
 		}
 	}
+	COORD coord_Scoreplace;
 
-	scoreplace.X = 0;
-	scoreplace.Y = 46;
+	coord_Scoreplace.X = 0;
+	coord_Scoreplace.Y = 45;
 
-	gotoXY(scoreplace);
+	gotoXY(coord_Scoreplace);
 	cout << "Your score: ";
 }
 
-void createsnake(int size)
+void CreateSnake(int size)
 {
 	// Create a snake at the center of the map
 	for (int i = 0; i < size; i++)
 	{
-		body.push_back(snake());
+		Vs_Body.push_back(s_Snake());
 
-		body[i].charLocation.X = consoleSize.X/2;
-		body[i].charLocation.Y = consoleSize.Y/4 - i;
+		Vs_Body[i].CharLocation.X = coord_ConsoleSize.X/2;
+		Vs_Body[i].CharLocation.Y = coord_ConsoleSize.Y/4 - i;
 	}
 }
 
-void spawn()
+void Spawn()
 {
 	srand(time(0));
-	apple.X = rand() % 99 + 1;
-	apple.Y = rand() % 39 + 1;
+	coord_Apple.X = rand() % 99 + 1;
+	coord_Apple.Y = rand() % 39 + 1;
 
-	for ( int i = 0; i < body.size(); i++)
+	for ( int i = 0; i < Vs_Body.size(); i++)
 	{
-		if ( apple.X == body[i].charLocation.X && apple.Y == body[i].charLocation.Y || apple.X == 0 || apple.Y == 0 || apple.X == Width - 1 || apple.Y == Height - 1)
+		if ( coord_Apple.X == Vs_Body[i].CharLocation.X && coord_Apple.Y == Vs_Body[i].CharLocation.Y)
 		{
-			apple.X = rand() % 99 + 1;
-			apple.Y = rand() % 39 + 1;
+			coord_Apple.X = rand() % 99 + 1;
+			coord_Apple.Y = rand() % 39 + 1;
 		}
 	}
 
-	gotoXY (apple);
+	gotoXY (coord_Apple);
 	colour(0x1);
 	cout << char(3);
 }
 
-int updatesnake()
+int UpdateSnake()
 {
-	bool foodeaten = false;
+	bool B_FoodEaten = false;
 
-	if (body[0].charLocation.X == apple.X && body[0].charLocation.Y == apple.Y)
+	if (Vs_Body[0].CharLocation.X == coord_Apple.X && Vs_Body[0].CharLocation.Y == coord_Apple.Y)
 	{
 		Beep (1046, 100);
-		foodeaten = true;
-		foodspawned = 0;
-		body.push_back(snake());
+		B_FoodEaten = true;
+		I_Food = 0;
+		Vs_Body.push_back(s_Snake());
 
-		body[body.size()-1].charLocation.X = body[body.size()-2].charLocation.X;
-		body[body.size()-1].charLocation.Y = body[body.size()-2].charLocation.X;
-		score += 10;
+		Vs_Body[Vs_Body.size()-1].CharLocation.X = Vs_Body[Vs_Body.size()-2].CharLocation.X;
+		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
+		I_Score += 10;
 	}
 
-	if (foodeaten != true && foodspawned == 0)
+	if (B_FoodEaten != true && I_Food == 0)
 	{
-		spawn();
-		foodspawned++;
+		Spawn();
+		I_Food++;
 	}
 
-	return score;
+	return I_Score;
 }
 
-void checkcollision()
+void CheckCollision()
 {
-	for ( int i = 1; i < body.size(); i++)
+	for ( int i = 1; i < Vs_Body.size(); i++)
 	{
-		if (body[0].charLocation.X == body[i].charLocation.X && body[0].charLocation.Y == body[i].charLocation.Y)
+		if (Vs_Body[0].CharLocation.X == Vs_Body[i].CharLocation.X && Vs_Body[0].CharLocation.Y == Vs_Body[i].CharLocation.Y)
 		{
-			gameover = true;
+			GB_GameOver = true;
 		}
 	}
 
-	if (body[0].charLocation.X == 0 || body[0].charLocation.X == Width - 1 || body[0].charLocation.Y == 0 || body[0].charLocation.Y == Height - 1)
+	if (Vs_Body[0].CharLocation.X == 0 || Vs_Body[0].CharLocation.X == Width - 1)
 	{
-		gameover = true;
+		GB_GameOver = true;
+	}
+
+	else if (Vs_Body[0].CharLocation.Y == 0 || Vs_Body[0].CharLocation.Y == Height - 1)
+	{
+		GB_GameOver = true;
 	}
 }
 
-void highscore()
+void HighScore()
 {
 	colour(0x02);
 	cls();
@@ -357,18 +362,18 @@ void highscore()
 	cout <<    "                        |  _  || | |_| |  _  |___) | |__| |_| |  _ <| |___ " << endl;
 	cout <<    "                        |_| |_|___\\____|_| |_|____/ \\____\\___/|_| \\_\\_____|" << endl;
 	cout << endl;
-	hiscore(score);
-	cout <<    "						Press the UP key to return to the main menu!" << endl;
+	HiScore(I_Score);
+	cout <<    "				Press the UP key to return to the main menu!" << endl;
 	cout << endl;
 }
 
-void gg()
+void GG()
 {
-	move = 5;
-	prev = 0;
-	body.erase(body.begin(), body.begin()+body.size());
-	score = 0;
-	foodspawned = 0;
-	gameover = false;
-	current = 0;
+	I_Move = 4;
+	I_Prev = 0;
+	I_Current = 0;
+	I_Score = 0;
+	I_Food = 0;
+	Vs_Body.erase(Vs_Body.begin(), Vs_Body.begin()+Vs_Body.size());
+	GB_GameOver = false;
 }
