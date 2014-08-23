@@ -33,6 +33,8 @@ int I_Move;
 int I_Prev;
 bool KeyPressed[E_COUNT];
 
+WORD ChosenColour[] = {0x7};
+
 vector<s_Snake> Vs_Body;
 
 void Init()
@@ -191,28 +193,6 @@ void Render()
 
 	//render the game
 
-	//render test screen code (not efficient at all)
-	/*const WORD colors[] =   {
-	0x1A, 0x2B, 0x3C, 0x4D, 0x5E, 0x6F,
-	0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6
-	};
-
-	for (int i = 0; i < 12; ++i)
-	{
-	gotoXY(3*i,i+1);
-	colour(colors[i]);
-	std::cout << "WOW";
-	}*/
-
-	// render time taken to calculate this frame
-	/*gotoXY(90, 0);
-	colour(0x1A);
-	cout << 1.0 / deltaTime << "fps" << endl;
-
-	gotoXY(0, 0);
-	colour(0x59);
-	cout << elapsedTime << "secs" << endl;*/
-
 	// render the snake
 	gotoXY(Vs_Body[0].CharLocation);
 	cout << char(254);
@@ -350,6 +330,54 @@ void CheckCollision()
 	{
 		GB_GameOver = true;
 	}
+
+	if ( GB_GameOver == true)
+	{
+		gotoXY(Vs_Body[0].CharLocation);
+		{
+			colour(0xC);
+			cout << char(254);
+			Sleep(1000);
+		}
+	}
+}
+
+void ColorOptions()
+{
+	int I_Color = 0;
+
+	colour(0xB);
+	cout << "						1) OOOOOO" << endl;
+	colour(0xC);
+	cout << "						2) OOOOOO" << endl;
+	colour(0xD);
+	cout << "						3) OOOOOO" << endl;
+	colour(0xE);
+	cout << "						4) OOOOOO" << endl;
+	colour(0x7);
+	cout << "					Choose your colour: ";
+	cin >> I_Color;
+	cout << "						You have chosen ";
+	switch (I_Color)
+	{
+		case E_LIGHTBLUE: colour(0xB); 
+			ChosenColour[0] = 0xB;
+			break;
+		case E_RED: colour(0xC);
+			ChosenColour[0] = 0xC;
+			break;
+		case E_PINK: colour(0xD);
+			ChosenColour[0] = 0xD;
+			break;
+		case E_YELLOW: colour(0xE);
+			ChosenColour[0] = 0xE;
+			break;
+		default : colour(0x7);
+			ChosenColour[0] = 0x7;
+			break;
+	}
+	cout << "OOOOOO" << endl;
+	colour(0x7);
 }
 
 void HighScore()

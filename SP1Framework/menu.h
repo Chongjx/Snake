@@ -5,7 +5,7 @@
 
 enum E_Color
 {
-	E_LIGHTBLUE,
+	E_LIGHTBLUE = 1,
 	E_RED,
 	E_PINK,
 	E_YELLOW,
@@ -30,7 +30,5 @@ void QuitGame();
 void ColorOptions();
 void Options();
 void HiScore(int);
-
-char ChosenColour[1];
 
 #endif // _MENU_H

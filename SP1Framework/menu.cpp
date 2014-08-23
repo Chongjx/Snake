@@ -160,39 +160,6 @@ void Options()
 	cout << "                            Press UP arrow key to return to the main menu!" << endl; 
 }
 
-void ColorOptions()
-{
-	int I_Color = 0;
-
-	colour(0xB);
-	cout << "						1) OOOOOO" << endl;
-	colour(0xC);
-	cout << "						2) OOOOOO" << endl;
-	colour(0xD);
-	cout << "						3) OOOOOO" << endl;
-	colour(0xE);
-	cout << "						4) OOOOOO" << endl;
-	colour(0x7);
-	cout << "					Choose your colour: ";
-	cin >> I_Color;
-	cout << "						You have chosen ";
-	switch (I_Color)
-	{
-		case E_LIGHTBLUE: colour(0xB); ChosenColour[0] = 0xB;
-			break;
-		case E_RED: colour(0xC); ChosenColour[0] = 0xC;
-			break;
-		case E_PINK: colour(0xD); ChosenColour[0] = 0xD;
-			break;
-		case E_YELLOW: colour(0xE); ChosenColour[0] = 0xE;
-			break;
-		default : colour(0x7); ChosenColour[0] = 0x7;
-			break;
-	}
-	cout << "OOOOOO" << endl;
-	colour(0x7);
-}
-
 void HiScore(int I_PlayerScore)
 {
 	int A_Store[5] = {0};
