@@ -31,4 +31,6 @@ void ColorOptions();
 void Options();
 void HiScore(int);
 
+char ChosenColour[1];
+
 #endif // _MENU_H

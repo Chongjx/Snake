@@ -28,16 +28,6 @@ enum E_KEY
     E_COUNT
 };
 
-/*enum E_P1
-{
-	E_P1_UP,
-	E_P1_DOWN,
-	E_P1_LEFT,
-	E_P1_RIGHT,
-	E_P1_NORM,
-	E_P1_MAX
-};*/
-
 void Init();					// initialize your variables, allocate memory, etc
 void GetInput();				// get input from player
 int Update(double);			// update the game and the state of the game

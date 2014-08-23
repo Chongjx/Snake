@@ -156,11 +156,11 @@ void QuitGame()
 void Options()
 {
 	cls();
-	//ColorOptions();
+	ColorOptions();
 	cout << "                            Press UP arrow key to return to the main menu!" << endl; 
 }
 
-/*void ColorOptions()
+void ColorOptions()
 {
 	int I_Color = 0;
 
@@ -191,7 +191,7 @@ void Options()
 	}
 	cout << "OOOOOO" << endl;
 	colour(0x7);
-}*/
+}
 
 void HiScore(int I_PlayerScore)
 {

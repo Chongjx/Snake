@@ -187,7 +187,7 @@ int Update(double dt)
 
 void Render()
 {
-	colour(0x07);
+	colour(ChosenColour[0]);
 
 	//render the game
 
@@ -217,7 +217,7 @@ void Render()
 	gotoXY(Vs_Body[0].CharLocation);
 	cout << char(254);
 
-	gotoXY(0, 41);
+	gotoXY(12, 40);
 	cout << I_Score;
 
 	COORD coord_Position;
@@ -302,7 +302,7 @@ void Spawn()
 	}
 
 	gotoXY (coord_Apple);
-	colour(0x1);
+	colour(0x7);
 	cout << char(3);
 }
 
