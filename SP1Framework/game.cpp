@@ -10,12 +10,14 @@
 #include <Windows.h>
 #include <vector>
 #include <ctime>
+#include <fstream>
 
 using std::cin;
 using std::cout;
 using std::endl;
 using std::string;
 using std::vector;
+using std::ifstream;
 
 #define Height 40
 #define Width 100
@@ -31,6 +33,7 @@ int I_Score;
 int I_Current;
 int I_Move;
 int I_Prev;
+char **Array_2D;
 bool KeyPressed[E_COUNT];
 
 WORD ChosenColour[] = {0x7};
@@ -211,47 +214,54 @@ void Render()
 
 void Map()
 {
-	// create a 2D array that will store the location of the snake and the food
-	for (int row = 0; row < Height; row++)
-	{
-		for (int col = 0; col < Width; col++)
-		{
-			if (col == 0 && (row != 0 && row != Height - 1))
-			{
-				level[row][col] = char(221);
-			}
-
-			else if (row == 0)
-			{
-				level[row][col] = char(220);
-			}
-
-			else if (col == Width - 1 && (row != 0 && row != Height - 1))
-			{
-				level[row][col] = char(222);
-			}
-
-			else if (row == Height - 1)
-			{
-				level[row][col] = char(223);
-			}
-		}
-	}
-
-	for (int row = 0; row < Height; row++)
-	{
-		for (int col = 0; col < Width; col++)
-		{
-			cout << level[row][col];
-		}
-	}
 	COORD coord_Scoreplace;
+	// create a 2D array that will store the location of the snake and the food
+	ifstream PrintMap;
+
+	Array_2D = new char*[40];
+
+	PrintMap.open("Map\\Original.txt");
+
+	for (int row = 0; row < Height; row++)
+	{
+		Array_2D[row] = new char[100];
+		for (int col = 0; col < Width; col++)
+		{
+			{
+				PrintMap >> Array_2D[row][col];
+			}
+		}
+	}
+
+	for (int row = 0; row < Height; row++)
+	{
+		for (int col = 0; col < Width; col++)
+		{
+			if (Array_2D[row][col] == '1')
+			{
+				cout << char(178);
+			}
+
+			else
+			{
+				cout << char(32);
+			}
+		}
+	}
 
 	coord_Scoreplace.X = 0;
 	coord_Scoreplace.Y = 45;
 
 	gotoXY(coord_Scoreplace);
 	cout << "Your score: ";
+
+	for ( int row = 0; row < Height; row++)
+	{
+		delete[] Array_2D[row];
+	}
+	delete[] Array_2D;
+
+	PrintMap.close();
 }
 
 void CreateSnake(int size)
