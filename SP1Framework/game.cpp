@@ -218,7 +218,7 @@ void Map()
 
 	Array_2D = new char*[40];
 
-	PrintMap.open("Map\\Original.txt");
+	PrintMap.open("Map\\Meth.txt");
 
 	for (int row = 0; row < Height; row++)
 	{
