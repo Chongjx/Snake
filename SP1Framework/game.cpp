@@ -22,8 +22,6 @@ using std::ifstream;
 #define Height 40
 #define Width 100
 
-char level[Height][Width];
-
 double elapsedTime;
 double deltaTime;
 COORD coord_ConsoleSize;
@@ -255,12 +253,6 @@ void Map()
 	gotoXY(coord_Scoreplace);
 	cout << "Your score: ";
 
-	for ( int row = 0; row < Height; row++)
-	{
-		delete[] Array_2D[row];
-	}
-	delete[] Array_2D;
-
 	PrintMap.close();
 }
 
@@ -278,22 +270,47 @@ void CreateSnake(int size)
 
 void Spawn()
 {
+	bool B_CheckLocation = false;
+
+	while(B_CheckLocation == false)
+	{
+		B_CheckLocation = CheckFood();
+	}
+
+	if (B_CheckLocation == true)
+	{
+		gotoXY (coord_Apple);
+		colour(0x7);
+		cout << char(3);
+	}
+}
+
+bool CheckFood()
+{
+	bool B_Check;
 	srand(time(0));
 	coord_Apple.X = rand() % 99 + 1;
 	coord_Apple.Y = rand() % 39 + 1;
-
+	
 	for ( int i = 0; i < Vs_Body.size(); i++)
 	{
-		if ( coord_Apple.X == Vs_Body[i].CharLocation.X && coord_Apple.Y == Vs_Body[i].CharLocation.Y)
+		if (coord_Apple.X == Vs_Body[i].CharLocation.X && coord_Apple.Y == Vs_Body[i].CharLocation.Y)
 		{
-			coord_Apple.X = rand() % 99 + 1;
-			coord_Apple.Y = rand() % 39 + 1;
+			B_Check = false;
+		}
+
+		else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '1')
+		{
+			B_Check = false;
+		}
+	
+		else
+		{
+			B_Check = true;
 		}
 	}
 
-	gotoXY (coord_Apple);
-	colour(0x7);
-	cout << char(3);
+	return B_Check;
 }
 
 int UpdateSnake()
@@ -370,21 +387,21 @@ void ColorOptions()
 	cout << "						You have chosen ";
 	switch (I_Color)
 	{
-		case E_LIGHTBLUE: colour(0xB); 
-			ChosenColour[0] = 0xB;
-			break;
-		case E_GREEN: colour(0xA);
-			ChosenColour[0] = 0xC;
-			break;
-		case E_PINK: colour(0xD);
-			ChosenColour[0] = 0xD;
-			break;
-		case E_YELLOW: colour(0xE);
-			ChosenColour[0] = 0xE;
-			break;
-		default : colour(0x7);
-			ChosenColour[0] = 0x7;
-			break;
+	case E_LIGHTBLUE: colour(0xB); 
+		ChosenColour[0] = 0xB;
+		break;
+	case E_GREEN: colour(0xA);
+		ChosenColour[0] = 0xC;
+		break;
+	case E_PINK: colour(0xD);
+		ChosenColour[0] = 0xD;
+		break;
+	case E_YELLOW: colour(0xE);
+		ChosenColour[0] = 0xE;
+		break;
+	default : colour(0x7);
+		ChosenColour[0] = 0x7;
+		break;
 	}
 	cout << "OOOOOO" << endl;
 	colour(0x7);
@@ -414,4 +431,10 @@ void GG()
 	I_Food = 0;
 	Vs_Body.erase(Vs_Body.begin(), Vs_Body.begin()+Vs_Body.size());
 	GB_GameOver = false;
+
+	for ( int row = 0; row < Height; row++)
+	{
+		delete[] Array_2D[row];
+	}
+	delete[] Array_2D;
 }

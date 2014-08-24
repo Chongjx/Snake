@@ -34,6 +34,7 @@ int Update(double);			// update the game and the state of the game
 void Render();					// renders the current state of the game to the console
 void ShutDown();				// do clean up, free memory
 void Map();						// border around the map using 2D array
+bool CheckFood();
 void Spawn();					// random food spawn
 void GameLoop();				// The loop
 void CheckCollision();
