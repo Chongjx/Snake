@@ -43,7 +43,7 @@ int I_Prev2;
 bool KeyPressed2[E_COUNT2];
 
 WORD ChosenColour[] = {0x7};
-WORD ChosenColour2[] = {0x7};
+WORD ChosenColour2[] = {0xC};
 
 vector<s_Snake> Vs_Body;
 vector<s_Snake2> Vs_Body2;
@@ -295,6 +295,8 @@ void Render()
 
 	gotoXY(12, 40);
 	cout << I_Score;
+
+	colour(ChosenColour2[0]);
 	//Render player 2
 	gotoXY(Vs_Body2[0].CharLocation2);
 	cout << char(254);
