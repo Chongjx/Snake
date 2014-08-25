@@ -25,6 +25,7 @@ enum E_Squence
 void MainMenu();
 void Instruction();
 void Game();
+void Game2();
 void HighScore();
 void QuitGame();
 void ColorOptions();

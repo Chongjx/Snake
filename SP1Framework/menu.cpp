@@ -82,7 +82,7 @@ void MainMenu()
                     {
                     case 0:
                         {
-                            Game();
+                            Game2();
                             Sleep(1000);
                         } break;
                     case 1:

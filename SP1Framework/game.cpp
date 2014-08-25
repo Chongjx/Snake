@@ -34,9 +34,19 @@ int I_Prev;
 char **Array_2D;
 bool KeyPressed[E_COUNT];
 
+///Player2
+int I_Food2 = 0;
+int I_Score2;
+int I_Current2;
+int I_Move2;
+int I_Prev2;
+bool KeyPressed2[E_COUNT2];
+
 WORD ChosenColour[] = {0x7};
+WORD ChosenColour2[] = {0xC};
 
 vector<s_Snake> Vs_Body;
+vector<s_Snake2> Vs_Body2;
 
 void Init()
 {
@@ -57,7 +67,8 @@ void Init()
 
 	I_Move = 4;
 	I_Prev = 0;
-	srand(time(0));
+	I_Move2 = 4;
+	I_Prev2 = 0;
 }
 
 void ShutDown()
@@ -77,6 +88,7 @@ void GetInput()
 int Update(double dt)
 {
 	// get the delta time
+
 	elapsedTime += dt;
 	deltaTime = dt;
 	// Updating the location of the character based on the key press
@@ -162,8 +174,93 @@ int Update(double dt)
 	}
 
 	CheckCollision();
+	// Player 2
+	// Updating the location of the character based on the key press
+
+	gotoXY(Vs_Body2[Vs_Body2.size()-1].CharLocation2);
+	cout << ' ';
+
+	// if the player press up and the snake is not moving down, the snake will move up
+	if (KeyPressed2[E_W] && I_Prev2 != 1 && I_Move2 != 4)
+	{
+		I_Move2 = 0;
+		I_Prev2 = I_Move2;
+	}
+
+	// if the player press down and the snake is not moving up, the snake will move down
+	else if (KeyPressed2[E_S] && I_Prev2 != 0)
+	{
+		I_Move2 = 1;
+		I_Prev2 = I_Move2;
+	}
+
+	// if the player press left and the snake is not moving right, the snake will move left
+	else if (KeyPressed2[E_A] && I_Prev2 != 3)
+	{
+		I_Move2 = 2;
+		I_Prev2 = I_Move2;
+	}
+
+	// if the player press right and the snake is not moving left, the snake will move right
+	else if (KeyPressed2[E_D] && I_Prev2 != 2)
+	{
+		I_Move2 = 3;
+		I_Prev2 = I_Move2;
+	}
+
+	// change the coordinates of the snake
+	switch(I_Move2)
+	{
+	case E_W:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.Y--;
+		break;
+
+	case E_S:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.Y++;
+		break;
+
+	case E_A:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.X--;
+		break;
+
+	case E_D:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.X++;
+		break;
+
+	case E_NORM2:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.Y++;
+		break;
+	}
+
+	CheckCollision2();
 
 	I_Current = UpdateSnake();
+	UpdateSnake2();
 
 	if (I_Current <= 100)
 	{
@@ -192,12 +289,20 @@ void Render()
 
 	//render the game
 
-	// render the snake
+	// render the snake Player 1
 	gotoXY(Vs_Body[0].CharLocation);
 	cout << char(254);
 
 	gotoXY(12, 40);
 	cout << I_Score;
+
+	colour(ChosenColour2[0]);
+	//Render player 2
+	gotoXY(Vs_Body2[0].CharLocation2);
+	cout << char(254);
+
+	gotoXY(82, 40);
+	cout << I_Score2;
 
 	COORD coord_Position;
 	// set the cursor location at the top of the screen
@@ -211,12 +316,13 @@ void Render()
 void Map()
 {
 	COORD coord_Scoreplace;
+	COORD coord_Scoreplace2;
 	// create a 2D array that will store the location of the snake and the food
 	ifstream PrintMap;
 
 	Array_2D = new char*[40];
 
-	PrintMap.open("Map\\Maze.txt");
+	PrintMap.open("Map\\Cage.txt");
 
 	for (int row = 0; row < Height; row++)
 	{
@@ -244,13 +350,18 @@ void Map()
 			}
 		}
 	}
-
+	//Score for player 1
 	coord_Scoreplace.X = 0;
 	coord_Scoreplace.Y = 45;
+	//Score for player 2
+	coord_Scoreplace2.X = 82;
+	coord_Scoreplace2.Y = 45;
 
 	gotoXY(coord_Scoreplace);
 	cout << "Your score: ";
 
+	gotoXY(coord_Scoreplace);
+	cout << "Your score: ";
 	PrintMap.close();
 }
 
@@ -281,33 +392,46 @@ void Spawn()
 		colour(0x7);
 		cout << char(3);
 	}
+	
 }
 
 bool CheckFood()
 {
 	bool B_Check;
+	srand(time(0));
 	coord_Apple.X = rand() % 99 + 1;
 	coord_Apple.Y = rand() % 39 + 1;
-
+	//Player 1
 	for ( int i = 0; i < Vs_Body.size(); i++)
 	{
 		if (coord_Apple.X == Vs_Body[i].CharLocation.X && coord_Apple.Y == Vs_Body[i].CharLocation.Y)
 		{
 			B_Check = false;
 		}
+
+		else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '1')
+		{
+			B_Check = false;
+		}
+	}
+
+	// Player 2
+	for ( int i = 0; i < Vs_Body2.size(); i++)
+	{
+		if (coord_Apple.X == Vs_Body2[i].CharLocation2.X && coord_Apple.Y == Vs_Body2[i].CharLocation2.Y)
+		{
+			B_Check = false;
+		}
+
+		else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '1')
+		{
+			B_Check = false;
+		}
+
 		else
 		{
 			B_Check = true;
 		}
-	}
-
-	if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '1')
-	{
-		B_Check = false;
-	}
-	else
-	{
-		B_Check = true;
 	}
 
 	return B_Check;
@@ -432,4 +556,228 @@ void GG()
 		delete[] Array_2D[row];
 	}
 	delete[] Array_2D;
+}
+//Player 2==================================================================================
+
+void GetInput2()
+{    
+	KeyPressed2[E_W] = isKeyPressed(0x57);
+	KeyPressed2[E_S] = isKeyPressed(0x53);
+	KeyPressed2[E_A] = isKeyPressed(0x41);
+	KeyPressed2[E_D] = isKeyPressed(0x44);
+}
+
+
+int Update2(double dt)
+{
+	// get the delta time
+	elapsedTime += dt;
+	deltaTime = dt;
+	// Updating the location of the character based on the key press
+
+	gotoXY(Vs_Body2[Vs_Body2.size()-1].CharLocation2);
+	cout << ' ';
+
+	// if the player press up and the snake is not moving down, the snake will move up
+	if (KeyPressed2[E_W] && I_Prev2 != 1 && I_Move2 != 4)
+	{
+		I_Move2 = 0;
+		I_Prev2 = I_Move2;
+	}
+
+	// if the player press down and the snake is not moving up, the snake will move down
+	else if (KeyPressed2[E_S] && I_Prev2 != 0)
+	{
+		I_Move2 = 1;
+		I_Prev2 = I_Move2;
+	}
+
+	// if the player press left and the snake is not moving right, the snake will move left
+	else if (KeyPressed2[E_A] && I_Prev2 != 3)
+	{
+		I_Move2 = 2;
+		I_Prev2 = I_Move2;
+	}
+
+	// if the player press right and the snake is not moving left, the snake will move right
+	else if (KeyPressed2[E_D] && I_Prev2 != 2)
+	{
+		I_Move2 = 3;
+		I_Prev2 = I_Move2;
+	}
+
+	// change the coordinates of the snake
+	switch(I_Move2)
+	{
+	case E_W:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.Y--;
+		break;
+
+	case E_S:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.Y++;
+		break;
+
+	case E_A:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.X--;
+		break;
+
+	case E_D:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.X++;
+		break;
+
+	case E_NORM2:
+		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
+		{
+			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
+			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+		}
+		Vs_Body2[0].CharLocation2.Y++;
+		break;
+	}
+
+	CheckCollision2();
+
+	I_Current2 = UpdateSnake2();
+
+	if (I_Current2 <= 100)
+	{
+		return 500;
+	}
+
+	else if (I_Current2 <= 200)
+	{
+		return 400;
+	}
+
+	else if (I_Current2 <= 400)
+	{
+		return 200;
+	}
+
+	else if (I_Current2 > 500)
+	{
+		return 100;
+	}
+}
+
+void CreateSnake2(int size)
+{
+	// Create a snake at the center of the map
+	for (int i = 0; i < size; i++)
+	{
+		Vs_Body2.push_back(s_Snake2());
+
+		Vs_Body2[i].CharLocation2.X = coord_ConsoleSize.X/4;
+		Vs_Body2[i].CharLocation2.Y = coord_ConsoleSize.Y/4 - i;
+	}
+}
+
+bool CheckFood2()
+{
+	bool B_Check2;
+	srand(time(0));
+	coord_Apple.X = rand() % 99 + 1;
+	coord_Apple.Y = rand() % 39 + 1;
+	
+	for ( int i = 0; i < Vs_Body2.size(); i++)
+	{
+		if (coord_Apple.X == Vs_Body2[i].CharLocation2.X && coord_Apple.Y == Vs_Body2[i].CharLocation2.Y)
+		{
+			B_Check2 = false;
+		}
+
+		else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '1')
+		{
+			B_Check2 = false;
+		}
+	
+		else
+		{
+			B_Check2 = true;
+		}
+	}
+
+	return B_Check2;
+}
+
+int UpdateSnake2()
+{
+	bool B_FoodEaten2 = false;
+
+	if (Vs_Body2[0].CharLocation2.X == coord_Apple.X && Vs_Body2[0].CharLocation2.Y == coord_Apple.Y)
+	{
+		Beep (1046, 100);
+		B_FoodEaten2 = true;
+		I_Food2 = 0;
+		Vs_Body2.push_back(s_Snake2());
+
+		Vs_Body2[Vs_Body2.size()-1].CharLocation2.X = Vs_Body2[Vs_Body2.size()-2].CharLocation2.X;
+		Vs_Body2[Vs_Body2.size()-1].CharLocation2.Y = Vs_Body2[Vs_Body2.size()-2].CharLocation2.X;
+		I_Score2 += 10;
+	}
+
+	if (B_FoodEaten2 != true && I_Food2 == 0)
+	{
+		Spawn();
+		I_Food2++;
+	}
+
+	return I_Score2;
+}
+
+void CheckCollision2()
+{
+	for ( int i = 1; i < Vs_Body2.size(); i++)
+	{
+		if (Vs_Body2[0].CharLocation2.X == Vs_Body2[i].CharLocation2.X && Vs_Body2[0].CharLocation2.Y == Vs_Body2[i].CharLocation2.Y)
+		{
+			GB_GameOver = true;
+		}
+	}
+
+	if (Array_2D[Vs_Body2[0].CharLocation2.Y][Vs_Body2[0].CharLocation2.X] == '1')
+	{
+		GB_GameOver = true;
+	}
+
+	if ( GB_GameOver == true)
+	{
+		gotoXY(Vs_Body2[0].CharLocation2);
+		{
+			colour(0xC);
+			cout << char(254);
+			Sleep(1000);
+		}
+	}
+}
+
+void GG2()
+{
+	I_Move2 = 4;
+	I_Prev2 = 0;
+	I_Current2 = 0;
+	I_Score2 = 0;
+	I_Food2 = 0;
+	Vs_Body2.erase(Vs_Body2.begin(), Vs_Body2.begin()+Vs_Body2.size());
+	GB_GameOver = false;
 }
