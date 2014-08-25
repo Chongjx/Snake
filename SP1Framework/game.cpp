@@ -121,7 +121,6 @@ int Update(double dt)
 			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
 		Vs_Body[0].CharLocation.Y--;
-		CheckCollision();
 		break;
 
 	case E_DOWN:
@@ -131,7 +130,6 @@ int Update(double dt)
 			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
 		Vs_Body[0].CharLocation.Y++;
-		CheckCollision();
 		break;
 
 	case E_LEFT:
@@ -141,7 +139,6 @@ int Update(double dt)
 			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
 		Vs_Body[0].CharLocation.X--;
-		CheckCollision();
 		break;
 
 	case E_RIGHT:
@@ -151,7 +148,6 @@ int Update(double dt)
 			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
 		Vs_Body[0].CharLocation.X++;
-		CheckCollision();
 		break;
 
 	case E_NORM:
@@ -161,9 +157,10 @@ int Update(double dt)
 			Vs_Body[i].CharLocation.Y = Vs_Body[i-1].CharLocation.Y;
 		}
 		Vs_Body[0].CharLocation.Y++;
-		CheckCollision();
 		break;
 	}
+
+	CheckCollision();
 
 	I_Current = UpdateSnake();
 
@@ -218,7 +215,7 @@ void Map()
 
 	Array_2D = new char*[40];
 
-	PrintMap.open("Map\\Meth.txt");
+	PrintMap.open("Map\\Box.txt");
 
 	for (int row = 0; row < Height; row++)
 	{
@@ -348,12 +345,7 @@ void CheckCollision()
 		}
 	}
 
-	if (Vs_Body[0].CharLocation.X == 0 || Vs_Body[0].CharLocation.X == Width - 1)
-	{
-		GB_GameOver = true;
-	}
-
-	else if (Vs_Body[0].CharLocation.Y == 0 || Vs_Body[0].CharLocation.Y == Height - 1)
+	if (Array_2D[Vs_Body[0].CharLocation.Y][Vs_Body[0].CharLocation.X] == '1')
 	{
 		GB_GameOver = true;
 	}
