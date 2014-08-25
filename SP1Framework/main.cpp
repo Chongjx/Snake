@@ -36,12 +36,12 @@ void Game()
 	cls();
 	Map();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
-	while (!GB_GameOver)      // run this loop until user wants to quit
+	while (!GB_GameOver)    // run this loop until user wants to quit
 	{
-		GetInput();							// get keyboard input
+		GetInput();										// get keyboard input
 		I_Current = Update(g_timer.getElapsedTime());	// update the game
-		Render();							 // render the graphics output to screen
-		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
+		Render();										// render the graphics output to screen
+		g_timer.waitUntil(I_Current/FPS);				// Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
 	HighScore();
 	GG();

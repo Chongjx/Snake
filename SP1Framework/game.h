@@ -30,7 +30,7 @@ enum E_KEY
 
 void Init();					// initialize your variables, allocate memory, etc
 void GetInput();				// get input from player
-int Update(double);			// update the game and the state of the game
+int Update(double);				// update the game and the state of the game
 void Render();					// renders the current state of the game to the console
 void ShutDown();				// do clean up, free memory
 void Map();						// border around the map using 2D array
@@ -39,7 +39,7 @@ void Spawn();					// random food spawn
 void GameLoop();				// The loop
 void CheckCollision();
 
-void CreateSnake(int);		// Create my snake at the intial location
+void CreateSnake(int);			// Create my snake at the intial location
 int UpdateSnake();
 void GG();
 

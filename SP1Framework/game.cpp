@@ -57,6 +57,7 @@ void Init()
 
 	I_Move = 4;
 	I_Prev = 0;
+	srand(time(0));
 }
 
 void ShutDown()
@@ -215,7 +216,7 @@ void Map()
 
 	Array_2D = new char*[40];
 
-	PrintMap.open("Map\\Box.txt");
+	PrintMap.open("Map\\Maze.txt");
 
 	for (int row = 0; row < Height; row++)
 	{
@@ -285,26 +286,28 @@ void Spawn()
 bool CheckFood()
 {
 	bool B_Check;
-	srand(time(0));
 	coord_Apple.X = rand() % 99 + 1;
 	coord_Apple.Y = rand() % 39 + 1;
-	
+
 	for ( int i = 0; i < Vs_Body.size(); i++)
 	{
 		if (coord_Apple.X == Vs_Body[i].CharLocation.X && coord_Apple.Y == Vs_Body[i].CharLocation.Y)
 		{
 			B_Check = false;
 		}
-
-		else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '1')
-		{
-			B_Check = false;
-		}
-	
 		else
 		{
 			B_Check = true;
 		}
+	}
+
+	if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '1')
+	{
+		B_Check = false;
+	}
+	else
+	{
+		B_Check = true;
 	}
 
 	return B_Check;
