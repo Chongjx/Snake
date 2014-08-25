@@ -5,7 +5,7 @@
 
 enum E_Color
 {
-	E_LIGHTBLUE = 1,
+	E_LIGHTBLUE = 0,
 	E_GREEN,
 	E_PINK,
 	E_YELLOW,

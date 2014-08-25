@@ -26,11 +26,14 @@ double elapsedTime;
 double deltaTime;
 COORD coord_ConsoleSize;
 COORD coord_Apple;
+COORD coord_Special;
 int I_Food = 0;
+int I_Special = 0;
 int I_Score;
 int I_Current;
 int I_Move;
 int I_Prev;
+int I_FoodTimer = 10;
 char **Array_2D;
 bool KeyPressed[E_COUNT];
 
@@ -285,6 +288,7 @@ int Update(double dt)
 
 void Render()
 {
+    Timer();
 	colour(ChosenColour[0]);
 
 	//render the game
@@ -324,7 +328,11 @@ void Map()
 
 
 
+<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
 	Array_2D = new char*[40];
+=======
+	PrintMap.open("Map\\Cage.txt");
+>>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
 
 	for (int row = 0; row < Height; row++)
 	{
@@ -391,11 +399,30 @@ void Spawn()
 
 	if (B_CheckLocation == true)
 	{
+        Array_2D[coord_Apple.Y][coord_Apple.X] = '2';
 		gotoXY (coord_Apple);
 		colour(0x7);
 		cout << char(3);
 	}
 	
+}
+
+void SpawnSpecial()
+{
+    bool B_CheckLocation = false;
+    
+    while(B_CheckLocation == false)
+    {
+        B_CheckLocation = CheckSpecialFood();
+    }
+
+    if (B_CheckLocation == true)
+    {
+        Array_2D[coord_Special.Y][coord_Special.X] = '3';
+        gotoXY (coord_Special);
+        colour(0x7);
+        cout << char(36);
+    }
 }
 
 bool CheckFood()
@@ -416,6 +443,7 @@ bool CheckFood()
 		{
 			B_Check = false;
 		}
+<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
 	}
 
 	// Player 2
@@ -431,6 +459,14 @@ bool CheckFood()
 			B_Check = false;
 		}
 
+=======
+
+        else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '3')
+        {
+            B_Check = false;
+        }
+	
+>>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
 		else
 		{
 			B_Check = true;
@@ -440,9 +476,44 @@ bool CheckFood()
 	return B_Check;
 }
 
+bool CheckSpecialFood()
+{
+    bool B_Check;
+	srand(time(0));
+	coord_Special.X = rand() % 99 + 1;
+	coord_Special.Y = rand() % 39 + 1;
+
+    for ( int i = 0; i < Vs_Body.size(); i++)
+    {
+        if (coord_Special.X == Vs_Body[i].CharLocation.X && coord_Special.Y == Vs_Body[i].CharLocation.Y)
+		{
+			B_Check = false;
+		}
+
+		else if ( Array_2D[coord_Special.Y][coord_Special.X] == '1')
+		{
+			B_Check = false;
+		}
+
+        else if ( Array_2D[coord_Special.Y][coord_Special.X] == '2')
+        {
+            B_Check = false;
+        }
+
+        else
+        {
+            B_Check = true;
+
+        }
+    }
+    
+    return B_Check;
+}
+
 int UpdateSnake()
 {
 	bool B_FoodEaten = false;
+    bool B_SpecialFood = false;
 
 	if (Vs_Body[0].CharLocation.X == coord_Apple.X && Vs_Body[0].CharLocation.Y == coord_Apple.Y)
 	{
@@ -454,7 +525,20 @@ int UpdateSnake()
 		Vs_Body[Vs_Body.size()-1].CharLocation.X = Vs_Body[Vs_Body.size()-2].CharLocation.X;
 		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
 		I_Score += 10;
+        Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
+
+    if (Vs_Body[0].CharLocation.X == coord_Special.X && Vs_Body[0].CharLocation.Y == coord_Special.Y)
+    {
+        Beep (1046, 100);
+		B_SpecialFood = true;
+        I_Special = 0;
+		Vs_Body.push_back(s_Snake());
+
+		Vs_Body[Vs_Body.size()-1].CharLocation.X = Vs_Body[Vs_Body.size()-2].CharLocation.X;
+		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
+        Array_2D[coord_Special.Y][coord_Special.X] = '0';
+    }
 
 	if (B_FoodEaten != true && I_Food == 0)
 	{
@@ -462,7 +546,28 @@ int UpdateSnake()
 		I_Food++;
 	}
 
+    if (B_SpecialFood != true && I_Special == 0)
+    {
+        I_Special++;
+    }
 	return I_Score;
+}
+
+void Timer()
+{
+    if (elapsedTime > I_FoodTimer)
+    {
+        SpawnSpecial();
+        I_FoodTimer += 10;
+    }
+
+    if (I_FoodTimer - elapsedTime < 2)
+    {
+        gotoXY(coord_Special);
+        cout << ' ';
+        Array_2D[coord_Special.Y][coord_Special.X] = '0';
+    }
+
 }
 
 void CheckCollision()
@@ -495,10 +600,17 @@ void ColorOptions()
 
 {
     //int I_Choice = 0;
+<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
     string S_Color[4] = {"Blue", "Green", "Pink", "Yellow"};
 	int I_Color = 0;
 
     for (int i = 0; i < 4; ++i)
+=======
+    //string S_Color[4] = {"Blue", "Green", "Pink", "Yellow"};
+	int I_Color = 0;
+
+    /*for (int i = 0; i < 4; ++i)
+>>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
     {
         if (i == I_Color)
         {
@@ -566,8 +678,45 @@ void ColorOptions()
         }
     }
     Sleep(150);
+<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
     cout << "OOOOOO" << endl;
+=======
+    cout << "OOOOOO" << endl;*/
+
+
+	colour(0xB);
+	cout << "						1) OOOOOO" << endl;
+	colour(0xA);
+	cout << "						2) OOOOOO" << endl;
+	colour(0xD);
+	cout << "						3) OOOOOO" << endl;
+	colour(0xE);
+	cout << "						4) OOOOOO" << endl;
+	colour(0x7);
+	cout << "					Choose your colour: ";
+	cin >> I_Color;
+	cout << "						You have chosen ";
+	switch (I_Color)
+	{
+	case E_LIGHTBLUE: colour(0xB); 
+		ChosenColour[0] = 0xB;
+		break;
+	case E_GREEN: colour(0xA);
+		ChosenColour[0] = 0xC;
+		break;
+	case E_PINK: colour(0xD);
+		ChosenColour[0] = 0xD;
+		break;
+	case E_YELLOW: colour(0xE);
+		ChosenColour[0] = 0xE;
+		break;
+	default : colour(0x7);
+		ChosenColour[0] = 0x7;
+		break;
+	}
+>>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
 }
+
 
 void HighScore()
 {
@@ -591,6 +740,7 @@ void GG()
 	I_Current = 0;
 	I_Score = 0;
 	I_Food = 0;
+    I_Special = 0;
 	Vs_Body.erase(Vs_Body.begin(), Vs_Body.begin()+Vs_Body.size());
 	GB_GameOver = false;
 

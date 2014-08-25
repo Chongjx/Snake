@@ -35,10 +35,11 @@ void Render();					// renders the current state of the game to the console
 void ShutDown();				// do clean up, free memory
 void Map();						// border around the map using 2D array
 bool CheckFood();
+bool CheckSpecialFood();
 void Spawn();					// random food spawn
 void GameLoop();				// The loop
 void CheckCollision();
-
+void SpawnSpecial();
 void CreateSnake(int);		// Create my snake at the intial location
 int UpdateSnake();
 void GG();
