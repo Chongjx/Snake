@@ -320,9 +320,11 @@ void Map()
 	// create a 2D array that will store the location of the snake and the food
 	ifstream PrintMap;
 
-	Array_2D = new char*[40];
-
 	PrintMap.open("Map\\Cage.txt");
+
+
+
+	Array_2D = new char*[40];
 
 	for (int row = 0; row < Height; row++)
 	{
@@ -380,6 +382,7 @@ void CreateSnake(int size)
 void Spawn()
 {
 	bool B_CheckLocation = false;
+
 
 	while(B_CheckLocation == false)
 	{
@@ -489,41 +492,81 @@ void CheckCollision()
 }
 
 void ColorOptions()
+
 {
+    //int I_Choice = 0;
+    string S_Color[4] = {"Blue", "Green", "Pink", "Yellow"};
 	int I_Color = 0;
 
-	colour(0xB);
-	cout << "						1) OOOOOO" << endl;
-	colour(0xA);
-	cout << "						2) OOOOOO" << endl;
-	colour(0xD);
-	cout << "						3) OOOOOO" << endl;
-	colour(0xE);
-	cout << "						4) OOOOOO" << endl;
-	colour(0x7);
-	cout << "					Choose your colour: ";
-	cin >> I_Color;
-	cout << "						You have chosen ";
-	switch (I_Color)
-	{
-	case E_LIGHTBLUE: colour(0xB); 
-		ChosenColour[0] = 0xB;
-		break;
-	case E_GREEN: colour(0xA);
-		ChosenColour[0] = 0xC;
-		break;
-	case E_PINK: colour(0xD);
-		ChosenColour[0] = 0xD;
-		break;
-	case E_YELLOW: colour(0xE);
-		ChosenColour[0] = 0xE;
-		break;
-	default : colour(0x7);
-		ChosenColour[0] = 0x7;
-		break;
-	}
-	cout << "OOOOOO" << endl;
-	colour(0x7);
+    for (int i = 0; i < 4; ++i)
+    {
+        if (i == I_Color)
+        {
+            cout << "                    " << char(16) << S_Color[i] << endl;
+        }
+        else
+        {
+            colour(0x03);
+            cout << "                    " << char(16) << S_Color[i] << endl;
+        }
+    }
+
+    while(true)
+    {
+        if (GetAsyncKeyState(VK_UP) != 0)
+        {
+            I_Color -= 1;
+            if (I_Color == -1)
+            {
+                I_Color = 3;
+            }
+            break;
+        }
+
+        else if(GetAsyncKeyState(VK_DOWN) != 0)
+        {
+            I_Color += 1;
+            if (I_Color == 4)
+            {
+                I_Color = 0;
+            }
+            break;
+        }
+
+        else if (GetAsyncKeyState(VK_RETURN) != 0)
+        {
+            switch(I_Color)
+            {
+                case E_LIGHTBLUE:
+                    {
+                    colour(0xB);
+                    ChosenColour[0] = 0xB;
+                    }break;
+                case E_GREEN:
+                    {
+                        colour(0xA);
+                        ChosenColour[0] = 0xA;
+                    }break;
+                case E_PINK:
+                    {
+                        colour(0xD);
+                        ChosenColour[0] = 0xD;
+                    }break;
+                case E_YELLOW:
+                    {
+                        colour(0xE);
+                        ChosenColour[0] = 0xE;
+                    }break;
+                default:
+                    {
+                        colour(0xE);
+                        ChosenColour[0] = 0xE;
+                    } break;
+            }
+        }
+    }
+    Sleep(150);
+    cout << "OOOOOO" << endl;
 }
 
 void HighScore()
