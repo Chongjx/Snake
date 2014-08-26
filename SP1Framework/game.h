@@ -43,6 +43,7 @@ void SpawnSpecial();
 void CreateSnake(int);		// Create my snake at the intial location
 int UpdateSnake();
 void GG();
+//void PowerUp();             //When you eat the food the speed goes up
 // Player 2
 struct s_Snake2
 {
@@ -66,7 +67,7 @@ void ShutDown2();				// do clean up, free memory
 bool CheckFood2();
 void GameLoop2();				// The loop
 void CheckCollision2();
-
+void Timer();               // Time to spawn the special food
 void CreateSnake2(int);		// Create my snake at the intial location
 int UpdateSnake2();
 void GG2();

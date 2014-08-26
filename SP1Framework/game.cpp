@@ -33,9 +33,14 @@ int I_Score;
 int I_Current;
 int I_Move;
 int I_Prev;
+int I_SpeedUp;
 int I_FoodTimer = 10;
 char **Array_2D;
 bool KeyPressed[E_COUNT];
+
+int I_Time = 0;
+int I_Store;
+
 
 ///Player2
 int I_Food2 = 0;
@@ -327,12 +332,7 @@ void Map()
 	PrintMap.open("Map\\Cage.txt");
 
 
-
-<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
-	Array_2D = new char*[40];
-=======
-	PrintMap.open("Map\\Cage.txt");
->>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
+    Array_2D = new char*[40];
 
 	for (int row = 0; row < Height; row++)
 	{
@@ -443,7 +443,7 @@ bool CheckFood()
 		{
 			B_Check = false;
 		}
-<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
+
 	}
 
 	// Player 2
@@ -459,14 +459,11 @@ bool CheckFood()
 			B_Check = false;
 		}
 
-=======
-
         else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '3')
         {
             B_Check = false;
         }
 	
->>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
 		else
 		{
 			B_Check = true;
@@ -528,7 +525,7 @@ int UpdateSnake()
         Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
 
-    if (Vs_Body[0].CharLocation.X == coord_Special.X && Vs_Body[0].CharLocation.Y == coord_Special.Y)
+    /*if (Vs_Body[0].CharLocation.X == coord_Special.X && Vs_Body[0].CharLocation.Y == coord_Special.Y)
     {
         Beep (1046, 100);
 		B_SpecialFood = true;
@@ -538,19 +535,48 @@ int UpdateSnake()
 		Vs_Body[Vs_Body.size()-1].CharLocation.X = Vs_Body[Vs_Body.size()-2].CharLocation.X;
 		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
         Array_2D[coord_Special.Y][coord_Special.X] = '0';
-    }
+    }*/
 
 	if (B_FoodEaten != true && I_Food == 0)
 	{
 		Spawn();
 		I_Food++;
 	}
+    /*if (B_SpecialFood != true && I_Special == 0)
+    {
+        I_Special++;
+        */
+    if (Vs_Body[0].CharLocation.X == coord_Special.X && Vs_Body[0].CharLocation.Y == coord_Special.Y)
+    {
+        Beep (1046, 100);
+        Beep (1046, 100);
+        Beep (1046, 100);
+		B_SpecialFood = true;
+        I_Special = 0;
+		Vs_Body.push_back(s_Snake());
 
+		Vs_Body[Vs_Body.size()-1].CharLocation.X = Vs_Body[Vs_Body.size()-2].CharLocation.X;
+		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
+        if (elapsedTime > I_Time)
+        {
+        I_SpeedUp = 300;
+        I_Time += elapsedTime + 10;
+        }
+
+        Array_2D[coord_Special.Y][coord_Special.X] = '0';
+    }
+    
     if (B_SpecialFood != true && I_Special == 0)
     {
         I_Special++;
     }
-	return I_Score;
+
+    if (I_Time - elapsedTime < -1)
+        {
+        I_SpeedUp = I_Score;
+        }
+
+	return I_SpeedUp;
 }
 
 void Timer()
@@ -561,7 +587,7 @@ void Timer()
         I_FoodTimer += 10;
     }
 
-    if (I_FoodTimer - elapsedTime < 2)
+    if (I_FoodTimer - elapsedTime < 1)
     {
         gotoXY(coord_Special);
         cout << ' ';
@@ -600,17 +626,14 @@ void ColorOptions()
 
 {
     //int I_Choice = 0;
-<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
     string S_Color[4] = {"Blue", "Green", "Pink", "Yellow"};
 	int I_Color = 0;
 
-    for (int i = 0; i < 4; ++i)
-=======
+    //for (int i = 0; i < 4; ++i)
     //string S_Color[4] = {"Blue", "Green", "Pink", "Yellow"};
-	int I_Color = 0;
+	//int I_Color = 0;
 
     /*for (int i = 0; i < 4; ++i)
->>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
     {
         if (i == I_Color)
         {
@@ -714,7 +737,6 @@ void ColorOptions()
 		ChosenColour[0] = 0x7;
 		break;
 	}
->>>>>>> 58b6b6c21c0bc19f437f1e9d0d145b28437fb9c9
 }
 
 
@@ -750,7 +772,7 @@ void GG()
 	}
 	delete[] Array_2D;
 }
-//Player 2==================================================================================
+//Player 2
 
 void GetInput2()
 {    
