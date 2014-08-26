@@ -31,5 +31,6 @@ void QuitGame();
 void ColorOptions();
 void Options();
 void HiScore(int);
+int GetInputMenu();
 
 #endif // _MENU_H

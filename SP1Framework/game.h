@@ -28,6 +28,8 @@ enum E_KEY
     E_COUNT
 };
 
+void GetInputColor();
+
 void Init();					// initialize your variables, allocate memory, etc
 void GetInput();				// get input from player
 int Update(double);			// update the game and the state of the game
@@ -47,7 +49,7 @@ void GG();
 // Player 2
 struct s_Snake2
 {
-	COORD CharLocation2;
+	COORD CharLocation;
 };
 
 enum E_KEY2
@@ -60,7 +62,6 @@ enum E_KEY2
     E_COUNT2
 };
 
-void Init2();					// initialize your variables, allocate memory, etc
 void GetInput2();				// get input from player
 int Update2(double);			// update the game and the state of the game
 void ShutDown2();				// do clean up, free memory
@@ -69,6 +70,8 @@ void GameLoop2();				// The loop
 void CheckCollision2();
 void Timer();               // Time to spawn the special food
 void CreateSnake2(int);		// Create my snake at the intial location
+void Timer();
+void CreateSnake2(int);			// Create my snake at the intial location
 int UpdateSnake2();
 void GG2();
 

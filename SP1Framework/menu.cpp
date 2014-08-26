@@ -15,6 +15,61 @@ using std::ofstream;
 using std::vector;
 using std::stringstream;
 
+int I_Choice = 0;
+
+int GetInputMenu()
+{
+	int I_Frame = 0;
+
+	if (GetAsyncKeyState(VK_UP) != 0)
+	{
+		cls();
+		I_Choice -= 1;
+		if (I_Choice == -1)
+		{
+			I_Choice = 4;
+		}
+	
+		I_Frame = 1;
+	}
+
+	else if (GetAsyncKeyState(VK_DOWN) != 0)
+	{
+		cls();
+		I_Choice += 1;
+		if (I_Choice == 5)
+		{
+			I_Choice = 0;
+		}
+		
+		I_Frame = 1;
+	}
+
+	else if (GetAsyncKeyState(VK_RETURN) != 0 )
+	{
+		switch(I_Choice)
+		{
+		case 0:	Game2();
+				Sleep(200);
+				break;
+		case 1:	Instruction();
+				Sleep(200);
+				break;
+		case 2:	HighScore();
+				Sleep(200);
+				break;
+		case 3:	Options();
+				Sleep(200);
+				break;
+		case 4:	colour(0x02);
+				QuitGame();
+				break;
+		}
+	}
+	Sleep(150);
+	return I_Frame;
+}
+
 void MainMenu()
 {
     for (bool B_Check = true; B_Check != false;)
@@ -115,46 +170,75 @@ void MainMenu()
             Sleep(150);
         }
     }
+	string S_Menu[5] = {"Play" , "Instruction" , "Highscore", "Options", "Exit"};
+
+	colour(0x02);
+	cout <<     "                       ******************************************************" << endl;
+	cout <<     "                       *   ______                       __                  *" << endl;
+	cout <<     "                       *  /      \\                     |  \\                 *" << endl;
+	cout <<     "                       * |  SSSSSS\\ _______    ______  | kk   __   ______   *" << endl;
+	cout <<     "                       * | SS___\\SS|       \\  |      \\ | kk  /  \\ /      \\  *" << endl;
+	cout <<     "                       *  \\SS    \\ | nnnnnnn\\  \\aaaaaa\\| kk_/  kk|  eeeeee\\ *" << endl;
+	cout <<     "                       *  _\\SSSSSS\\| nn  | nn /      aa| kk   kk | ee    ee *" << endl;
+	cout <<     "                       * |  \\__| SS| nn  | nn|  aaaaaaa| kkkkkk\\ | eeeeeeee *" << endl;
+	cout <<     "                       *  \\SS    SS| nn  | nn \\aa    aa| kk  \\kk\\ \\ee     \\ *" << endl;
+	cout <<     "                       *   \\SSSSSS  \\nn   \\nn  \\aaaaaaa \\kk   \\kk  \\eeeeeee *" << endl; 
+	cout <<     "                       *                                                    *" << endl;
+	cout <<     "                       ******************************************************" << endl;
+
+	for (int i = 0; i < 5; ++i)
+	{
+		if (i == I_Choice)
+		{
+			colour(0x03);
+			cout << "						" << char(16) << S_Menu[i] << endl;
+		}
+		else
+		{
+			colour(0x02);
+			cout << "						" << char(16) << S_Menu[i] << endl;
+		}
+	}
 }
 
 void Instruction()
 {
-    cls();
-    cout << endl << endl << endl << endl << endl;
-    cout << "                        _           _                   _   _                  " << endl;
-    cout << "                       (_)_ __  ___| |_ _ __ _   _  ___| |_(_) ___  _ __  ___  " << endl;
-    cout << "                       | | '_ \\/ __| __| '__| | | |/ __| __| |/ _ \\| '_ \\/ __| " << endl;
-    cout << "                       | | | | \\__ \\ |_| |  | |_| | (__| |_| | (_) | | | \\__ \\ " << endl;
-    cout << "                       |_|_| |_|___/\\__|_|   \\__,_|\\___|\\__|_|\\___/|_| |_|___/ " << endl << endl;
-    cout << "                                             How to play?" << endl << endl;
-    cout << "                       Use the arrow keys to direct the movement of the snake."<< endl; 
-    cout << "                   Eat more food produced randomly in the map to progress further."<< endl;
-    cout << "                       The game gets more challenging as the snake gets longer."<< endl; 
-    cout << "             However,the snake will die if it touches its own body or touches the walls."<< endl << endl;
-    cout << "                            Press UP arrow key to return to the main menu!" << endl;
+	cls();
+	cout << endl << endl << endl << endl << endl;
+	cout << "                        _           _                   _   _                  " << endl;
+	cout << "                       (_)_ __  ___| |_ _ __ _   _  ___| |_(_) ___  _ __  ___  " << endl;
+	cout << "                       | | '_ \\/ __| __| '__| | | |/ __| __| |/ _ \\| '_ \\/ __| " << endl;
+	cout << "                       | | | | \\__ \\ |_| |  | |_| | (__| |_| | (_) | | | \\__ \\ " << endl;
+	cout << "                       |_|_| |_|___/\\__|_|   \\__,_|\\___|\\__|_|\\___/|_| |_|___/ " << endl << endl;
+	cout << "                                             How to play?" << endl << endl;
+	cout << "                       Use the arrow keys to direct the movement of the snake."<< endl; 
+	cout << "                   Eat more food produced randomly in the map to progress further."<< endl;
+	cout << "                       The game gets more challenging as the snake gets longer."<< endl; 
+	cout << "             However,the snake will die if it touches its own body or touches the walls."<< endl << endl;
+	cout << "                            Press UP arrow key to return to the main menu!" << endl;
 }
 
 void QuitGame()
 {
-    cls();
-    cout << endl << endl << endl << endl << endl << endl;
-    cout << "                          _____ _   _    _    _   _ _  __ __   _____  _   _ " << endl;
-    cout << "                         |_   _| | | |  / \\  | \\ | | |/ / \\ \\ / / _ \\| | | |" << endl;
-    cout << "                           | | | |_| | / _ \\ |  \\| | ' /   \\ V / | | | | | |" << endl;
-    cout << "                           | | |  _  |/ ___ \\| |\\  | . \\    | || |_| | |_| |" << endl;
-    cout << "                           |_| |_| |_/_/   \\_\\_| \\_|_|\\_\\__ |_| \\___/ \\___/ " << endl;
-    cout << "                                            / \\  | \\ | |  _ \\                " << endl;
-    cout << "                                           / _ \\ |  \\| | | | |               " << endl;
-    cout << "                                          / ___ \\| |\\  | |_| |               " << endl;
-    cout << "                                ____  ___/_/___\\_\\_|_\\_|____/__   _______    " << endl;
-    cout << "                              / ___|/ _ \\ / _ \\|  _ \\  | __ ) \\ / / ____|   " << endl;
-    cout << "                             | |  _| | | | | | | | | | |  _ \\\\ V /|  _|     " << endl;
-    cout << "                             | |_| | |_| | |_| | |_| | | |_) || | | |___    " << endl;
-    cout << "                              \\____|\\___/ \\___/|____/  |____/ |_| |_____|   " << endl;
-    cout << endl;
-    cout << endl;
-    cout << "                                      ";
-    exit(0);
+	cls();
+	cout << endl << endl << endl << endl << endl << endl;
+	cout << "                          _____ _   _    _    _   _ _  __ __   _____  _   _ " << endl;
+	cout << "                         |_   _| | | |  / \\  | \\ | | |/ / \\ \\ / / _ \\| | | |" << endl;
+	cout << "                           | | | |_| | / _ \\ |  \\| | ' /   \\ V / | | | | | |" << endl;
+	cout << "                           | | |  _  |/ ___ \\| |\\  | . \\    | || |_| | |_| |" << endl;
+	cout << "                           |_| |_| |_/_/   \\_\\_| \\_|_|\\_\\__ |_| \\___/ \\___/ " << endl;
+	cout << "                                            / \\  | \\ | |  _ \\                " << endl;
+	cout << "                                           / _ \\ |  \\| | | | |               " << endl;
+	cout << "                                          / ___ \\| |\\  | |_| |               " << endl;
+	cout << "                                ____  ___/_/___\\_\\_|_\\_|____/__   _______    " << endl;
+	cout << "                              / ___|/ _ \\ / _ \\|  _ \\  | __ ) \\ / / ____|   " << endl;
+	cout << "                             | |  _| | | | | | | | | | |  _ \\\\ V /|  _|     " << endl;
+	cout << "                             | |_| | |_| | |_| | |_| | | |_) || | | |___    " << endl;
+	cout << "                              \\____|\\___/ \\___/|____/  |____/ |_| |_____|   " << endl;
+	cout << endl;
+	cout << endl;
+	cout << "                                      ";
+	exit(0);
 }
 
 void Options()
@@ -215,7 +299,7 @@ void HiScore(int I_PlayerScore)
 			VI_Score.push_back(A_Store[x]);
 		}
 	}
-	
+
 	VI_Replace.erase(VI_Replace.begin(),VI_Replace.begin()+5);
 
 	PrintScore.close();

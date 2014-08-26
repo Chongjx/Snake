@@ -18,9 +18,15 @@ void mainLoop();
 int main()
 {
 	Init();				// initialize your variables
+	int I_Refresh = 1;
 	while (!GB_QuitGame) // run this loop until user wants to quit 
 	{
-		MainMenu(); // runs the menu screen
+		if (I_Refresh == 1)
+		{
+			MainMenu(); // runs the menu screen
+			I_Refresh++;
+		}
+		I_Refresh = GetInputMenu();
 	}
 	ShutDown(); // do clean up, if any. free memory.
 
@@ -46,6 +52,7 @@ int main()
 	HighScore();
 	GG();
 }*/
+
 void Game2()
 {
 	int I_Current = 500;

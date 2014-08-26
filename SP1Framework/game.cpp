@@ -35,6 +35,7 @@ int I_Move;
 int I_Prev;
 int I_SpeedUp;
 int I_FoodTimer = 10;
+int I_Color = 0;
 char **Array_2D;
 bool KeyPressed[E_COUNT];
 
@@ -185,7 +186,7 @@ int Update(double dt)
 	// Player 2
 	// Updating the location of the character based on the key press
 
-	gotoXY(Vs_Body2[Vs_Body2.size()-1].CharLocation2);
+	gotoXY(Vs_Body2[Vs_Body2.size()-1].CharLocation);
 	cout << ' ';
 
 	// if the player press up and the snake is not moving down, the snake will move up
@@ -222,46 +223,46 @@ int Update(double dt)
 	case E_W:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.Y--;
+		Vs_Body2[0].CharLocation.Y--;
 		break;
 
 	case E_S:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.Y++;
+		Vs_Body2[0].CharLocation.Y++;
 		break;
 
 	case E_A:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.X--;
+		Vs_Body2[0].CharLocation.X--;
 		break;
 
 	case E_D:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.X++;
+		Vs_Body2[0].CharLocation.X++;
 		break;
 
 	case E_NORM2:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.Y++;
+		Vs_Body2[0].CharLocation.Y++;
 		break;
 	}
 
@@ -293,7 +294,7 @@ int Update(double dt)
 
 void Render()
 {
-    Timer();
+	Timer();
 	colour(ChosenColour[0]);
 
 	//render the game
@@ -307,7 +308,7 @@ void Render()
 
 	colour(ChosenColour2[0]);
 	//Render player 2
-	gotoXY(Vs_Body2[0].CharLocation2);
+	gotoXY(Vs_Body2[0].CharLocation);
 	cout << char(254);
 
 	gotoXY(82, 40);
@@ -330,7 +331,6 @@ void Map()
 	ifstream PrintMap;
 
 	PrintMap.open("Map\\Cage.txt");
-
 
     Array_2D = new char*[40];
 
@@ -399,30 +399,30 @@ void Spawn()
 
 	if (B_CheckLocation == true)
 	{
-        Array_2D[coord_Apple.Y][coord_Apple.X] = '2';
+		Array_2D[coord_Apple.Y][coord_Apple.X] = '2';
 		gotoXY (coord_Apple);
 		colour(0x7);
 		cout << char(3);
 	}
-	
+
 }
 
 void SpawnSpecial()
 {
-    bool B_CheckLocation = false;
-    
-    while(B_CheckLocation == false)
-    {
-        B_CheckLocation = CheckSpecialFood();
-    }
+	bool B_CheckLocation = false;
 
-    if (B_CheckLocation == true)
-    {
-        Array_2D[coord_Special.Y][coord_Special.X] = '3';
-        gotoXY (coord_Special);
-        colour(0x7);
-        cout << char(36);
-    }
+	while(B_CheckLocation == false)
+	{
+		B_CheckLocation = CheckSpecialFood();
+	}
+
+	if (B_CheckLocation == true)
+	{
+		Array_2D[coord_Special.Y][coord_Special.X] = '3';
+		gotoXY (coord_Special);
+		colour(0x7);
+		cout << char(36);
+	}
 }
 
 bool CheckFood()
@@ -443,13 +443,12 @@ bool CheckFood()
 		{
 			B_Check = false;
 		}
-
 	}
 
 	// Player 2
 	for ( int i = 0; i < Vs_Body2.size(); i++)
 	{
-		if (coord_Apple.X == Vs_Body2[i].CharLocation2.X && coord_Apple.Y == Vs_Body2[i].CharLocation2.Y)
+		if (coord_Apple.X == Vs_Body2[i].CharLocation.X && coord_Apple.Y == Vs_Body2[i].CharLocation.Y)
 		{
 			B_Check = false;
 		}
@@ -464,6 +463,11 @@ bool CheckFood()
             B_Check = false;
         }
 	
+		else if ( Array_2D[coord_Apple.Y][coord_Apple.X] == '3')
+		{
+			B_Check = false;
+		}
+
 		else
 		{
 			B_Check = true;
@@ -475,14 +479,14 @@ bool CheckFood()
 
 bool CheckSpecialFood()
 {
-    bool B_Check;
+	bool B_Check;
 	srand(time(0));
 	coord_Special.X = rand() % 99 + 1;
 	coord_Special.Y = rand() % 39 + 1;
 
-    for ( int i = 0; i < Vs_Body.size(); i++)
-    {
-        if (coord_Special.X == Vs_Body[i].CharLocation.X && coord_Special.Y == Vs_Body[i].CharLocation.Y)
+	for ( int i = 0; i < Vs_Body.size(); i++)
+	{
+		if (coord_Special.X == Vs_Body[i].CharLocation.X && coord_Special.Y == Vs_Body[i].CharLocation.Y)
 		{
 			B_Check = false;
 		}
@@ -492,25 +496,25 @@ bool CheckSpecialFood()
 			B_Check = false;
 		}
 
-        else if ( Array_2D[coord_Special.Y][coord_Special.X] == '2')
-        {
-            B_Check = false;
-        }
+		else if ( Array_2D[coord_Special.Y][coord_Special.X] == '2')
+		{
+			B_Check = false;
+		}
 
-        else
-        {
-            B_Check = true;
+		else
+		{
+			B_Check = true;
 
-        }
-    }
-    
-    return B_Check;
+		}
+	}
+
+	return B_Check;
 }
 
 int UpdateSnake()
 {
 	bool B_FoodEaten = false;
-    bool B_SpecialFood = false;
+	bool B_SpecialFood = false;
 
 	if (Vs_Body[0].CharLocation.X == coord_Apple.X && Vs_Body[0].CharLocation.Y == coord_Apple.Y)
 	{
@@ -522,30 +526,15 @@ int UpdateSnake()
 		Vs_Body[Vs_Body.size()-1].CharLocation.X = Vs_Body[Vs_Body.size()-2].CharLocation.X;
 		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
 		I_Score += 10;
-        Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
+		Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
-
-    /*if (Vs_Body[0].CharLocation.X == coord_Special.X && Vs_Body[0].CharLocation.Y == coord_Special.Y)
-    {
-        Beep (1046, 100);
-		B_SpecialFood = true;
-        I_Special = 0;
-		Vs_Body.push_back(s_Snake());
-
-		Vs_Body[Vs_Body.size()-1].CharLocation.X = Vs_Body[Vs_Body.size()-2].CharLocation.X;
-		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
-        Array_2D[coord_Special.Y][coord_Special.X] = '0';
-    }*/
 
 	if (B_FoodEaten != true && I_Food == 0)
 	{
 		Spawn();
 		I_Food++;
 	}
-    /*if (B_SpecialFood != true && I_Special == 0)
-    {
-        I_Special++;
-        */
+
     if (Vs_Body[0].CharLocation.X == coord_Special.X && Vs_Body[0].CharLocation.Y == coord_Special.Y)
     {
         Beep (1046, 100);
@@ -559,8 +548,8 @@ int UpdateSnake()
 		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
         if (elapsedTime > I_Time)
         {
-        I_SpeedUp = 300;
-        I_Time += elapsedTime + 10;
+			I_SpeedUp = 300;
+			I_Time += elapsedTime + 10;
         }
 
         Array_2D[coord_Special.Y][coord_Special.X] = '0';
@@ -577,6 +566,11 @@ int UpdateSnake()
         }
 
 	return I_SpeedUp;
+	if (B_SpecialFood != true && I_Special == 0)
+	{
+		I_Special++;
+	}
+	return I_Score;
 }
 
 void Timer()
@@ -593,7 +587,18 @@ void Timer()
         cout << ' ';
         Array_2D[coord_Special.Y][coord_Special.X] = '0';
     }
+	if (elapsedTime > I_FoodTimer)
+	{
+		SpawnSpecial();
+		I_FoodTimer += 10;
+	}
 
+	if (I_FoodTimer - elapsedTime < 2)
+	{
+		gotoXY(coord_Special);
+		cout << ' ';
+		Array_2D[coord_Special.Y][coord_Special.X] = '0';
+	}
 }
 
 void CheckCollision()
@@ -623,7 +628,6 @@ void CheckCollision()
 }
 
 void ColorOptions()
-
 {
     //int I_Choice = 0;
     string S_Color[4] = {"Blue", "Green", "Pink", "Yellow"};
@@ -701,13 +705,32 @@ void ColorOptions()
         }
     }
     Sleep(150);
-<<<<<<< 145d61782c8c190b56c35eb3f0d6abbd369da252
-    cout << "OOOOOO" << endl;
-=======
     cout << "OOOOOO" << endl;*/
 
 
 	colour(0xB);
+	for (int i = 0; i < 4; ++i)
+	{
+		string S_Color[4] = {"Blue", "Green", "Pink", "Yellow"};
+
+		for (int i = 0; i < 4; ++i)
+		{
+			if (i == I_Color)
+			{
+				cout << "                    " << char(16) << S_Color[i] << endl;
+			}
+			else
+			{
+				colour(0x03);
+				cout << "                    " << char(16) << S_Color[i] << endl;
+			}
+		}
+	}
+	Sleep(150);
+	cout << "OOOOOO" << endl;
+
+
+	/*colour(0xB);
 	cout << "						1) OOOOOO" << endl;
 	colour(0xA);
 	cout << "						2) OOOOOO" << endl;
@@ -722,20 +745,73 @@ void ColorOptions()
 	switch (I_Color)
 	{
 	case E_LIGHTBLUE: colour(0xB); 
-		ChosenColour[0] = 0xB;
-		break;
+	ChosenColour[0] = 0xB;
+	break;
 	case E_GREEN: colour(0xA);
-		ChosenColour[0] = 0xC;
-		break;
+	ChosenColour[0] = 0xC;
+	break;
 	case E_PINK: colour(0xD);
-		ChosenColour[0] = 0xD;
-		break;
+	ChosenColour[0] = 0xD;
+	break;
 	case E_YELLOW: colour(0xE);
-		ChosenColour[0] = 0xE;
-		break;
+	ChosenColour[0] = 0xE;
+	break;
 	default : colour(0x7);
-		ChosenColour[0] = 0x7;
-		break;
+	ChosenColour[0] = 0x7;
+	break;
+	}*/
+}
+
+void GetInputColor()
+{
+	if (GetAsyncKeyState(VK_UP) != 0)
+	{
+		I_Color -= 1;
+		if (I_Color == -1)
+		{
+			I_Color = 3;
+		}
+	}
+
+	else if(GetAsyncKeyState(VK_DOWN) != 0)
+	{
+		I_Color += 1;
+		if (I_Color == 4)
+		{
+			I_Color = 0;
+		}
+	}
+
+	else if (GetAsyncKeyState(VK_RETURN) != 0)
+	{
+		switch(I_Color)
+		{
+		case E_LIGHTBLUE:
+			{
+				colour(0xB);
+				ChosenColour[0] = 0xB;
+			}break;
+		case E_GREEN:
+			{
+				colour(0xA);
+				ChosenColour[0] = 0xA;
+			}break;
+		case E_PINK:
+			{
+				colour(0xD);
+				ChosenColour[0] = 0xD;
+			}break;
+		case E_YELLOW:
+			{
+				colour(0xE);
+				ChosenColour[0] = 0xE;
+			}break;
+		default:
+			{
+				colour(0xE);
+				ChosenColour[0] = 0xE;
+			} break;
+		}
 	}
 }
 
@@ -762,7 +838,7 @@ void GG()
 	I_Current = 0;
 	I_Score = 0;
 	I_Food = 0;
-    I_Special = 0;
+	I_Special = 0;
 	Vs_Body.erase(Vs_Body.begin(), Vs_Body.begin()+Vs_Body.size());
 	GB_GameOver = false;
 
@@ -790,7 +866,7 @@ int Update2(double dt)
 	deltaTime = dt;
 	// Updating the location of the character based on the key press
 
-	gotoXY(Vs_Body2[Vs_Body2.size()-1].CharLocation2);
+	gotoXY(Vs_Body2[Vs_Body2.size()-1].CharLocation);
 	cout << ' ';
 
 	// if the player press up and the snake is not moving down, the snake will move up
@@ -827,46 +903,46 @@ int Update2(double dt)
 	case E_W:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.Y--;
+		Vs_Body2[0].CharLocation.Y--;
 		break;
 
 	case E_S:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.Y++;
+		Vs_Body2[0].CharLocation.Y++;
 		break;
 
 	case E_A:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.X--;
+		Vs_Body2[0].CharLocation.X--;
 		break;
 
 	case E_D:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.X++;
+		Vs_Body2[0].CharLocation.X++;
 		break;
 
 	case E_NORM2:
 		for (int i = Vs_Body2.size()-1; i > 0 ; i--)
 		{
-			Vs_Body2[i].CharLocation2.X = Vs_Body2[i-1].CharLocation2.X;
-			Vs_Body2[i].CharLocation2.Y = Vs_Body2[i-1].CharLocation2.Y;
+			Vs_Body2[i].CharLocation.X = Vs_Body2[i-1].CharLocation.X;
+			Vs_Body2[i].CharLocation.Y = Vs_Body2[i-1].CharLocation.Y;
 		}
-		Vs_Body2[0].CharLocation2.Y++;
+		Vs_Body2[0].CharLocation.Y++;
 		break;
 	}
 
@@ -902,8 +978,8 @@ void CreateSnake2(int size)
 	{
 		Vs_Body2.push_back(s_Snake2());
 
-		Vs_Body2[i].CharLocation2.X = coord_ConsoleSize.X/4;
-		Vs_Body2[i].CharLocation2.Y = coord_ConsoleSize.Y/4 - i;
+		Vs_Body2[i].CharLocation.X = coord_ConsoleSize.X/4;
+		Vs_Body2[i].CharLocation.Y = coord_ConsoleSize.Y/4 - i;
 	}
 }
 
@@ -913,10 +989,10 @@ bool CheckFood2()
 	srand(time(0));
 	coord_Apple.X = rand() % 99 + 1;
 	coord_Apple.Y = rand() % 39 + 1;
-	
+
 	for ( int i = 0; i < Vs_Body2.size(); i++)
 	{
-		if (coord_Apple.X == Vs_Body2[i].CharLocation2.X && coord_Apple.Y == Vs_Body2[i].CharLocation2.Y)
+		if (coord_Apple.X == Vs_Body2[i].CharLocation.X && coord_Apple.Y == Vs_Body2[i].CharLocation.Y)
 		{
 			B_Check2 = false;
 		}
@@ -925,7 +1001,7 @@ bool CheckFood2()
 		{
 			B_Check2 = false;
 		}
-	
+
 		else
 		{
 			B_Check2 = true;
@@ -939,15 +1015,15 @@ int UpdateSnake2()
 {
 	bool B_FoodEaten2 = false;
 
-	if (Vs_Body2[0].CharLocation2.X == coord_Apple.X && Vs_Body2[0].CharLocation2.Y == coord_Apple.Y)
+	if (Vs_Body2[0].CharLocation.X == coord_Apple.X && Vs_Body2[0].CharLocation.Y == coord_Apple.Y)
 	{
 		Beep (1046, 100);
 		B_FoodEaten2 = true;
 		I_Food2 = 0;
 		Vs_Body2.push_back(s_Snake2());
 
-		Vs_Body2[Vs_Body2.size()-1].CharLocation2.X = Vs_Body2[Vs_Body2.size()-2].CharLocation2.X;
-		Vs_Body2[Vs_Body2.size()-1].CharLocation2.Y = Vs_Body2[Vs_Body2.size()-2].CharLocation2.X;
+		Vs_Body2[Vs_Body2.size()-1].CharLocation.X = Vs_Body2[Vs_Body2.size()-2].CharLocation.X;
+		Vs_Body2[Vs_Body2.size()-1].CharLocation.Y = Vs_Body2[Vs_Body2.size()-2].CharLocation.X;
 		I_Score2 += 10;
 	}
 
@@ -964,20 +1040,20 @@ void CheckCollision2()
 {
 	for ( int i = 1; i < Vs_Body2.size(); i++)
 	{
-		if (Vs_Body2[0].CharLocation2.X == Vs_Body2[i].CharLocation2.X && Vs_Body2[0].CharLocation2.Y == Vs_Body2[i].CharLocation2.Y)
+		if (Vs_Body2[0].CharLocation.X == Vs_Body2[i].CharLocation.X && Vs_Body2[0].CharLocation.Y == Vs_Body2[i].CharLocation.Y)
 		{
 			GB_GameOver = true;
 		}
 	}
 
-	if (Array_2D[Vs_Body2[0].CharLocation2.Y][Vs_Body2[0].CharLocation2.X] == '1')
+	if (Array_2D[Vs_Body2[0].CharLocation.Y][Vs_Body2[0].CharLocation.X] == '1')
 	{
 		GB_GameOver = true;
 	}
 
 	if ( GB_GameOver == true)
 	{
-		gotoXY(Vs_Body2[0].CharLocation2);
+		gotoXY(Vs_Body2[0].CharLocation);
 		{
 			colour(0xC);
 			cout << char(254);

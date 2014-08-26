@@ -11,7 +11,7 @@ class StopWatch
     LARGE_INTEGER frequency;
     LARGE_INTEGER prevTime, currTime;
     double LIToSecs( LARGE_INTEGER & L) ;
-    UINT     wTimerRes;
+    UINT wTimerRes;
 
  public:
      StopWatch() ;
