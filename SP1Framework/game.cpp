@@ -325,7 +325,7 @@ void Map()
 	// create a 2D array that will store the location of the snake and the food
 	ifstream PrintMap;
 
-	PrintMap.open("Map\\Meth.txt");
+	PrintMap.open("Map\\Cage.txt");
 
     Array_2D = new char*[40];
 
@@ -543,13 +543,10 @@ int UpdateSnake()
 		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
         if (elapsedTime > I_Time)
         {
-<<<<<<< 14ccf4ed6580357daed14056ec79812e11c786b0
 			I_SpeedUp = 300;
 			I_Time += elapsedTime + 10;
-=======
         I_SpeedUp = rand() % 2;
         I_Time += elapsedTime + 2;
->>>>>>> 07497ee101ab06c840b987af93d236200c47c66d
         }
         Array_2D[coord_Special.Y][coord_Special.X] = '0';
     }
@@ -845,13 +842,10 @@ void GG()
 	I_Current = 2;
 	I_Score = 0;
 	I_Food = 0;
-<<<<<<< 14ccf4ed6580357daed14056ec79812e11c786b0
 	I_Special = 0;
-=======
     I_Special = 0;
     I_Score = 0;
     I_Time = 0;
->>>>>>> 07497ee101ab06c840b987af93d236200c47c66d
 	Vs_Body.erase(Vs_Body.begin(), Vs_Body.begin()+Vs_Body.size());
 	GB_GameOver = false;
 
