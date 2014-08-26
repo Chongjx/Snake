@@ -250,6 +250,7 @@ void Options()
 
 void HiScore(int I_PlayerScore)
 {
+	//Highscore
 	int A_Store[5] = {0};
 	int I_Temp = 0;
 
@@ -258,13 +259,27 @@ void HiScore(int I_PlayerScore)
 	ifstream PrintScore;
 	ofstream NewScore;
 	string S_Data;
+
 	int z = 0;
+	//Player Name
+	string A_StoreName[5] = {" "};
+	string S_Temp = " ";
+		
+	vector<string> VS_Name;
+	ifstream PrintName;
+	ofstream NewName;
+	string S_DataName;
+	string pingpong = "PingPongPingPong";
+
+	int x = 0;
 
 	cout << "					Your score is : " << I_PlayerScore << endl;
 	cout << endl;
 
-	PrintScore.open ("Highscore.txt");
+	PrintScore.open ("HighScore\\BoxHighscore.txt");
+	PrintName.open("HighScore\\BoxName.txt");
 
+	//Storing Score into Array
 	for(int q = 0; q < 5; q++)
 	{
 		while(getline(PrintScore, S_Data))
@@ -278,16 +293,28 @@ void HiScore(int I_PlayerScore)
 		}
 	}
 
+	//Storing Name into Array
+	for(int q = 0; q < 5; q++)
+	{
+		while(getline(PrintName, S_DataName))
+		{
+			A_StoreName[x] = S_DataName;
+			x++;
+		}
+	}
+
 	for (int x = 0; x < 5; x++)
 	{
 		if(I_PlayerScore >= A_Store[x])
 		{
 			VI_Score.push_back(I_PlayerScore);
-
+			VS_Name.push_back(pingpong);
 			for(int j = x; j < VI_Replace.size();j++)
 			{
 				I_Temp = A_Store[j];
+				S_Temp = A_StoreName[j];
 				VI_Score.push_back(I_Temp);
+				VS_Name.push_back(S_Temp);
 				if(VI_Score.size() == 5)
 				{
 					break;
@@ -297,29 +324,41 @@ void HiScore(int I_PlayerScore)
 		else
 		{
 			VI_Score.push_back(A_Store[x]);
+			VS_Name.push_back(A_StoreName[x]);
 		}
 	}
-
+	
 	VI_Replace.erase(VI_Replace.begin(),VI_Replace.begin()+5);
 
 	PrintScore.close();
-	NewScore.open ("Highscore.txt");
+	PrintName.close();
+
+	NewScore.open ("HighScore\\BoxHighscore.txt");
+	NewName.open("HighScore\\BoxName.txt");
+
 
 	for(int p = 0; p < 5; p++)
 	{
 		NewScore << VI_Score[p] << endl;
+		NewName << VS_Name[p] << endl;
 	}
 
 	VI_Score.erase(VI_Score.begin(),VI_Score.begin()+5);
+	VS_Name.erase(VS_Name.begin(),VS_Name.begin()+5);
 
 	NewScore.close();
+	NewName.close();
 
-	PrintScore.open("Highscore.txt");
+	PrintScore.open ("HighScore\\BoxHighscore.txt");
+	PrintName.open("HighScore\\BoxName.txt");
 
-	while(!PrintScore.eof()) //
+	while(!PrintScore.eof())
 	{
 		getline(PrintScore, S_Data);
-		cout << "						" << S_Data << endl;
+		getline(PrintName, S_DataName);
+		cout << "					" << S_DataName << "	" << S_Data << endl;
 	}
+
 	PrintScore.close();
+	PrintName.close();
 }

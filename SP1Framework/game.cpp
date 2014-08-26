@@ -182,7 +182,6 @@ int Update(double dt)
 		break;
 	}
 
-	CheckCollision();
 	// Player 2
 	// Updating the location of the character based on the key press
 
@@ -266,6 +265,7 @@ int Update(double dt)
 		break;
 	}
 
+	CheckCollision();
 	CheckCollision2();
 
 	I_Current = UpdateSnake();
@@ -325,7 +325,7 @@ void Map()
 	// create a 2D array that will store the location of the snake and the food
 	ifstream PrintMap;
 
-	PrintMap.open("Map\\Cage.txt");
+	PrintMap.open("Map\\Meth.txt");
 
     Array_2D = new char*[40];
 
@@ -607,6 +607,14 @@ void CheckCollision()
 		if (Vs_Body[0].CharLocation.X == Vs_Body[i].CharLocation.X && Vs_Body[0].CharLocation.Y == Vs_Body[i].CharLocation.Y)
 		{
 			GB_GameOver = true;
+		}
+
+		for (int x = 0; x < Vs_Body2.size(); x++)
+		{
+			if ( Vs_Body[0].CharLocation.X == Vs_Body2[x].CharLocation.X && Vs_Body[0].CharLocation.Y == Vs_Body2[x].CharLocation.Y)//Collision for snake 2 head against snake 1 
+			{
+				GB_GameOver = true;
+			}
 		}
 	}
 
@@ -1048,6 +1056,14 @@ void CheckCollision2()
 		if (Vs_Body2[0].CharLocation.X == Vs_Body2[i].CharLocation.X && Vs_Body2[0].CharLocation.Y == Vs_Body2[i].CharLocation.Y)
 		{
 			GB_GameOver = true;
+		}
+
+		for (int x = 0; x < Vs_Body.size(); x++)
+		{
+			if ( Vs_Body2[0].CharLocation.X == Vs_Body[x].CharLocation.X && Vs_Body2[0].CharLocation.Y == Vs_Body[x].CharLocation.Y)//Collision for snake 2 head against snake 1 
+			{
+				GB_GameOver = true;
+			}
 		}
 	}
 
