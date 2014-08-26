@@ -271,24 +271,19 @@ int Update(double dt)
 	I_Current = UpdateSnake();
 	UpdateSnake2();
 
-	if (I_Current <= 100)
+	if (I_Current == 2)
 	{
 		return 500;
 	}
 
-	else if (I_Current <= 200)
-	{
-		return 400;
-	}
-
-	else if (I_Current <= 400)
+	else if (I_Current == 1)
 	{
 		return 200;
 	}
 
-	else if (I_Current > 500)
+	else if (I_Current == 0)
 	{
-		return 100;
+		return 800;
 	}
 }
 
@@ -548,10 +543,14 @@ int UpdateSnake()
 		Vs_Body[Vs_Body.size()-1].CharLocation.Y = Vs_Body[Vs_Body.size()-2].CharLocation.X;
         if (elapsedTime > I_Time)
         {
+<<<<<<< 14ccf4ed6580357daed14056ec79812e11c786b0
 			I_SpeedUp = 300;
 			I_Time += elapsedTime + 10;
+=======
+        I_SpeedUp = rand() % 2;
+        I_Time += elapsedTime + 2;
+>>>>>>> 07497ee101ab06c840b987af93d236200c47c66d
         }
-
         Array_2D[coord_Special.Y][coord_Special.X] = '0';
     }
     
@@ -562,7 +561,7 @@ int UpdateSnake()
 
     if (I_Time - elapsedTime < -1)
         {
-        I_SpeedUp = I_Score;
+        I_SpeedUp = 2;
         }
 
 	return I_SpeedUp;
@@ -835,10 +834,16 @@ void GG()
 {
 	I_Move = 4;
 	I_Prev = 0;
-	I_Current = 0;
+	I_Current = 2;
 	I_Score = 0;
 	I_Food = 0;
+<<<<<<< 14ccf4ed6580357daed14056ec79812e11c786b0
 	I_Special = 0;
+=======
+    I_Special = 0;
+    I_Score = 0;
+    I_Time = 0;
+>>>>>>> 07497ee101ab06c840b987af93d236200c47c66d
 	Vs_Body.erase(Vs_Body.begin(), Vs_Body.begin()+Vs_Body.size());
 	GB_GameOver = false;
 
