@@ -100,7 +100,7 @@ void Map()
 
 	ifstream PrintMap;
 
-	PrintMap.open("Map\\Cage.txt");
+	PrintMap.open("Map\\Box.txt");
 
     Array_2D = new char*[40];
 
