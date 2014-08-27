@@ -15,12 +15,12 @@ using std::ofstream;
 using std::vector;
 using std::stringstream;
 
-int I_Choice = 0;
+int I_Gamemode = 0;
+int I_Frame = 0;
 
 int GetInputMenu()
 {
-	int I_Frame = 0;
-
+	int I_Choice = 0;
 	if (GetAsyncKeyState(VK_UP) != 0)
 	{
 		cls();
@@ -29,7 +29,7 @@ int GetInputMenu()
 		{
 			I_Choice = 4;
 		}
-	
+
 		I_Frame = 1;
 	}
 
@@ -41,7 +41,7 @@ int GetInputMenu()
 		{
 			I_Choice = 0;
 		}
-		
+
 		I_Frame = 1;
 	}
 
@@ -49,21 +49,33 @@ int GetInputMenu()
 	{
 		switch(I_Choice)
 		{
-		case 0:	Game2();
-				Sleep(200);
-				break;
+		case 0: // create a new function that ask the user to choose the gamemode he wants
+			cls();
+			cout << "Press 1 for single player, Press 2 for 2 players" << endl;
+			cin >> I_Gamemode;
+			if (I_Gamemode == 1)
+			{
+				Game1();
+			}
+			else if (I_Gamemode == 2)
+			{
+				Game2();
+			}
+			I_Gamemode = 3;
+			Sleep(200);
+			break;
 		case 1:	Instruction();
-				Sleep(200);
-				break;
+			Sleep(200);
+			break;
 		case 2:	HighScore();
-				Sleep(200);
-				break;
+			Sleep(200);
+			break;
 		case 3:	Options();
-				Sleep(200);
-				break;
+			Sleep(200);
+			break;
 		case 4:	colour(0x02);
-				QuitGame();
-				break;
+			QuitGame();
+			break;
 		}
 	}
 	Sleep(150);
@@ -72,106 +84,13 @@ int GetInputMenu()
 
 void MainMenu()
 {
-    for (bool B_Check = true; B_Check != false;)
-    {
-        string S_Menu[5] = {"                                    _____          ______  __   __\n                                   |_____] |      |______|   \\_/  \n                                   |       |_____ |      |    |" , //"PLAY" Ascii Art.
-                            "           _____ __   _ _______ _______  ______ _     _ _______ _______ _____  _____  __   _\n             |   | \\  | |______    |    |_____/ |     | |          |      |   |     | | \\  |\n           __|__ |  \\_| ______|    |    |    \\_ |_____| |_____     |    __|__ |_____| |  \\_|" ,//"INSTRUCTION" Ascii Art.
-                            "               _     _ _____  ______ _     _ _______ _______  _____   ______ _______\n               |_____|   |   |  ____ |_____| |______ |       |     | |_____/ |______\n               |     | __|__ |_____| |     | ______| |_____  |_____| |    \\_ |______" , //"HIGHSCORE" Ascii Art.
-                            "                        _____   _____  _______ _____  _____  __   _  _______\n                       |     | |_____]    |      |   |     | | \\  | |______\n                       |_____| |          |    __|__ |_____| |  \\_|  ______|",
-                            "                                     ______ _     _ _____ _______\n                                    |______  \\___/    |      |  \n                                    |______ _/   \\_ __|__    |"}; //"EXIT" Ascii Art.
-        int I_Choice = 0;
-
-        while(true)
-        {
-			system("cls");
-
-            colour(0x02);
-            cout <<     "                       ******************************************************" << endl;
-            cout <<     "                       *   ______                       __                  *" << endl;
-            cout <<     "                       *  /      \\                     |  \\                 *" << endl;
-            cout <<     "                       * |  SSSSSS\\ _______    ______  | kk   __   ______   *" << endl;
-            cout <<     "                       * | SS___\\SS|       \\  |      \\ | kk  /  \\ /      \\  *" << endl;
-            cout <<     "                       *  \\SS    \\ | nnnnnnn\\  \\aaaaaa\\| kk_/  kk|  eeeeee\\ *" << endl;
-            cout <<     "                       *  _\\SSSSSS\\| nn  | nn /      aa| kk   kk | ee    ee *" << endl;
-            cout <<     "                       * |  \\__| SS| nn  | nn|  aaaaaaa| kkkkkk\\ | eeeeeeee *" << endl;
-            cout <<     "                       *  \\SS    SS| nn  | nn \\aa    aa| kk  \\kk\\ \\ee     \\ *" << endl;
-            cout <<     "                       *   \\SSSSSS  \\nn   \\nn  \\aaaaaaa \\kk   \\kk  \\eeeeeee *" << endl; 
-            cout <<     "                       *                                                    *" << endl;
-            cout <<     "                       ******************************************************" << endl;
-
-            for (int i = 0; i < 5; ++i)
-            {
-                if (i == I_Choice)
-                {
-                    colour(0x03);
-                    cout << S_Menu[i] << endl;
-                }
-                else
-                {
-                    colour(0x02);
-                    cout << S_Menu[i] << endl;
-                }
-            }
-
-            while(true)
-            {
-                if (GetAsyncKeyState(VK_UP) != 0)
-                {
-                    I_Choice -= 1;
-                    if (I_Choice == -1)
-                    {
-                        I_Choice = 4;
-                    }
-                    break;
-                }
-
-                else if (GetAsyncKeyState(VK_DOWN) != 0)
-                {
-                    I_Choice += 1;
-                    if (I_Choice == 5)
-                    {
-                        I_Choice = 0;
-                    }
-                    break;
-                }
-
-                else if (GetAsyncKeyState(VK_RETURN) != 0)
-                {
-                    switch(I_Choice)
-                    {
-                    case 0:
-                        {
-                            Game2();
-                            Sleep(1000);
-                        } break;
-                    case 1:
-                        {
-                            Instruction();
-							Sleep (200);
-						} break;
-                    case 2:
-                        {
-                            HighScore();
-                            Sleep (200);
-                        } break;
-					case 3:
-						{
-							Options();
-							Sleep(200);
-						} break;
-                    case 4:
-                        {
-                            colour(0x02);
-                            QuitGame();
-                        } break;
-                    }
-                }
-            }
-            Sleep(150);
-        }
-    }
-	string S_Menu[5] = {"Play" , "Instruction" , "Highscore", "Options", "Exit"};
-
+	cls();
+	string S_Menu[5] = {"                                    _____          ______  __   __\n                                   |_____] |      |______|   \\_/  \n                                   |       |_____ |      |    |" , //"PLAY" Ascii Art.
+		"           _____ __   _ _______ _______  ______ _     _ _______ _______ _____  _____  __   _\n             |   | \\  | |______    |    |_____/ |     | |          |      |   |     | | \\  |\n           __|__ |  \\_| ______|    |    |    \\_ |_____| |_____     |    __|__ |_____| |  \\_|" ,//"INSTRUCTION" Ascii Art.
+		"               _     _ _____  ______ _     _ _______ _______  _____   ______ _______\n               |_____|   |   |  ____ |_____| |______ |       |     | |_____/ |______\n               |     | __|__ |_____| |     | ______| |_____  |_____| |    \\_ |______" , //"HIGHSCORE" Ascii Art.
+		"                        _____   _____  _______ _____  _____  __   _  _______\n                       |     | |_____]    |      |   |     | | \\  | |______\n                       |_____| |          |    __|__ |_____| |  \\_|  ______|",
+		"                                     ______ _     _ _____ _______\n                                    |______  \\___/    |      |  \n                                    |______ _/   \\_ __|__    |"}; //"EXIT" Ascii Art.
+	int I_Choice = 0;
 	colour(0x02);
 	cout <<     "                       ******************************************************" << endl;
 	cout <<     "                       *   ______                       __                  *" << endl;
@@ -191,14 +110,15 @@ void MainMenu()
 		if (i == I_Choice)
 		{
 			colour(0x03);
-			cout << "						" << char(16) << S_Menu[i] << endl;
+			cout << S_Menu[i] << endl;
 		}
 		else
 		{
 			colour(0x02);
-			cout << "						" << char(16) << S_Menu[i] << endl;
+			cout << S_Menu[i] << endl;
 		}
 	}
+	Sleep (200);
 }
 
 void Instruction()
@@ -216,6 +136,27 @@ void Instruction()
 	cout << "                       The game gets more challenging as the snake gets longer."<< endl; 
 	cout << "             However,the snake will die if it touches its own body or touches the walls."<< endl << endl;
 	cout << "                            Press UP arrow key to return to the main menu!" << endl;
+}
+
+void HighScore()
+{
+	colour(0x02);
+	cls();
+	cout <<	   "                         _   _ ___ ____ _   _ ____   ____ ___  ____  _____ " << endl;
+	cout <<    "                        | | | |_ _/ ___| | | / ___| / ___/ _ \\|  _ \\| ____|" << endl;
+	cout <<    "                        | |_| || | |  _| |_| \\___ \\| |  | | | | |_) |  _|  " << endl;
+	cout <<    "                        |  _  || | |_| |  _  |___) | |__| |_| |  _ <| |___ " << endl;
+	cout <<    "                        |_| |_|___\\____|_| |_|____/ \\____\\___/|_| \\_\\_____|" << endl;
+	cout << endl;
+	DisplayHighScore();
+	cout <<    "				Press the UP key to return to the main menu!" << endl;
+	cout << endl;
+}
+
+void DisplayHighScore()
+{
+	// Read all the files and display them
+	// cout the name of the map also tyvm
 }
 
 void QuitGame()
@@ -244,7 +185,6 @@ void QuitGame()
 void Options()
 {
 	cls();
-	ColorOptions();
 	cout << "                            Press UP arrow key to return to the main menu!" << endl; 
 }
 
@@ -264,7 +204,7 @@ void HiScore(int I_PlayerScore)
 	//Player Name
 	string A_StoreName[5] = {" "};
 	string S_Temp = " ";
-		
+
 	vector<string> VS_Name;
 	ifstream PrintName;
 	ofstream NewName;
@@ -327,7 +267,7 @@ void HiScore(int I_PlayerScore)
 			VS_Name.push_back(A_StoreName[x]);
 		}
 	}
-	
+
 	VI_Replace.erase(VI_Replace.begin(),VI_Replace.begin()+5);
 
 	PrintScore.close();
