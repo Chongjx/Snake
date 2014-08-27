@@ -31,8 +31,6 @@ COORD coord_Special;
 int I_Food = 0;
 int I_Special = 0;
 int I_Score = 0;
-int I_P1Score = 0;
-int I_P2Score = 0;
 int I_Move = 4;
 int I_Prev = 0;
 int I_Move2 = 4;
@@ -132,7 +130,7 @@ void Map()
 	}
 	//Score for player 1
 	coord_Score.X = 0;
-	coord_Score.Y = 44;
+	coord_Score.Y = 46;
 
 	gotoXY(coord_Score);
 	cout << "Your score: ";
@@ -404,9 +402,6 @@ void Render()
 
 	gotoXY (Vs_P1[0].CharLocation);
 	cout << char(254);
-
-	gotoXY (0, 45);
-	cout << "Your Score: ";
 
 	gotoXY (12, 40);
 	cout << I_Score;
@@ -1139,8 +1134,6 @@ void GG2()
 	I_Move2 = 4;
 	I_Prev2 = 0;
 	I_Current = 2;
-	I_P1Score = 0;
-	I_P2Score = 0;
 	I_Food = 0;
 	I_Special = 0;
     I_Time = 0;
