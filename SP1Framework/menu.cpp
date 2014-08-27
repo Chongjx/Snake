@@ -28,7 +28,7 @@ int GetInputMenu()
 		{
 		case '1': // create a new function that ask the user to choose the gamemode he wants
 			cls();
-			cout << "Press 1 for single player, Press 2 for 2 players" << endl;
+			cout << "Press 1 for single player, Press 2 for 2 players, Press 3 to return to mainmenu." << endl;
             I_Choice = '0';
             I_Choice = getch();
 			if (I_Choice == '1')
@@ -39,6 +39,11 @@ int GetInputMenu()
 			{
 				Game2();
 			}
+
+            else if (I_Choice == '3')
+            {
+                MainMenu();
+            }
 			Sleep(200);
 			break;
 		case '2':	Instruction();
