@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <vector>
+#include <conio.h>
 #include "Framework\console.h"
 #include "menu.h"
 
@@ -20,64 +21,69 @@ int I_Frame = 0;
 
 int GetInputMenu()
 {
-	int I_Choice = 0;
-	if (GetAsyncKeyState(VK_UP) != 0)
-	{
-		cls();
-		I_Choice -= 1;
-		if (I_Choice == -1)
-		{
-			I_Choice = 4;
-		}
+	char I_Choice;
+	I_Choice = getch();
 
-		I_Frame = 1;
-	}
-
-	else if (GetAsyncKeyState(VK_DOWN) != 0)
-	{
-		cls();
-		I_Choice += 1;
-		if (I_Choice == 5)
-		{
-			I_Choice = 0;
-		}
-
-		I_Frame = 1;
-	}
-
-	else if (GetAsyncKeyState(VK_RETURN) != 0 )
-	{
 		switch(I_Choice)
 		{
-		case 0: // create a new function that ask the user to choose the gamemode he wants
+		case '1': // create a new function that ask the user to choose the gamemode he wants
 			cls();
 			cout << "Press 1 for single player, Press 2 for 2 players" << endl;
-			cin >> I_Gamemode;
-			if (I_Gamemode == 1)
+            I_Choice = '0';
+            I_Choice = getch();
+			if (I_Choice == '1')
 			{
 				Game1();
 			}
-			else if (I_Gamemode == 2)
+			else if (I_Choice == '2')
 			{
 				Game2();
 			}
-			I_Gamemode = 3;
 			Sleep(200);
 			break;
-		case 1:	Instruction();
+		case '2':	Instruction();
+            I_Choice = '0';
+            I_Choice = getch();
+            if (I_Choice != 27)
+            {
+                MainMenu();
+            }
+            else
+            {
+                MainMenu();
+            }
+            Sleep(200);
+            break;
+		case '3':	HighScore();
+            I_Choice = '0';
+            I_Choice = getch();
+            if (I_Choice != 27)
+            {
+                MainMenu();
+            }
+            else
+            {
+                MainMenu();
+            }
 			Sleep(200);
 			break;
-		case 2:	HighScore();
+		case '4':	Options();
+            I_Choice = '0';
+            I_Choice = getch();
+            if (I_Choice != 27)
+            {
+                MainMenu();
+            }
+            else
+            {
+                MainMenu();
+            }
 			Sleep(200);
 			break;
-		case 3:	Options();
-			Sleep(200);
-			break;
-		case 4:	colour(0x02);
+		case '5':	colour(0x02);
 			QuitGame();
 			break;
 		}
-	}
 	Sleep(150);
 	return I_Frame;
 }
@@ -85,11 +91,11 @@ int GetInputMenu()
 void MainMenu()
 {
 	cls();
-	string S_Menu[5] = {"                                    _____          ______  __   __\n                                   |_____] |      |______|   \\_/  \n                                   |       |_____ |      |    |" , //"PLAY" Ascii Art.
-		"           _____ __   _ _______ _______  ______ _     _ _______ _______ _____  _____  __   _\n             |   | \\  | |______    |    |_____/ |     | |          |      |   |     | | \\  |\n           __|__ |  \\_| ______|    |    |    \\_ |_____| |_____     |    __|__ |_____| |  \\_|" ,//"INSTRUCTION" Ascii Art.
-		"               _     _ _____  ______ _     _ _______ _______  _____   ______ _______\n               |_____|   |   |  ____ |_____| |______ |       |     | |_____/ |______\n               |     | __|__ |_____| |     | ______| |_____  |_____| |    \\_ |______" , //"HIGHSCORE" Ascii Art.
-		"                        _____   _____  _______ _____  _____  __   _  _______\n                       |     | |_____]    |      |   |     | | \\  | |______\n                       |_____| |          |    __|__ |_____| |  \\_|  ______|",
-		"                                     ______ _     _ _____ _______\n                                    |______  \\___/    |      |  \n                                    |______ _/   \\_ __|__    |"}; //"EXIT" Ascii Art.
+	string S_Menu[5] = {"1)                                    _____          ______  __   __\n                                     |_____] |      |______|   \\_/  \n                                     |       |_____ |      |    |" , //"PLAY" Ascii Art.
+		"2)           _____ __   _ _______ _______  ______ _     _ _______ _______ _____  _____  __   _\n               |   | \\  | |______    |    |_____/ |     | |          |      |   |     | | \\  |\n             __|__ |  \\_| ______|    |    |    \\_ |_____| |_____     |    __|__ |_____| |  \\_|" ,//"INSTRUCTION" Ascii Art.
+		"3)               _     _ _____  ______ _     _ _______ _______  _____   ______ _______\n                 |_____|   |   |  ____ |_____| |______ |       |     | |_____/ |______\n                 |     | __|__ |_____| |     | ______| |_____  |_____| |    \\_ |______" , //"HIGHSCORE" Ascii Art.
+		"4)                        _____   _____  _______ _____  _____  __   _  _______\n                         |     | |_____]    |      |   |     | | \\  | |______\n                         |_____| |          |    __|__ |_____| |  \\_|  ______|",
+		"5)                                     ______ _     _ _____ _______\n                                      |______  \\___/    |      |  \n                                      |______ _/   \\_ __|__    |"}; //"EXIT" Ascii Art.
 	int I_Choice = 0;
 	colour(0x02);
 	cout <<     "                       ******************************************************" << endl;
@@ -109,7 +115,7 @@ void MainMenu()
 	{
 		if (i == I_Choice)
 		{
-			colour(0x03);
+			colour(0x02);
 			cout << S_Menu[i] << endl;
 		}
 		else
@@ -135,7 +141,7 @@ void Instruction()
 	cout << "                   Eat more food produced randomly in the map to progress further."<< endl;
 	cout << "                       The game gets more challenging as the snake gets longer."<< endl; 
 	cout << "             However,the snake will die if it touches its own body or touches the walls."<< endl << endl;
-	cout << "                            Press UP arrow key to return to the main menu!" << endl;
+	cout << "                             Press any key to return to the main menu!" << endl;
 }
 
 void HighScore()
@@ -149,7 +155,7 @@ void HighScore()
 	cout <<    "                        |_| |_|___\\____|_| |_|____/ \\____\\___/|_| \\_\\_____|" << endl;
 	cout << endl;
 	DisplayHighScore();
-	cout <<    "				Press the UP key to return to the main menu!" << endl;
+	cout <<    "				            Press the any key to return to the main menu!" << endl;
 	cout << endl;
 }
 
@@ -185,7 +191,7 @@ void QuitGame()
 void Options()
 {
 	cls();
-	cout << "                            Press UP arrow key to return to the main menu!" << endl; 
+	cout << "                            Press any key to return to the main menu!" << endl; 
 }
 
 void HiScore(int I_PlayerScore)
