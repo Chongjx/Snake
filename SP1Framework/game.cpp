@@ -537,7 +537,7 @@ void Map2()
 {
 	ifstream PrintMap;
 
-	PrintMap.open("Map\\Box.txt");
+	PrintMap.open("Map\\Maze.txt");
 
     Array_2D = new char*[40];
 
