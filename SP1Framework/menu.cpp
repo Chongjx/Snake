@@ -194,7 +194,7 @@ void Options()
 	cout << "                            Press any key to return to the main menu!" << endl; 
 }
 
-void HiScore(int I_PlayerScore)
+void HiScore(int I_PlayerScore, string S_Name)
 {
 	//Highscore
 	int A_Store[5] = {0};
@@ -215,15 +215,14 @@ void HiScore(int I_PlayerScore)
 	ifstream PrintName;
 	ofstream NewName;
 	string S_DataName;
-	string pingpong = "PingPongPingPong";
 
 	int x = 0;
 
 	cout << "					Your score is : " << I_PlayerScore << endl;
 	cout << endl;
 
-	PrintScore.open ("HighScore\\BoxHighscore.txt");
-	PrintName.open("HighScore\\BoxName.txt");
+	PrintScore.open ("HighScore\\CageHighscore.txt");
+	PrintName.open("HighScore\\CageName.txt");
 
 	//Storing Score into Array
 	for(int q = 0; q < 5; q++)
@@ -254,7 +253,7 @@ void HiScore(int I_PlayerScore)
 		if(I_PlayerScore >= A_Store[x])
 		{
 			VI_Score.push_back(I_PlayerScore);
-			VS_Name.push_back(pingpong);
+			VS_Name.push_back(S_Name);
 			for(int j = x; j < VI_Replace.size();j++)
 			{
 				I_Temp = A_Store[j];
@@ -279,8 +278,8 @@ void HiScore(int I_PlayerScore)
 	PrintScore.close();
 	PrintName.close();
 
-	NewScore.open ("HighScore\\BoxHighscore.txt");
-	NewName.open("HighScore\\BoxName.txt");
+	NewScore.open ("HighScore\\CageHighscore.txt");
+	NewName.open("HighScore\\CageName.txt");
 
 
 	for(int p = 0; p < 5; p++)
@@ -295,14 +294,15 @@ void HiScore(int I_PlayerScore)
 	NewScore.close();
 	NewName.close();
 
-	PrintScore.open ("HighScore\\BoxHighscore.txt");
-	PrintName.open("HighScore\\BoxName.txt");
+	PrintScore.open ("HighScore\\CageHighscore.txt");
+	PrintName.open("HighScore\\CageName.txt");
 
 	while(!PrintScore.eof())
 	{
 		getline(PrintScore, S_Data);
 		getline(PrintName, S_DataName);
 		cout << "					" << S_DataName << "	" << S_Data << endl;
+		Sleep (1000);
 	}
 
 	PrintScore.close();

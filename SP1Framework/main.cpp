@@ -49,7 +49,7 @@ void Game1()
 		Render();							 // render the graphics output to screen
 		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
-	HighScore();
+	ScoreBoard();
 	GG();
 }
 

@@ -73,7 +73,6 @@ void Init()
 	srand(time(0));
 
 	colour(FOREGROUND_RED | FOREGROUND_BLUE | FOREGROUND_GREEN);
-
 }
 
 void ShutDown()
@@ -133,7 +132,7 @@ void Map()
 	}
 	//Score for player 1
 	coord_Score.X = 0;
-	coord_Score.Y = 45;
+	coord_Score.Y = 44;
 
 	gotoXY(coord_Score);
 	cout << "Your score: ";
@@ -406,6 +405,9 @@ void Render()
 	gotoXY (Vs_P1[0].CharLocation);
 	cout << char(254);
 
+	gotoXY (0, 45);
+	cout << "Your Score: ";
+
 	gotoXY (12, 40);
 	cout << I_Score;
 
@@ -426,7 +428,7 @@ void Timer()
         D_FoodTimer += 10.00000;
     }
 
-    if (D_FoodTimer - elapsedTime < 0.02000)
+    if (D_FoodTimer - elapsedTime < 0.1000)
     {
         gotoXY (coord_Special);
         cout << ' ';
@@ -483,7 +485,13 @@ bool CheckSpecialFood()
 
 void ScoreBoard()
 {
-	HiScore(I_Score);
+	cls();
+	string S_Name = "hue";
+	cout << "Enter your name: ";
+	cin >> S_Name;
+	cout << endl;
+	
+	HiScore(I_Score, S_Name);
 }
 
 void GG()
@@ -529,7 +537,7 @@ void Map2()
 {
 	ifstream PrintMap;
 
-	PrintMap.open("Map\\Cage.txt");
+	PrintMap.open("Map\\Box.txt");
 
     Array_2D = new char*[40];
 
@@ -766,17 +774,10 @@ void CheckCollision2()
 {
 	for (int i = 1; i < Vs_P1.size(); i++)
 	{
+		//Check collision for the snake's own body
 		if ( Vs_P1[0].CharLocation.X == Vs_P1[i].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P1[i].CharLocation.Y)
 		{
 			GB_GameOver = true;
-		}
-
-		for (int x = 0; x < Vs_P2.size(); x++)
-		{
-			if ( Vs_P1[0].CharLocation.X == Vs_P2[x].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[x].CharLocation.Y)
-			{
-				GB_GameOver = true;
-			}
 		}
 	}
 
@@ -786,14 +787,16 @@ void CheckCollision2()
 		{
 			GB_GameOver = true;
 		}
+	}
 
-		for (int x = 0; x < Vs_P1.size(); x++)
-		{
-			if ( Vs_P2[0].CharLocation.X == Vs_P1[x].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[x].CharLocation.Y)
-			{
-				GB_GameOver = true;
-			}
-		}
+	if (Vs_P1[0].CharLocation.X == Vs_P2[0].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[0].CharLocation.Y || Vs_P1[0].CharLocation.X == Vs_P2[1].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[1].CharLocation.Y)
+	{
+		GB_GameOver = true;
+	}
+
+	if (Vs_P2[0].CharLocation.X == Vs_P1[0].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[0].CharLocation.Y || Vs_P2[0].CharLocation.X == Vs_P1[1].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[1].CharLocation.Y)
+	{
+		GB_GameOver = true;
 	}
 
 	if (Array_2D[Vs_P1[0].CharLocation.Y][Vs_P1[0].CharLocation.X] == '1')
@@ -848,11 +851,10 @@ int UpdateSnake2()
 		Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
 		Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
 
-		I_P1Score += 10;
 		Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
 
-	else if (Vs_P2[0].CharLocation.X == coord_Apple.X && Vs_P2[0].CharLocation.Y == coord_Apple.Y)
+	if (Vs_P2[0].CharLocation.X == coord_Apple.X && Vs_P2[0].CharLocation.Y == coord_Apple.Y)
 	{
 		Beep (1045, 100);
 		B_FoodEaten = true;
@@ -862,11 +864,48 @@ int UpdateSnake2()
 		Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
 		Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.Y;
 
-		I_P2Score += 10;
 		Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
 
-	if (B_FoodEaten != true && I_Food == 0)
+	for (int i = 2; i < Vs_P2.size(); i++)
+	{
+		if ( Vs_P1[0].CharLocation.X == Vs_P2[i].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[i].CharLocation.Y)
+		{
+			for (int x = i; x < Vs_P2.size(); x++)
+			{
+				Vs_P1.push_back(s_Snake());
+
+				Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
+				Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
+
+				gotoXY (Vs_P2[Vs_P2.size()-1].CharLocation);
+				cout << ' ';
+
+				Vs_P2.erase(Vs_P2.begin() + (Vs_P2.size()-1));
+			}
+		}
+	}
+	
+	for (int i = 2; i < Vs_P1.size(); i++)
+	{
+		if ( Vs_P2[0].CharLocation.X == Vs_P1[i].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[i].CharLocation.Y)
+		{
+			for (int x = i; x < Vs_P1.size(); x++)
+			{
+				Vs_P2.push_back(s_Snake());
+
+				Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
+				Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.X;
+
+				gotoXY (Vs_P1[Vs_P1.size()-1].CharLocation);
+				cout << ' ';
+
+				Vs_P1.erase(Vs_P1.begin() + (Vs_P1.size()-1));
+			}
+		}
+	}
+
+	if (B_FoodEaten == false && I_Food == 0)
 	{
 		Spawn2();
 		I_Food++;
@@ -884,8 +923,6 @@ int UpdateSnake2()
 		Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
 		Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
 
-		I_P1Score += 20;
-
 		if (elapsedTime > I_Time)
 		{
 			I_Time += elapsedTime + 10;
@@ -895,7 +932,7 @@ int UpdateSnake2()
 		Array_2D[coord_Special.Y][coord_Special.X] = '0';
 	}
 
-	else if (Vs_P2[0].CharLocation.X == coord_Special.X && Vs_P2[0].CharLocation.Y == coord_Special.Y)
+	if (Vs_P2[0].CharLocation.X == coord_Special.X && Vs_P2[0].CharLocation.Y == coord_Special.Y)
 	{
 		Beep (1046, 100);
         Beep (1046, 100);
@@ -906,8 +943,6 @@ int UpdateSnake2()
 
 		Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
 		Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.Y;
-
-		I_P2Score += 20;
 
 		if (elapsedTime > I_Time)
 		{
@@ -1018,7 +1053,7 @@ void Timer2()
         D_FoodTimer += 10.00000;
     }
 
-    if (D_FoodTimer - elapsedTime < 0.02000)
+    if (D_FoodTimer - elapsedTime < 0.1000)
     {
         gotoXY (coord_Special);
         cout << ' ';
@@ -1083,6 +1118,22 @@ bool CheckSpecialFood2()
 
 void GG2()
 {
+	cls();
+	if ( Vs_P1.size() > Vs_P2.size())
+	{
+		cout << "PLayer 1 wins!" << endl;
+	}
+
+	else if ( Vs_P2.size() > Vs_P1.size())
+	{
+		cout << "Player 2 wins!" << endl;
+	}
+
+	else
+	{
+		cout << "Its a draw!" << endl;
+	}
+
 	I_Move = 4;
 	I_Prev = 0;
 	I_Move2 = 4;

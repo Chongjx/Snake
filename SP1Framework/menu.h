@@ -2,6 +2,9 @@
 #define _MENU_H
 
 #include "Framework\timer.h"
+#include <string>
+
+using std::string;
 
 enum E_Color
 {
@@ -31,7 +34,7 @@ void DisplayHighScore();
 void QuitGame();
 void ColorOptions();
 void Options();
-void HiScore(int);
+void HiScore(int, string);
 int GetInputMenu();
 
 #endif // _MENU_H
