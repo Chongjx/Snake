@@ -34,7 +34,7 @@ void HighScore();
 void DisplayHighScore();
 void QuitGame();
 void ColorOptions();
-void Options();
+int Options();
 void HiScore(int, string);
 int GetInputMenu();
 

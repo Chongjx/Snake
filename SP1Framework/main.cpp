@@ -34,13 +34,12 @@ int main()
 }
 
 // This main loop calls functions to get input, update and render the game
-
 void Game1()
 {
 	int I_Current = 500;
 	CreateSnake(3);
 	cls();
-	Map();
+	Map(1);
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{
@@ -58,7 +57,7 @@ void Game2()
 	int I_Current = 500;
 	CreateSnake2(3);
 	cls();
-	Map2();
+	Map2(1);
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{
