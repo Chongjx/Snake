@@ -98,7 +98,7 @@ void Map()
 
 	ifstream PrintMap;
 
-	PrintMap.open("Map\\Box.txt");
+	PrintMap.open("Map\\Cage.txt");
 
     Array_2D = new char*[40];
 
@@ -532,7 +532,7 @@ void Map2()
 {
 	ifstream PrintMap;
 
-	PrintMap.open("Map\\Maze.txt");
+	PrintMap.open("Map\\Cage.txt");
 
     Array_2D = new char*[40];
 
