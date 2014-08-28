@@ -6,6 +6,8 @@
 
 using std::string;
 
+extern int I_Map;
+
 enum E_Color
 {
 	E_LIGHTBLUE = 0,
@@ -34,7 +36,7 @@ void HighScore();
 void DisplayHighScore();
 void QuitGame();
 void ColorOptions();
-int Options();
+void Options();
 void HiScore(int, string);
 int GetInputMenu();
 
