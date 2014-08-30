@@ -21,9 +21,13 @@ int I_Frame = 0;
 
 int I_Map = 1;
 
+WORD ChosenColour[] = {0x7};
+WORD ChosenColour2[] = {0x7};
+
 int GetInputMenu()
 {
 	char C_Choice;
+	char C_Game;
 	C_Choice = getch();
 
 	switch(C_Choice)
@@ -31,26 +35,33 @@ int GetInputMenu()
 	case '1': // create a new function that ask the user to choose the gamemode he wants
 		cls();
 		GameAscii();
-		C_Choice = '0';
-		C_Choice = getch();
-		if (C_Choice == '1')
+		C_Game = getch();
+		if (C_Game == '1')
 		{
+			MapOptions();
+			cls();
+			ColourOptions();
+			cls();
 			Game1();
 			MainMenu();
 		}
-		else if (C_Choice == '2')
+		else if (C_Game == '2')
 		{
+			MapOptions();
+			cls();
+			ColourOptions2();
+			cls();
 			Game2();
 			MainMenu();
 		}
-		else if (C_Choice == '3')
+		else if (C_Game == '3')
 		{
 			MainMenu();
 		}
 		Sleep(200);
 		break;
 	case '2':	Instruction();
-		C_Choice = '0';
+		C_Choice;
 		C_Choice = getch();
 		if (C_Choice != 27)
 		{
@@ -63,7 +74,7 @@ int GetInputMenu()
 		Sleep(200);
 		break;
 	case '3':	HighScore();
-		C_Choice = '0';
+		C_Choice;
 		C_Choice = getch();
 		if (C_Choice != 27)
 		{
@@ -75,22 +86,8 @@ int GetInputMenu()
 		}
 		Sleep(200);
 		break;
-	case '4': Options();
-		C_Choice = '0';
-		C_Choice = getch();
-		if (C_Choice != 27)
+	case '4':
 		{
-			MainMenu();
-		}
-		else
-		{
-			MainMenu();
-		}
-		Sleep(200);
-		break;
-	case '5':
-		{
-			colour(0x02);
 			QuitGame();
 		}
 		break;
@@ -102,13 +99,12 @@ int GetInputMenu()
 void MainMenu()
 {
 	cls();
-	string S_Menu[5] = {"  /|   \\\n   |    |      _____          _____  __   __\n   |    |     |_____] |      |_____|   \\_/\n   |    |     |       |_____ |     |    |\n  ---  /" , //"PLAY" Ascii Art.
+	string S_Menu[4] = {"  /|   \\\n   |    |      _____          _____  __   __\n   |    |     |_____] |      |_____|   \\_/\n   |    |     |       |_____ |     |    |\n  ---  /" , //"PLAY" Ascii Art.
 		"  __   \\\n /  \\   |     _____ __   _ _______ _______  ______ _     _ _______ _______ _____  _____  __   _\n    /   |       |   | \\  | |______    |    |_____/ |     | |          |      |   |     | | \\  |\n   /    |     __|__ |  \\_| ______|    |    |    \\_ |_____| |_____     |    __|__ |_____| |  \\_|\n  /__  /" ,//"INSTRUCTION" Ascii Art.
 		"  __   \\\n /  \\   |     _     _ _____  ______ _     _  _____   _____   _____   ______  ______\n    /   |     |_____|   |   |  ____ |_____| |_____  |       |     | |_____/ |______\n    \\   |     |     | __|__ |_____| |     |  _____| |_____  |_____| |    \\_ |______\n \\__/  /" , //"HIGHSCORE" Ascii Art.
-		"   /|  \\\n  / |   |      _____   _____  _______ _____  _____   _   _  _____\n /__|__ |     |     | |_____]    |      |   |     | | \\  | |_____\n    |   |     |_____| |          |    __|__ |_____| |  \\_|  _____|\n    |  /", //"OPTIONS" Ascii Art.
 		"  ___  \\\n |      |      ______ _     _ _____ _______\n |___   |     |______  \\___/    |      |\n     |  |     |______ _/   \\_ __|__    |\n  ___| /"}; //"EXIT" Ascii Art.
 	int I_Choice = 0;
-	colour(0x02);
+	colour(0x7);
 	cout <<     "                       ******************************************************" << endl;
 	cout <<     "                       *   ______                       __                  *" << endl;
 	cout <<     "                       *  /      \\                     |  \\                 *" << endl;
@@ -122,16 +118,16 @@ void MainMenu()
 	cout <<     "                       *                                                    *" << endl;
 	cout <<     "                       ******************************************************" << endl;
 
-	for (int i = 0; i < 5; ++i)
+	for (int i = 0; i < 4; ++i)
 	{
 		if (i == I_Choice)
 		{
-			colour(0x02);
+			colour(0x7);
 			cout << S_Menu[i] << endl;
 		}
 		else
 		{
-			colour(0x02);
+			colour(0x7);
 			cout << S_Menu[i] << endl;
 		}
 	}
@@ -157,16 +153,15 @@ void Instruction()
 
 void HighScore()
 {
-	colour(0x02);
 	cls();
-	cout <<	   "                         _   _ ___ ____ _   _ ____   ____ ___  ____  _____ " << endl;
-	cout <<    "                        | | | |_ _/ ___| | | / ___| / ___/ _ \\|  _ \\| ____|" << endl;
-	cout <<    "                        | |_| || | |  _| |_| \\___ \\| |  | | | | |_) |  _|  " << endl;
-	cout <<    "                        |  _  || | |_| |  _  |___) | |__| |_| |  _ <| |___ " << endl;
-	cout <<    "                        |_| |_|___\\____|_| |_|____/ \\____\\___/|_| \\_\\_____|" << endl;
+	cout << "                         _   _ ___ ____ _   _ ____   ____ ___  ____  _____ " << endl;
+	cout << "                        | | | |_ _/ ___| | | / ___| / ___/ _ \\|  _ \\| ____|" << endl;
+	cout << "                        | |_| || | |  _| |_| \\___ \\| |  | | | | |_) |  _|  " << endl;
+	cout << "                        |  _  || | |_| |  _  |___) | |__| |_| |  _ <| |___ " << endl;
+	cout << "                        |_| |_|___\\____|_| |_|____/ \\____\\___/|_| \\_\\_____|" << endl;
 	cout << endl;
 	DisplayHighScore();
-	cout <<    "				          Press the any key to return to the main menu!" << endl;
+	cout << "			Press the any key to return to the main menu!" << endl;
 	cout << endl;
 }
 
@@ -177,171 +172,80 @@ void DisplayHighScore()
 	string S_DisplayScore;
 	string S_DisplayName;
 
-	DisplayScore.open("Highscore\\CageHighscore.txt");
+	DisplayScore.open("Highscore\\CageScore.txt");
 	DisplayName.open("Highscore\\CageName.txt");
 	cout << endl << endl;
-	cout << "					CAGE HIGHSCORES" << endl << endl;
+	cout << "				    CAGE HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore, S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
 		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
 	}
+	Sleep(500);
 
 	DisplayScore.close();
 	DisplayName.close();
 
-	DisplayScore.open("Highscore\\BoxHighscore.txt");
-	DisplayName.open("Highscore\\BoxName.txt");
+	DisplayScore.open("Highscore\\ChristmasScore.txt");
+	DisplayName.open("Highscore\\ChristmasName.txt");
 	cout << endl << endl;
-	cout << "					BOX HIGHSCORES" << endl << endl;
+	cout << "				    CHRISTMAS HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore,S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
 		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
 	}
+	Sleep(500);
 
 	DisplayScore.close();
 	DisplayName.close();
 
-	DisplayScore.open("Highscore\\MazeHighscore.txt");
+	DisplayScore.open("Highscore\\GardenScore.txt");
+	DisplayName.open("Highscore\\GardenName.txt");
+	cout << endl << endl;
+	cout << "				    GARDEN HIGHSCORES" << endl << endl;
+	while(!DisplayScore.eof())
+	{
+		getline(DisplayScore, S_DisplayScore);
+		getline(DisplayName, S_DisplayName);
+		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
+	}
+	Sleep(500);
+
+	DisplayScore.close();
+	DisplayName.close();
+
+	DisplayScore.open("Highscore\\MazeScore.txt");
 	DisplayName.open("Highscore\\MazeName.txt");
 	cout << endl << endl;
-	cout << "					MAZE HIGHSCORES" << endl << endl;
+	cout << "				    MAZE HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore, S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
 		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
 	}
+	Sleep(500);
 
 	DisplayScore.close();
 	DisplayName.close();
 
-	DisplayScore.open("Highscore\\MethHighscore.txt");
-	DisplayName.open("Highscore\\MethName.txt");
+	DisplayScore.open("Highscore\\MineScore.txt");
+	DisplayName.open("Highscore\\MineName.txt");
 	cout << endl << endl;
-	cout << "					METH HIGHSCORES" << endl << endl;
+	cout << "				    MINE HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore, S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
 		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
 	}
+	Sleep(500);
 
 	DisplayScore.close();
 	DisplayName.close();
-
-	DisplayScore.open("Highscore\\SmileHighscore.txt");
-	DisplayName.open("Highscore\\SmileName.txt");
-	cout << endl << endl;
-	cout << "					SMILE HIGHSCORES" << endl << endl;
-	while(!DisplayScore.eof())
-	{
-		getline(DisplayScore, S_DisplayScore);
-		getline(DisplayName, S_DisplayName);
-		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
-	}
-
-	DisplayScore.close();
-	DisplayName.close();
-}
-
-void QuitGame()
-{
-	cls();
-	cout << endl << endl << endl << endl << endl << endl;
-	cout << "                          _____ _   _    _    _   _ _  __ __   _____  _   _ " << endl;
-	cout << "                         |_   _| | | |  / \\  | \\ | | |/ / \\ \\ / / _ \\| | | |" << endl;
-	cout << "                           | | | |_| | / _ \\ |  \\| | ' /   \\ V / | | | | | |" << endl;
-	cout << "                           | | |  _  |/ ___ \\| |\\  | . \\    | || |_| | |_| |" << endl;
-	cout << "                           |_| |_| |_/_/   \\_\\_| \\_|_|\\_\\__ |_| \\___/ \\___/ " << endl;
-	cout << "                                            / \\  | \\ | |  _ \\                " << endl;
-	cout << "                                           / _ \\ |  \\| | | | |               " << endl;
-	cout << "                                          / ___ \\| |\\  | |_| |               " << endl;
-	cout << "                                ____  ___/_/___\\_\\_|_\\_|____/__   _______    " << endl;
-	cout << "                              / ___|/ _ \\ / _ \\|  _ \\  | __ ) \\ / / ____|   " << endl;
-	cout << "                             | |  _| | | | | | | | | | |  _ \\\\ V /|  _|     " << endl;
-	cout << "                             | |_| | |_| | |_| | |_| | | |_) || | | |___    " << endl;
-	cout << "                              \\____|\\___/ \\___/|____/  |____/ |_| |_____|   " << endl;
-	cout << endl;
-	cout << endl;
-	cout << "                                      ";
-	exit(0);
-}
-
-void Options()
-{
-	cls();
-	cout << endl << endl;
-	cout << "				1.Cage" << endl;
-	cout << "					   #########" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #########" << endl;
-	cout <<endl<<endl;
-	cout << "				2.Smile"<< endl;
-	cout << "					   #########" << endl;
-	cout << "					   # +   + #" << endl;
-	cout << "					   #*     *#" << endl;  
-	cout << "					   # * * * #" << endl;
-	cout << "					   #########" << endl;
-	cout<<endl<<endl;
-	cout << "				3.Maze" <<endl;
-	cout << "					   #########" << endl;
-	cout << "					   #_   ___#" << endl;
-	cout << "					   #___  __#" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #########" << endl;
-	cout<<endl<<endl;
-	cout << "				4.Meth"<<endl;
-	cout << "					   #########" << endl;
-	cout << "					   # ÷   + #" << endl;
-	cout << "					   # x   - #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #########" << endl;
-	cout <<endl<<endl;
-	cout << "				5.Box" <<endl;
-	cout << "					   #########" << endl;
-	cout << "					   # #   # #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   # #   # #" << endl;
-	cout << "					   #########" << endl;
-	cout<<endl<<endl;
-
-	char C_maps;
-	C_maps=getch();
-
-	switch(C_maps)
-	{
-	case '1':
-		{
-			I_Map = 1;
-		} break;
-	case '2':
-		{
-			I_Map = 2;
-		} break;
-	case '3':
-		{
-			I_Map = 3;
-		} break;
-	case '4':
-		{
-			I_Map = 4;
-		} break;
-	case '5':
-		{
-			I_Map = 5;
-		} break;
-
-	default :
-		{
-			I_Map = 1;
-		} break;
-	}
 }
 
 void HiScore(int I_PlayerScore, string S_Name)
@@ -356,7 +260,7 @@ void HiScore(int I_PlayerScore, string S_Name)
 	ofstream NewScore;
 	string S_Data;
 
-	int z = 0;
+	int I_StoreScore = 0;
 	//Player Name
 	string A_StoreName[5] = {" "};
 	string S_Temp = " ";
@@ -366,33 +270,57 @@ void HiScore(int I_PlayerScore, string S_Name)
 	ofstream NewName;
 	string S_DataName;
 
-	int x = 0;
+	int I_StoreName = 0;
 
 	cout << "					Your score is : " << I_PlayerScore << endl;
 	cout << endl;
 
-	PrintScore.open ("Highscore\\CageHighscore.txt");
-	PrintName.open("Highscore\\CageName.txt");
+	switch(I_Map)
+	{
+	case 1: 
+		{
+			PrintScore.open ("Highscore\\CageScore.txt");
+			PrintName.open ("Highscore\\CageName.txt");
+		} break;
+	case 2:
+		{
+			PrintScore.open ("Highscore\\ChristmasScore.txt");
+			PrintName.open ("Highscore\\ChristmasName.txt");
+		} break;
+	case 3:
+		{
+			PrintScore.open ("Highscore\\GardenScore.txt");
+			PrintName.open ("Highscore\\GardenName.txt");
+		} break;
+	case 4:
+		{
+			PrintScore.open ("Highscore\\MazeScore.txt");
+			PrintName.open ("Highscore\\MazeName.txt");
+		} break;
+	case 5:
+		{
+			PrintScore.open ("Highscore\\MineScore.txt");
+			PrintName.open ("Highscore\\MineName.txt");
+		} break;
+	}
 
 	//Storing Score into Array
-	for(int q = 0; q < 5; q++)
+
+	while(getline(PrintScore, S_Data) && I_StoreScore != 5)
 	{
-		while(getline(PrintScore, S_Data))
+		stringstream ss(S_Data);
+		while ( ss >> A_Store[I_StoreScore] )
 		{
-			stringstream ss(S_Data);
-			while ( ss >> A_Store[z] )
-			{
-				VI_Replace.push_back(A_Store[z]);
-				z++;
-			}
+			VI_Replace.push_back(A_Store[I_StoreScore]);
+			I_StoreScore++;
 		}
 	}
 
 	//Storing Name into Array
-	while(getline(PrintName, S_DataName) && x !=5)
+	while(getline(PrintName, S_DataName) && I_StoreName !=5)
 	{
-		A_StoreName[x] = S_DataName;
-		x++;
+		A_StoreName[I_StoreName] = S_DataName;
+		I_StoreName++;
 	}
 
 	for (int x = 0; x < 5; x++)
@@ -425,9 +353,34 @@ void HiScore(int I_PlayerScore, string S_Name)
 	PrintScore.close();
 	PrintName.close();
 
-	NewScore.open ("Highscore\\CageHighscore.txt");
-	NewName.open("Highscore\\CageName.txt");
-
+	switch(I_Map)
+	{
+	case 1: 
+		{
+			NewScore.open ("Highscore\\CageScore.txt");
+			NewName.open ("Highscore\\CageName.txt");
+		} break;
+	case 2:
+		{
+			NewScore.open ("Highscore\\ChristmasScore.txt");
+			NewName.open ("Highscore\\ChristmasName.txt");
+		} break;
+	case 3:
+		{
+			NewScore.open ("Highscore\\GardenScore.txt");
+			NewName.open ("Highscore\\GardenName.txt");
+		} break;
+	case 4:
+		{
+			NewScore.open ("Highscore\\MazeScore.txt");
+			NewName.open ("Highscore\\MazeName.txt");
+		} break;
+	case 5:
+		{
+			NewScore.open ("Highscore\\MineScore.txt");
+			NewName.open ("Highscore\\MineName.txt");
+		} break;
+	}
 
 	for(int p = 0; p < 5; p++)
 	{
@@ -441,8 +394,34 @@ void HiScore(int I_PlayerScore, string S_Name)
 	NewScore.close();
 	NewName.close();
 
-	PrintScore.open ("Highscore\\CageHighscore.txt");
-	PrintName.open("Highscore\\CageName.txt");
+	switch(I_Map)
+	{
+	case 1: 
+		{
+			PrintScore.open ("Highscore\\CageScore.txt");
+			PrintName.open ("Highscore\\CageName.txt");
+		} break;
+	case 2:
+		{
+			PrintScore.open ("Highscore\\ChristmasScore.txt");
+			PrintName.open ("Highscore\\ChristmasName.txt");
+		} break;
+	case 3:
+		{
+			PrintScore.open ("Highscore\\GardenScore.txt");
+			PrintName.open ("Highscore\\GardenName.txt");
+		} break;
+	case 4:
+		{
+			PrintScore.open ("Highscore\\MazeScore.txt");
+			PrintName.open ("Highscore\\MazeName.txt");
+		} break;
+	case 5:
+		{
+			PrintScore.open ("Highscore\\MineScore.txt");
+			PrintName.open ("Highscore\\MineName.txt");
+		} break;
+	}
 
 	while(!PrintScore.eof())
 	{
@@ -454,6 +433,190 @@ void HiScore(int I_PlayerScore, string S_Name)
 
 	PrintScore.close();
 	PrintName.close();
+}
+
+void QuitGame()
+{
+	cls();
+	cout << endl << endl << endl << endl << endl << endl;
+	cout << "                          _____ _   _    _    _   _ _  __ __   _____  _   _ " << endl;
+	cout << "                         |_   _| | | |  / \\  | \\ | | |/ / \\ \\ / / _ \\| | | |" << endl;
+	cout << "                           | | | |_| | / _ \\ |  \\| | ' /   \\ V / | | | | | |" << endl;
+	cout << "                           | | |  _  |/ ___ \\| |\\  | . \\    | || |_| | |_| |" << endl;
+	cout << "                           |_| |_| |_/_/   \\_\\_| \\_|_|\\_\\__ |_| \\___/ \\___/ " << endl;
+	cout << "                                            / \\  | \\ | |  _ \\                " << endl;
+	cout << "                                           / _ \\ |  \\| | | | |               " << endl;
+	cout << "                                          / ___ \\| |\\  | |_| |               " << endl;
+	cout << "                                ____  ___/_/___\\_\\_|_\\_|____/__   _______    " << endl;
+	cout << "                              / ___|/ _ \\ / _ \\|  _ \\  | __ ) \\ / / ____|   " << endl;
+	cout << "                             | |  _| | | | | | | | | | |  _ \\\\ V /|  _|     " << endl;
+	cout << "                             | |_| | |_| | |_| | |_| | | |_) || | | |___    " << endl;
+	cout << "                              \\____|\\___/ \\___/|____/  |____/ |_| |_____|   " << endl;
+	cout << endl;
+	cout << endl;
+	cout << "                                      ";
+	exit(0);
+}
+
+void MapOptions()
+{
+	cls();
+	cout << endl << endl;
+	cout << "				1.Cage" << endl;
+	cout << "					   #########" << endl;
+	cout << "					   #       #" << endl;
+	cout << "					   #       #" << endl;
+	cout << "					   #       #" << endl;
+	cout << "					   #########" << endl;
+	cout <<endl<<endl;
+	cout << "				2.Christmas"<< endl;
+	cout << "					   #########" << endl;
+	cout << "					   # +   + #" << endl;
+	cout << "					   #*     *#" << endl;  
+	cout << "					   # * * * #" << endl;
+	cout << "					   #########" << endl;
+	cout<<endl<<endl;
+	cout << "				3.Garden" <<endl;
+	cout << "					   #########" << endl;
+	cout << "					   #_   ___#" << endl;
+	cout << "					   #___  __#" << endl;
+	cout << "					   #       #" << endl;
+	cout << "					   #########" << endl;
+	cout<<endl<<endl;
+	cout << "				4.Maze"<<endl;
+	cout << "					   #########" << endl;
+	cout << "					   # ÷   + #" << endl;
+	cout << "					   # x   - #" << endl;
+	cout << "					   #       #" << endl;
+	cout << "					   #########" << endl;
+	cout <<endl<<endl;
+	cout << "				5.Mine" <<endl;
+	cout << "					   #########" << endl;
+	cout << "					   # #   # #" << endl;
+	cout << "					   #       #" << endl;
+	cout << "					   # #   # #" << endl;
+	cout << "					   #########" << endl;
+	cout<<endl<<endl;
+
+	char C_Maps;
+	C_Maps = getch();
+
+	switch(C_Maps)
+	{
+	case '1':
+		{
+			I_Map = 1;
+		} break;
+	case '2':
+		{
+			I_Map = 2;
+		} break;
+	case '3':
+		{
+			I_Map = 3;
+		} break;
+	case '4':
+		{
+			I_Map = 4;
+		} break;
+	case '5':
+		{
+			I_Map = 5;
+		} break;
+
+	default :
+		{
+			I_Map = 1;
+		} break;
+	}
+}
+
+void ColourOptions()
+{
+	cout << "				Player 1 choose the colour of your snake!" << endl;
+	colour(0x9);
+	cout << "						1) OOOOOO" << endl;
+	colour(0xB);
+	cout << "						2) OOOOOO" << endl;
+	colour(0xD);
+	cout << "						3) OOOOOO" << endl;
+	colour(0xE);
+	cout << "						4) OOOOOO" << endl;
+	colour(0x7);
+	char C_Colour = '0';
+	C_Colour = getch();
+	cout << "						You have chosen ";
+	switch (C_Colour - 48)
+	{
+		case BLUE: colour(0x9); ChosenColour[0] = 0x9;
+			break;
+		case CYAN: colour(0xB); ChosenColour[0] = 0xB;
+			break;
+		case PURPLE: colour(0xD); ChosenColour[0] = 0xD;
+			break;
+		case YELLOW: colour(0xE); ChosenColour[0] = 0xE;
+			break;
+	}
+	cout << "OOOOOO" << endl;
+}
+
+void ColourOptions2()
+{
+	cout << "				Player 1 choose the colour of your snake!" << endl;
+	colour(0x9);
+	cout << "						1) OOOOOO" << endl;
+	colour(0xB);
+	cout << "						2) OOOOOO" << endl;
+	colour(0xD);
+	cout << "						3) OOOOOO" << endl;
+	colour(0xE);
+	cout << "						4) OOOOOO" << endl;
+	colour(0x7);
+	cout << "					Choose your colour: ";
+	char C_Colour = '0';
+	C_Colour = getch();
+	cout << "						You have chosen ";
+	switch (C_Colour - 48)
+	{
+		case BLUE: colour(0x9); ChosenColour[0] = 0x9;
+			break;
+		case CYAN: colour(0xB); ChosenColour[0] = 0xB;
+			break;
+		case PURPLE: colour(0xD); ChosenColour[0] = 0xD;
+			break;
+		case YELLOW: colour(0xE); ChosenColour[0] = 0xE;
+			break;
+	}
+	cout << "OOOOOO" << endl;
+
+	cls();
+	colour (0x7);
+	cout << "				Player 2 choose the colour of your snake!" << endl;
+	colour(0x9);
+	cout << "						1) OOOOOO" << endl;
+	colour(0xB);
+	cout << "						2) OOOOOO" << endl;
+	colour(0xD);
+	cout << "						3) OOOOOO" << endl;
+	colour(0xE);
+	cout << "						4) OOOOOO" << endl;
+	colour(0x7);
+	cout << "					Choose your colour: ";
+	C_Colour = '0';
+	C_Colour = getch();
+	cout << "						You have chosen ";
+	switch (C_Colour - 48)
+	{
+		case BLUE: colour(0x9); ChosenColour2[0] = 0x9;
+			break;
+		case CYAN: colour(0xB); ChosenColour2[0] = 0xB;
+			break;
+		case PURPLE: colour(0xD); ChosenColour2[0] = 0xD;
+			break;
+		case YELLOW: colour(0xE); ChosenColour2[0] = 0xE;
+			break;
+	}
+	cout << "OOOOOO" << endl;
 }
 
 void GameAscii()

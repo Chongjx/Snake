@@ -6,10 +6,9 @@
 #include "menu.h"
 
 StopWatch g_timer;            // Timer function to keep track of time and the frame rate
-bool GB_QuitGame = false;      // Set to true if you want to quit the game
+bool GB_QuitGame = false;     // Set to true if you want to quit the game
 bool GB_GameOver = false;
 const unsigned char FPS = 5; // FPS of this game
-int I_MapChoice = 1;
 
 void mainLoop();
 
@@ -39,8 +38,8 @@ void Game1()
 {
 	int I_Current = 500;
 	CreateSnake(3);
-	cls();
-	Map(I_Map);
+	colour (0x7);
+	Map();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{
@@ -49,6 +48,7 @@ void Game1()
 		Render();							 // render the graphics output to screen
 		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
+	colour(0x7);
 	ScoreBoard();
 	GG();
 }
@@ -57,8 +57,8 @@ void Game2()
 {
 	int I_Current = 500;
 	CreateSnake2(3);
-	cls();
-	Map2(I_Map);
+	colour (0x7);
+	Map2();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{

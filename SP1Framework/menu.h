@@ -6,15 +6,15 @@
 
 using std::string;
 
-extern int I_Map;
+extern WORD ChosenColour[];
+extern WORD ChosenColour2[];
 
-enum E_Color
+enum E_Colours
 {
-	E_LIGHTBLUE = 0,
-	E_GREEN,
-	E_PINK,
-	E_YELLOW,
-	MAX_COLOR
+	BLUE = 1,
+	CYAN,
+	PURPLE,
+	YELLOW,
 };
 
 enum E_Squence
@@ -35,9 +35,13 @@ void Game2();
 void HighScore();
 void DisplayHighScore();
 void QuitGame();
-void ColorOptions();
-void Options();
+void ColourOptions();
+void ColourOptions2();
+void MapOptions();
+void MapOptions2();
 void HiScore(int, string);
 int GetInputMenu();
+
+extern int I_Map;
 
 #endif // _MENU_H
