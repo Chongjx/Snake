@@ -522,7 +522,7 @@ void ScoreBoard()
 {
 	cls();
 	string S_Name;
-	cout << "Enter your name: ";
+	cout << "                    Enter your name: ";
 	getline (cin, S_Name);
 	cout << endl;
 

@@ -99,69 +99,46 @@ int GetInputMenu()
 void MainMenu()
 {
 	cls();
-	string S_Menu[4] = {"  /|   \\\n   |    |      _____          _____  __   __\n   |    |     |_____] |      |_____|   \\_/\n   |    |     |       |_____ |     |    |\n  ---  /" , //"PLAY" Ascii Art.
-		"  __   \\\n /  \\   |     _____ __   _ _______ _______  ______ _     _ _______ _______ _____  _____  __   _\n    /   |       |   | \\  | |______    |    |_____/ |     | |          |      |   |     | | \\  |\n   /    |     __|__ |  \\_| ______|    |    |    \\_ |_____| |_____     |    __|__ |_____| |  \\_|\n  /__  /" ,//"INSTRUCTION" Ascii Art.
-		"  __   \\\n /  \\   |     _     _ _____  ______ _     _  _____   _____   _____   ______  ______\n    /   |     |_____|   |   |  ____ |_____| |_____  |       |     | |_____/ |______\n    \\   |     |     | __|__ |_____| |     |  _____| |_____  |_____| |    \\_ |______\n \\__/  /" , //"HIGHSCORE" Ascii Art.
-		"  ___  \\\n |      |      ______ _     _ _____ _______\n |___   |     |______  \\___/    |      |\n     |  |     |______ _/   \\_ __|__    |\n  ___| /"}; //"EXIT" Ascii Art.
-	int I_Choice = 0;
-	colour(0x2);
-	cout <<     "                       ******************************************************" << endl;
-	cout <<     "                       *   ______                       __                  *" << endl;
-	cout <<     "                       *  /      \\                     |  \\                 *" << endl;
-	cout <<     "                       * |  SSSSSS\\ _______    ______  | kk   __   ______   *" << endl;
-	cout <<     "                       * | SS___\\SS|       \\  |      \\ | kk  /  \\ /      \\  *" << endl;
-	cout <<     "                       *  \\SS    \\ | nnnnnnn\\  \\aaaaaa\\| kk_/  kk|  eeeeee\\ *" << endl;
-	cout <<     "                       *  _\\SSSSSS\\| nn  | nn /      aa| kk   kk | ee    ee *" << endl;
-	cout <<     "                       * |  \\__| SS| nn  | nn|  aaaaaaa| kkkkkk\\ | eeeeeeee *" << endl;
-	cout <<     "                       *  \\SS    SS| nn  | nn \\aa    aa| kk  \\kk\\ \\ee     \\ *" << endl;
-	cout <<     "                       *   \\SSSSSS  \\nn   \\nn  \\aaaaaaa \\kk   \\kk  \\eeeeeee *" << endl; 
-	cout <<     "                       *                                                    *" << endl;
-	cout <<     "                       ******************************************************" << endl;
-
-	for (int i = 0; i < 4; ++i)
-	{
-		if (i == I_Choice)
-		{
-			colour(0x2);
-			cout << S_Menu[i] << endl;
-		}
-		else
-		{
-			colour(0x2);
-			cout << S_Menu[i] << endl;
-		}
-	}
+    colour(0x2);
+    ifstream Snake;
+    string S_Snake;
+    Snake.open("AsciiArt\\Snake.txt");
+    while(!Snake.eof())
+    {
+        getline(Snake,S_Snake);
+        cout << S_Snake << endl;
+    }
 	Sleep (200);
 }
 
 void Instruction()
 {
 	cls();
+    ifstream Instruction;
+    string S_Instruction;
+    Instruction.open("AsciiArt\\Instructions.txt");
+    while(!Instruction.eof())
+    {
+        getline(Instruction , S_Instruction);
+        cout << S_Instruction << endl;
+    }
 	cout << endl << endl << endl << endl << endl;
-	cout << "                        _           _                   _   _                  " << endl;
-	cout << "                       (_)_ __  ___| |_ _ __ _   _  ___| |_(_) ___  _ __  ___  " << endl;
-	cout << "                       | | '_ \\/ __| __| '__| | | |/ __| __| |/ _ \\| '_ \\/ __| " << endl;
-	cout << "                       | | | | \\__ \\ |_| |  | |_| | (__| |_| | (_) | | | \\__ \\ " << endl;
-	cout << "                       |_|_| |_|___/\\__|_|   \\__,_|\\___|\\__|_|\\___/|_| |_|___/ " << endl << endl;
-	cout << "                                             How to play?" << endl << endl;
-	cout << "                       Use the arrow keys to direct the movement of the snake."<< endl; 
-	cout << "                   Eat more food produced randomly in the map to progress further."<< endl;
-	cout << "                       The game gets more challenging as the snake gets longer."<< endl; 
-	cout << "             However,the snake will die if it touches its own body or touches the walls."<< endl << endl;
-	cout << "                             Press any key to return to the main menu!" << endl;
 }
 
 void HighScore()
 {
 	cls();
-	cout << "                         _   _ ___ ____ _   _ ____   ____ ___  ____  _____ " << endl;
-	cout << "                        | | | |_ _/ ___| | | / ___| / ___/ _ \\|  _ \\| ____|" << endl;
-	cout << "                        | |_| || | |  _| |_| \\___ \\| |  | | | | |_) |  _|  " << endl;
-	cout << "                        |  _  || | |_| |  _  |___) | |__| |_| |  _ <| |___ " << endl;
-	cout << "                        |_| |_|___\\____|_| |_|____/ \\____\\___/|_| \\_\\_____|" << endl;
-	cout << endl;
+    ifstream HighScore;
+    string S_HighScore;
+    HighScore.open("AsciiArt\\HighScore.txt");
+    while(!HighScore.eof())
+    {
+        getline(HighScore,S_HighScore);
+        cout << S_HighScore << endl;
+    }
+    cout << endl;
 	DisplayHighScore();
-	cout << "			Press the any key to return to the main menu!" << endl;
+	cout << "                             Press the any key to return to the main menu!" << endl;
 	cout << endl;
 }
 
@@ -175,12 +152,12 @@ void DisplayHighScore()
 	DisplayScore.open("Highscore\\CageScore.txt");
 	DisplayName.open("Highscore\\CageName.txt");
 	cout << endl << endl;
-	cout << "				    CAGE HIGHSCORES" << endl << endl;
+	cout << "                                            CAGE HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore, S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
-		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
+		cout << "                                               " << S_DisplayName << "  " << S_DisplayScore << endl;
 	}
 	Sleep(500);
 
@@ -190,12 +167,12 @@ void DisplayHighScore()
 	DisplayScore.open("Highscore\\ChristmasScore.txt");
 	DisplayName.open("Highscore\\ChristmasName.txt");
 	cout << endl << endl;
-	cout << "				    CHRISTMAS HIGHSCORES" << endl << endl;
+	cout << "                                            CHRISTMAS HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore,S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
-		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
+		cout << "                                               " << S_DisplayName << "  " << S_DisplayScore << endl;
 	}
 	Sleep(500);
 
@@ -205,12 +182,12 @@ void DisplayHighScore()
 	DisplayScore.open("Highscore\\GardenScore.txt");
 	DisplayName.open("Highscore\\GardenName.txt");
 	cout << endl << endl;
-	cout << "				    GARDEN HIGHSCORES" << endl << endl;
+	cout << "                                            GARDEN HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore, S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
-		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
+		cout << "                                               " << S_DisplayName << "  " << S_DisplayScore << endl;
 	}
 	Sleep(500);
 
@@ -220,12 +197,12 @@ void DisplayHighScore()
 	DisplayScore.open("Highscore\\MazeScore.txt");
 	DisplayName.open("Highscore\\MazeName.txt");
 	cout << endl << endl;
-	cout << "				    MAZE HIGHSCORES" << endl << endl;
+	cout << "                                            MAZE HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore, S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
-		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
+		cout << "                                              " << S_DisplayName << "  " << S_DisplayScore << endl;
 	}
 	Sleep(500);
 
@@ -235,12 +212,12 @@ void DisplayHighScore()
 	DisplayScore.open("Highscore\\MineScore.txt");
 	DisplayName.open("Highscore\\MineName.txt");
 	cout << endl << endl;
-	cout << "				    MINE HIGHSCORES" << endl << endl;
+	cout << "                                            MINE HIGHSCORES" << endl << endl;
 	while(!DisplayScore.eof())
 	{
 		getline(DisplayScore, S_DisplayScore);
 		getline(DisplayName, S_DisplayName);
-		cout << "					" << S_DisplayName << "	" << S_DisplayScore << endl;
+		cout << "                                              " << S_DisplayName << "  " << S_DisplayScore << endl;
 	}
 	Sleep(500);
 
@@ -438,22 +415,14 @@ void HiScore(int I_PlayerScore, string S_Name)
 void QuitGame()
 {
 	cls();
-	cout << endl << endl << endl << endl << endl << endl;
-	cout << "                          _____ _   _    _    _   _ _  __ __   _____  _   _ " << endl;
-	cout << "                         |_   _| | | |  / \\  | \\ | | |/ / \\ \\ / / _ \\| | | |" << endl;
-	cout << "                           | | | |_| | / _ \\ |  \\| | ' /   \\ V / | | | | | |" << endl;
-	cout << "                           | | |  _  |/ ___ \\| |\\  | . \\    | || |_| | |_| |" << endl;
-	cout << "                           |_| |_| |_/_/   \\_\\_| \\_|_|\\_\\__ |_| \\___/ \\___/ " << endl;
-	cout << "                                            / \\  | \\ | |  _ \\                " << endl;
-	cout << "                                           / _ \\ |  \\| | | | |               " << endl;
-	cout << "                                          / ___ \\| |\\  | |_| |               " << endl;
-	cout << "                                ____  ___/_/___\\_\\_|_\\_|____/__   _______    " << endl;
-	cout << "                              / ___|/ _ \\ / _ \\|  _ \\  | __ ) \\ / / ____|   " << endl;
-	cout << "                             | |  _| | | | | | | | | | |  _ \\\\ V /|  _|     " << endl;
-	cout << "                             | |_| | |_| | |_| | |_| | | |_) || | | |___    " << endl;
-	cout << "                              \\____|\\___/ \\___/|____/  |____/ |_| |_____|   " << endl;
-	cout << endl;
-	cout << endl;
+    ifstream QuitGame;
+    string S_QuitGame;
+    QuitGame.open("AsciiArt\\QuitGame.txt");
+    while(!QuitGame.eof())
+    {
+        getline(QuitGame,S_QuitGame);
+        cout << S_QuitGame << endl;
+    }
 	cout << "                                      ";
 	exit(0);
 }
@@ -461,42 +430,15 @@ void QuitGame()
 void MapOptions()
 {
 	cls();
-	cout << endl << endl;
-	cout << "				1.Cage" << endl;
-	cout << "					   #########" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #########" << endl;
-	cout <<endl<<endl;
-	cout << "				2.Christmas"<< endl;
-	cout << "					   #########" << endl;
-	cout << "					   # +   + #" << endl;
-	cout << "					   #*     *#" << endl;  
-	cout << "					   # * * * #" << endl;
-	cout << "					   #########" << endl;
-	cout<<endl<<endl;
-	cout << "				3.Garden" <<endl;
-	cout << "					   #########" << endl;
-	cout << "					   #_   ___#" << endl;
-	cout << "					   #___  __#" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #########" << endl;
-	cout<<endl<<endl;
-	cout << "				4.Maze"<<endl;
-	cout << "					   #########" << endl;
-	cout << "					   # ÷   + #" << endl;
-	cout << "					   # x   - #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   #########" << endl;
-	cout <<endl<<endl;
-	cout << "				5.Mine" <<endl;
-	cout << "					   #########" << endl;
-	cout << "					   #  * *  #" << endl;
-	cout << "					   # * * * #" << endl;
-	cout << "					   #  * *  #" << endl;
-	cout << "					   #########" << endl;
-	cout<<endl<<endl;
+    ifstream MapOptions;
+    string S_MapOptions;
+    MapOptions.open("AsciiArt\\MapOptions.txt");
+    while(!MapOptions.eof())
+    {
+        getline(MapOptions,S_MapOptions);
+        cout << S_MapOptions << endl;
+    }
+
 
 	char C_Maps;
 	C_Maps = getch();
@@ -550,19 +492,61 @@ void CreateMap()
 
 void ColourOptions()
 {
-	cout << "				Player 1 choose the colour of your snake!" << endl;
+	ifstream Player1;
+    ifstream Blue;
+    ifstream Cyan;
+    ifstream Purple;
+    ifstream Yellow;
+    ifstream CYC;
+    string S_Player1;
+    string S_Blue;
+    string S_Cyan;
+    string S_Purple;
+    string S_Yellow;
+    string S_CYC;
+    Player1.open("AsciiArt\\Player1.txt");
+    while(!Player1.eof())
+    {
+        getline(Player1,S_Player1);
+        cout << S_Player1 << endl;
+    }
 	colour(0x9);
-	cout << "						1) OOOOOO" << endl;
+	Blue.open("AsciiArt\\Blue.txt");
+    while(!Blue.eof())
+    {
+        getline(Blue,S_Blue);
+        cout << S_Blue << endl;
+    }
 	colour(0xB);
-	cout << "						2) OOOOOO" << endl;
+	Cyan.open("AsciiArt\\Cyan.txt");
+    while(!Cyan.eof())
+    {
+        getline(Cyan,S_Cyan);
+        cout << S_Cyan << endl;
+    }
 	colour(0xD);
-	cout << "						3) OOOOOO" << endl;
+	Purple.open("AsciiArt\\Purple.txt");
+    while(!Purple.eof())
+    {
+        getline(Purple,S_Purple);
+        cout << S_Purple << endl;
+    }
 	colour(0xE);
-	cout << "						4) OOOOOO" << endl;
+	Yellow.open("AsciiArt\\Yellow.txt");
+    while(!Yellow.eof())
+    {
+        getline(Yellow,S_Yellow);
+        cout << S_Yellow << endl;
+    }
 	colour(0x2);
+    CYC.open("AsciiArt\\CYC.txt");
+    while(!CYC.eof())
+    {
+        getline(CYC,S_CYC);
+        cout << S_CYC << endl;
+    }
 	char C_Colour = '0';
 	C_Colour = getch();
-	cout << "						You have chosen ";
 	switch (C_Colour - 48)
 	{
 		case BLUE: colour(0x9); ChosenColour[0] = 0x9;
@@ -574,25 +558,77 @@ void ColourOptions()
 		case YELLOW: colour(0xE); ChosenColour[0] = 0xE;
 			break;
 	}
-	cout << "OOOOOO" << endl;
 }
 
 void ColourOptions2()
 {
-	cout << "				Player 1 choose the colour of your snake!" << endl;
+	ifstream Player1;
+    ifstream Player2;
+    ifstream Blue;
+    ifstream Blue2;
+    ifstream Cyan;
+    ifstream Cyan2;
+    ifstream Purple;
+    ifstream Purple2;
+    ifstream Yellow;
+    ifstream Yellow2;
+    ifstream CYC;
+    ifstream CYC2;
+    string S_Player1;
+    string S_Player2;
+    string S_Blue;
+    string S_Blue2;
+    string S_Cyan;
+    string S_Cyan2;
+    string S_Purple;
+    string S_Purple2;
+    string S_Yellow;
+    string S_Yellow2;
+    string S_CYC;
+    string S_CYC2;
+    Player1.open("AsciiArt\\Player1.txt");
+    while(!Player1.eof())
+    {
+        getline(Player1,S_Player1);
+        cout << S_Player1 << endl;
+    }
 	colour(0x9);
-	cout << "						1) OOOOOO" << endl;
+	Blue.open("AsciiArt\\Blue.txt");
+    while(!Blue.eof())
+    {
+        getline(Blue,S_Blue);
+        cout << S_Blue << endl;
+    }
 	colour(0xB);
-	cout << "						2) OOOOOO" << endl;
+	Cyan.open("AsciiArt\\Cyan.txt");
+    while(!Cyan.eof())
+    {
+        getline(Cyan,S_Cyan);
+        cout << S_Cyan << endl;
+    }
 	colour(0xD);
-	cout << "						3) OOOOOO" << endl;
+	Purple.open("AsciiArt\\Purple.txt");
+    while(!Purple.eof())
+    {
+        getline(Purple,S_Purple);
+        cout << S_Purple << endl;
+    }
 	colour(0xE);
-	cout << "						4) OOOOOO" << endl;
+	Yellow.open("AsciiArt\\Yellow.txt");
+    while(!Yellow.eof())
+    {
+        getline(Yellow,S_Yellow);
+        cout << S_Yellow << endl;
+    }
 	colour(0x2);
-	cout << "					Choose your colour: ";
+	CYC.open("AsciiArt\\CYC.txt");
+    while(!CYC.eof())
+    {
+        getline(CYC,S_CYC);
+        cout << S_CYC << endl;
+    }
 	char C_Colour = '0';
 	C_Colour = getch();
-	cout << "						You have chosen ";
 	switch (C_Colour - 48)
 	{
 		case BLUE: colour(0x9); ChosenColour[0] = 0x9;
@@ -604,24 +640,52 @@ void ColourOptions2()
 		case YELLOW: colour(0xE); ChosenColour[0] = 0xE;
 			break;
 	}
-	cout << "OOOOOO" << endl;
 
-	cls();
+    cls();
 	colour (0x2);
-	cout << "				Player 2 choose the colour of your snake!" << endl;
+	Player2.open("AsciiArt\\Player2.txt");
+    while(!Player2.eof())
+    {
+        getline(Player2,S_Player2);
+        cout << S_Player2 << endl;
+    }
 	colour(0x9);
-	cout << "						1) OOOOOO" << endl;
+	Blue2.open("AsciiArt\\Blue.txt");
+    while(!Blue2.eof())
+    {
+        getline(Blue2,S_Blue2);
+        cout << S_Blue2 << endl;
+    }
 	colour(0xB);
-	cout << "						2) OOOOOO" << endl;
+	Cyan2.open("AsciiArt\\Cyan.txt");
+    while(!Cyan2.eof())
+    {
+        getline(Cyan2,S_Cyan2);
+        cout << S_Cyan2 << endl;
+    }
 	colour(0xD);
-	cout << "						3) OOOOOO" << endl;
+	Purple2.open("AsciiArt\\Purple.txt");
+    while(!Purple2.eof())
+    {
+        getline(Purple2,S_Purple2);
+        cout << S_Purple2 << endl;
+    }
 	colour(0xE);
-	cout << "						4) OOOOOO" << endl;
+	Yellow2.open("AsciiArt\\Yellow.txt");
+    while(!Yellow2.eof())
+    {
+        getline(Yellow2,S_Yellow2);
+        cout << S_Yellow2 << endl;
+    }
 	colour(0x2);
-	cout << "					Choose your colour: ";
+	CYC2.open("AsciiArt\\CYC.txt");
+    while(!CYC2.eof())
+    {
+        getline(CYC2,S_CYC2);
+        cout << S_CYC2 << endl;
+    }
 	C_Colour = '0';
 	C_Colour = getch();
-	cout << "						You have chosen ";
 	switch (C_Colour - 48)
 	{
 		case BLUE: colour(0x9); ChosenColour2[0] = 0x9;
@@ -633,34 +697,16 @@ void ColourOptions2()
 		case YELLOW: colour(0xE); ChosenColour2[0] = 0xE;
 			break;
 	}
-	cout << "OOOOOO" << endl;
 }
 
 void GameAscii()
 {
-	cout << endl << endl << endl << endl << endl << endl << endl << endl << endl;
-	cout <<               "                       **********************************************************"   << endl;
-	cout <<               "                       *               ______                                   *"   << endl;                 
-	cout <<               "                       *              |   __ \\.----.-----.-----.-----.          *"  << endl; 
-	cout <<               "                       *              |    __/|   _|  -__|__ --|__ --|          *"   << endl;
-	cout <<               "                       *              |___|   |__| |_____|_____|_____|          *"   << endl;
-	cout <<               "                       *                                                        *"   << endl;
-	cout <<               "                       *   ____               __                                *"   << endl;
-	cout <<               "                       *  |_   |      .-----.|  |.---.-.--.--.-----.----.       *"   << endl;
-	cout <<               "                       *   _|  |_     |  _  ||  ||  _  |  |  |  -__|   _|       *"   << endl;
-	cout <<               "                       *  |______|    |   __||__||___._|___  |_____|__|         *"   << endl;
-	cout <<               "                       *              |__|             |_____|                  *"   << endl;
-	cout <<               "                       *                                                        *"   << endl;
-	cout <<               "                       *              .-----.----.                              *"   << endl;
-	cout <<               "                       *              |  _  |   _|                              *"   << endl;
-	cout <<               "                       *              |_____|__|                                *"   << endl;
-	cout <<               "                       *                                                        *"   << endl;
-	cout <<               "                       *   ______             __                                *"   << endl;
-	cout <<               "                       *  |__    |    .-----.|  |.---.-.--.--.-----.----.-----. *"   << endl;
-	cout <<               "                       *  |    __|    |  _  ||  ||  _  |  |  |  -__|   _|__ --| *"   << endl;
-	cout <<               "                       *  |______|    |   __||__||___._|___  |_____|__| |_____| *"   << endl;
-	cout <<               "                       *              |__|             |_____|                  *"   << endl;
-	cout <<               "                       *                                                        *"   << endl;
-	cout <<               "                       **********************************************************"   << endl << endl;
-	cout <<               "                                      Press 3 to go back to main menu            "   << endl;
+    ifstream Players;
+    string S_Players;
+    Players.open("AsciiArt\\Players.txt");
+    while(!Players.eof())
+    {
+        getline(Players,S_Players);
+        cout << S_Players << endl;
+    }
 }

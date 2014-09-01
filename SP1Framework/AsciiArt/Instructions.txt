@@ -1,0 +1,32 @@
+                      _____           _                   _   _                 
+                     |_   _|         | |                 | | (_)                
+                       | |  _ __  ___| |_ _ __ _   _  ___| |_ _  ___  _ __  ___ 
+                       | | | '_ \/ __| __| '__| | | |/ __| __| |/ _ \| '_ \/ __|
+                      _| |_| | | \__ \ |_| |  | |_| | (__| |_| | (_) | | | \__ \
+                     |_____|_| |_|___/\__|_|   \__,_|\___|\__|_|\___/|_| |_|___/
+
+                                            -1 Player-       
+       
+          *******************************************************************************
+          *                                 How to play?                                *
+          *            Use the arrow keys to direct the movement of the snake.          *
+          *       Eat more food produced randomly in the map to progress further.       *
+          *           The game gets more challenging as the snake gets longer.          *
+          * However,the snake will die if it touches its own body or touches the walls. *
+	  *                                                                             *
+          *******************************************************************************
+                                              
+                                            -2 Players-
+					
+          *******************************************************************************
+          *                                 How to play?                                *
+	  *                           Eat more food to grow!                            *
+          *                     Player 1 will move with arrow keys.                     *
+          *                        Player 2 will move with WASD.                        *
+	  *	       Snakes can eat each other's tails to gain their length.          *
+          *              If both player's head meet, the longest snake wins!            *
+          *                 If one of the snake dies, the other one wins.               *
+          *                                                                             *
+          *******************************************************************************
+
+				     Press Any Key To Continue
