@@ -20,13 +20,14 @@ using std::ifstream;
 using std::vector;
 
 COORD coord_ConsoleSize;
+COORD coord_Block;
+COORD coord_Apple;
+COORD coord_Special;
 
 double elapsedTime;
 double deltaTime;
 double D_FoodTimer;
 double D_Time;
-COORD coord_Apple;
-COORD coord_Special;
 int I_Score;
 int I_Food;
 int I_Special;
@@ -38,8 +39,10 @@ int I_Current;
 int I_Bonus;
 
 char **Array_2D;
+char **Custom_2D;
 bool KeyPressed[E_COUNT];
 bool KeyPressed2[EP2_COUNT];
+bool KeyPressedMap[E_MAPCOUNT];
 vector<s_Snake> Vs_P1;
 vector<s_Snake> Vs_P2;
 WORD ChosenColour[];
@@ -94,6 +97,70 @@ void CreateSnake(int size)
 		Vs_P1[i].CharLocation.Y = 3-i;
 	}
 }
+
+/*void CreateMap()
+{
+	bool B_Complete = false;
+
+	colour (0x7);
+	cout << "0 - Blank" << endl;
+	colour (0x2);
+	cout << "1 - " << char(178);
+	colour (0x6);
+	cout << "2 - " << char(254);
+	colour (0xC);
+	cout << "3 - " << char(219);
+
+	while (B_Complete == false)
+	{
+		GetMap();
+		UpdateCustom();
+	}
+	
+	ifstream CustomMap;
+	CustomMap.open ("Map\\Custom.txt");
+
+	Custom_2D = new char*[40];
+
+	for (int row = 0; row < Height; row++)
+	{
+		Custom_2D[row] = new char[100];
+		for (int col = 0; col < Width; col++)
+		{
+			{
+				CustomMap >> Custom_2D[row][col];
+			}
+		}
+	}
+}*/
+
+/*void UpdateCustom()
+{
+    // Updating the location of the character based on the key press
+	if (keyPressedMap[E_MAPUP] && coord_Block.X > 1)
+    {
+        charLocation.Y--; 
+    }
+    if (keyPressed[K_LEFT] && charLocation.X > 0)
+    {
+        Beep(1440, 30);
+        charLocation.X--; 
+    }
+    if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
+    {
+        Beep(1440, 30);
+        charLocation.Y++; 
+    }
+    if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
+    {
+        Beep(1440, 30);
+        charLocation.X++; 
+    }
+
+    // quits the game if player hits the escape key
+    if (keyPressed[K_ESCAPE])
+        g_quitGame = true;    
+}*/
 
 void Map()
 {
@@ -181,6 +248,15 @@ void GetInput()
 	KeyPressed[E_DOWN] = isKeyPressed(VK_DOWN);
 	KeyPressed[E_LEFT] = isKeyPressed(VK_LEFT);
 	KeyPressed[E_RIGHT] = isKeyPressed(VK_RIGHT);
+}
+
+void GetMap()
+{
+	KeyPressedMap[E_MAPUP] = isKeyPressed(VK_UP);
+	KeyPressedMap[E_MAPDOWN] = isKeyPressed(VK_DOWN);
+	KeyPressedMap[E_MAPLEFT] = isKeyPressed(VK_LEFT);
+	KeyPressedMap[E_MAPRIGHT] = isKeyPressed(VK_RIGHT);
+	KeyPressedMap[E_MAPESCAPE] = isKeyPressed(VK_RETURN);
 }
 
 int Update(double dt)
@@ -546,4 +622,9 @@ void GG()
 		delete[] Array_2D[row];
 	}
 	delete[] Array_2D;
+}
+
+bool operator ==(COORD const& lhs, COORD const& rhs)
+{
+    return lhs.X == rhs.X && lhs.Y == rhs.Y;
 }

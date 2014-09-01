@@ -465,29 +465,15 @@ void MapOptions()
 		{
 			I_Map = 5;
 		} break;
-	case '6':
+	/*case '6':
 		{
 			CreateMap();
-		} break;
+		} break;*/
 	default :
 		{
 			I_Map = 1;
 		} break;
 	}
-}
-
-void CreateMap()
-{
-	colour (0x7);
-	cout << "0 - Blank" << endl;
-	colour (0x2);
-	cout << "1 - " << char(178);
-	colour (0x6);
-	cout << "2 - " << char(254);
-	colour (0xC);
-	cout << "3 - " << char(219);
-	
-
 }
 
 void ColourOptions()

@@ -14,8 +14,21 @@ struct s_Snake
 	COORD CharLocation;
 };
 
+bool operator ==(COORD const& lhs, COORD const& rhs);
+
+
 void Init();			// initialize your variables, allocate memory, etc
 void ShutDown();		// do clean up, free memory
+
+enum E_Map
+{
+    E_MAPUP,
+    E_MAPDOWN,
+    E_MAPLEFT,
+    E_MAPRIGHT,
+	E_MAPESCAPE,
+    E_MAPCOUNT
+};
 
 enum E_KEY
 {
@@ -37,7 +50,9 @@ enum EP2_KEY
     EP2_COUNT
 };
 
-void Map();				// border around the map using 2D array
+void UpdateCustom();
+void GetMap();
+void Map();					// border around the map using 2D array
 void GetInput();			// get input from player
 int Update(double);			// update the game and the state of the game
 void Render();				// renders the current state of the game to the console

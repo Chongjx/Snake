@@ -1,5 +1,5 @@
 #include "twoplayer.h"
-#include "game.h"
+
 #include "menu.h"
 #include "Framework\console.h"
 #include <iostream>
@@ -425,6 +425,31 @@ void CheckCollision2()
 	}
 }
 
+void snakeEatSnake(vector<s_Snake>& predator, vector<s_Snake>& prey)
+{
+	for (int i = 2; i < prey.size(); i++)
+	{
+		//checks if the predator eats the prey
+		if (predator[0].CharLocation == prey[i].CharLocation)
+		{
+			int cutLength = prey.size() - i - 1;
+
+			// increase the predator length
+			predator.insert(predator.end(), cutLength, predator.back());
+
+			// cut off the prey
+
+			for (int x = 0; x < cutLength; x++)
+			{
+				gotoXY (prey.back().CharLocation);
+				cout << ' ';
+				prey.pop_back();				
+			}
+			break;
+		}
+	}
+}
+
 void UpdateSnake2()
 {
 	bool B_FoodEaten = false;
@@ -456,57 +481,55 @@ void UpdateSnake2()
 		Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
 
-	for (int i = 2; i < Vs_P2.size(); i++)
-	{
-		if ( Vs_P1[0].CharLocation.X == Vs_P2[i].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[i].CharLocation.Y)
-		{
-			for (int x = i; x < Vs_P2.size(); x++)
-			{
-				Vs_P1.push_back(s_Snake());
+	snakeEatSnake(Vs_P1, Vs_P2);
+	snakeEatSnake(Vs_P2, Vs_P1);
 
-				Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
-				Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
+	//for (int i = 2; i < Vs_P2.size(); i++)
+	//{
+	//	if ( Vs_P1[0].CharLocation.X == Vs_P2[i].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[i].CharLocation.Y)
+	//	{
+	//		int I_Length = Vs_P2.size();
 
-				gotoXY (Vs_P2[Vs_P2.size()-1].CharLocation);
-				cout << ' ';
+	//		for (int x = i; x < I_Length; x++)
+	//		{
+	//			// increase the S1 length 
+	//			Vs_P1.push_back(s_Snake());
 
-				Vs_P2.erase(Vs_P2.begin() + (Vs_P2.size()-1));
-			}
+	//			//Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
+	//			//Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
+	//			Vs_P2.back() = Vs_P1[Vs_P1.size()-2];
 
-			for (int x = 0; x < Vs_P1.size() - 1; x++)
-			{
-				gotoXY (Vs_P1[x].CharLocation);
-				colour (ChosenColour[0]);
-				cout << char(254);
-			}
-		}
-	}
+	//			//
+	//			gotoXY (Vs_P2.back().CharLocation);
+	//			cout << ' ';
+	//			Vs_P2.pop_back();				
+	//		}
+	//		
+	//		break;
+	//	}
+	//}
 
-	for (int i = 2; i < Vs_P1.size(); i++)
-	{
-		if ( Vs_P2[0].CharLocation.X == Vs_P1[i].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[i].CharLocation.Y)
-		{
-			for (int x = i; x < Vs_P1.size(); x++)
-			{
-				Vs_P2.push_back(s_Snake());
+	//for (int i = 2; i < Vs_P1.size(); i++)
+	//{
+	//	if ( Vs_P2[0].CharLocation.X == Vs_P1[i].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[i].CharLocation.Y)
+	//	{
+	//		int I_Length = Vs_P1.size();
 
-				Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
-				Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.X;
+	//		for (int x = i; x < I_Length; x++)
+	//		{
+	//			Vs_P2.push_back(s_Snake());
 
-				gotoXY (Vs_P1[Vs_P1.size()-1].CharLocation);
-				cout << ' ';
+	//			Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
+	//			Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.X;
 
-				Vs_P1.erase(Vs_P1.begin() + (Vs_P1.size()-1));
-			}
+	//			gotoXY (Vs_P1[Vs_P1.size()-1].CharLocation);
+	//			cout << ' ';
 
-			for (int x = 0; x < Vs_P2.size() - 1; x++)
-			{
-				gotoXY (Vs_P2[x].CharLocation);
-				colour (ChosenColour2[0]);
-				cout << char(254);
-			}
-		}
-	}
+	//			Vs_P1.erase(Vs_P1.begin() + (Vs_P1.size()-1));
+	//		}
+	//		break;
+	//	}
+	//}
 
 	if (B_FoodEaten == false && I_Food == 0)
 	{
@@ -632,13 +655,19 @@ void Render2()
 	Timer2();
 
 	// render the game
-	colour (ChosenColour[0]);
-	gotoXY (Vs_P1[0].CharLocation);
-	cout << char(254);
+	for (int i = 0 ; i < Vs_P1.size(); i++)
+	{
+		colour (ChosenColour[0]);
+		gotoXY (Vs_P1[i].CharLocation);
+		cout << char(254);
+	}
 
-	colour (ChosenColour2[0]);
-	gotoXY (Vs_P2[0].CharLocation);
-	cout << char(254);
+	for (int i = 0; i < Vs_P2.size(); i++)
+	{
+		colour (ChosenColour2[0]);
+		gotoXY (Vs_P2[i].CharLocation);
+		cout << char(254);
+	}
 
 	COORD coord_Position;
 	// set the cursor location at the top of the screen
