@@ -2,10 +2,12 @@
 #define _GAME_H
 
 #include "Framework\timer.h"
+#include <vector>
 
-extern StopWatch g_timer;
-extern bool GB_QuitGame;
-extern bool GB_GameOver;
+using std::vector;
+
+#define Height 40
+#define Width 100
 
 struct s_Snake
 {
@@ -48,17 +50,28 @@ void UpdateSnake();			// update the snake
 void ScoreBoard();
 void GG();					// reset all the variables to default values
 
-void Map2();					// border around the map using 2D array
-void GetInput2();			// get input from player
-int Update2(double);			// update the game and the state of the game
-void Render2();				// renders the current state of the game to the console
-void Timer2();				// Time to spawn the special food
-void Spawn2();				// spawn food
-void SpawnSpecial2();		// spawn special food
-void EatSnake2();			// check if the snake eats each other
-void CheckCollision2();		// check collision of for the snake
-void CreateSnake2(int);		// Create my snake at the intial location
-void UpdateSnake2();			// update the snake
-void GG2();					// reset all the variables to default values
+extern StopWatch g_timer;
+extern bool GB_QuitGame;
+extern bool GB_GameOver;
+extern double elapsedTime;
+extern double deltaTime;
+extern COORD coord_Apple;
+extern COORD coord_Special;
+extern int I_Food;
+extern int I_Special;
+extern int I_Move;
+extern int I_Prev;
+extern int I_Current;
+extern int I_Bonus;
+extern double D_FoodTimer;
+extern double D_Time;
+extern char **Array_2D;
+extern bool KeyPressed[E_COUNT];
+extern vector<s_Snake> Vs_P1;
+
+extern int I_Move2;
+extern int I_Prev2;
+extern bool KeyPressed2[EP2_COUNT];
+extern vector<s_Snake> Vs_P2;
 
 #endif // _GAME_H

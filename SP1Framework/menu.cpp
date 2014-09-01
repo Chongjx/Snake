@@ -19,7 +19,7 @@ using std::stringstream;
 int I_Gamemode = 0;
 int I_Frame = 0;
 
-int I_Map = 1;
+int I_Map;
 
 WORD ChosenColour[] = {0x7};
 WORD ChosenColour2[] = {0x7};
@@ -104,7 +104,7 @@ void MainMenu()
 		"  __   \\\n /  \\   |     _     _ _____  ______ _     _  _____   _____   _____   ______  ______\n    /   |     |_____|   |   |  ____ |_____| |_____  |       |     | |_____/ |______\n    \\   |     |     | __|__ |_____| |     |  _____| |_____  |_____| |    \\_ |______\n \\__/  /" , //"HIGHSCORE" Ascii Art.
 		"  ___  \\\n |      |      ______ _     _ _____ _______\n |___   |     |______  \\___/    |      |\n     |  |     |______ _/   \\_ __|__    |\n  ___| /"}; //"EXIT" Ascii Art.
 	int I_Choice = 0;
-	colour(0x7);
+	colour(0x2);
 	cout <<     "                       ******************************************************" << endl;
 	cout <<     "                       *   ______                       __                  *" << endl;
 	cout <<     "                       *  /      \\                     |  \\                 *" << endl;
@@ -122,12 +122,12 @@ void MainMenu()
 	{
 		if (i == I_Choice)
 		{
-			colour(0x7);
+			colour(0x2);
 			cout << S_Menu[i] << endl;
 		}
 		else
 		{
-			colour(0x7);
+			colour(0x2);
 			cout << S_Menu[i] << endl;
 		}
 	}
@@ -492,9 +492,9 @@ void MapOptions()
 	cout <<endl<<endl;
 	cout << "				5.Mine" <<endl;
 	cout << "					   #########" << endl;
-	cout << "					   # #   # #" << endl;
-	cout << "					   #       #" << endl;
-	cout << "					   # #   # #" << endl;
+	cout << "					   #  * *  #" << endl;
+	cout << "					   # * * * #" << endl;
+	cout << "					   #  * *  #" << endl;
 	cout << "					   #########" << endl;
 	cout<<endl<<endl;
 
@@ -523,12 +523,29 @@ void MapOptions()
 		{
 			I_Map = 5;
 		} break;
-
+	case '6':
+		{
+			CreateMap();
+		} break;
 	default :
 		{
 			I_Map = 1;
 		} break;
 	}
+}
+
+void CreateMap()
+{
+	colour (0x7);
+	cout << "0 - Blank" << endl;
+	colour (0x2);
+	cout << "1 - " << char(178);
+	colour (0x6);
+	cout << "2 - " << char(254);
+	colour (0xC);
+	cout << "3 - " << char(219);
+	
+
 }
 
 void ColourOptions()
@@ -542,7 +559,7 @@ void ColourOptions()
 	cout << "						3) OOOOOO" << endl;
 	colour(0xE);
 	cout << "						4) OOOOOO" << endl;
-	colour(0x7);
+	colour(0x2);
 	char C_Colour = '0';
 	C_Colour = getch();
 	cout << "						You have chosen ";
@@ -571,7 +588,7 @@ void ColourOptions2()
 	cout << "						3) OOOOOO" << endl;
 	colour(0xE);
 	cout << "						4) OOOOOO" << endl;
-	colour(0x7);
+	colour(0x2);
 	cout << "					Choose your colour: ";
 	char C_Colour = '0';
 	C_Colour = getch();
@@ -590,7 +607,7 @@ void ColourOptions2()
 	cout << "OOOOOO" << endl;
 
 	cls();
-	colour (0x7);
+	colour (0x2);
 	cout << "				Player 2 choose the colour of your snake!" << endl;
 	colour(0x9);
 	cout << "						1) OOOOOO" << endl;
@@ -600,7 +617,7 @@ void ColourOptions2()
 	cout << "						3) OOOOOO" << endl;
 	colour(0xE);
 	cout << "						4) OOOOOO" << endl;
-	colour(0x7);
+	colour(0x2);
 	cout << "					Choose your colour: ";
 	C_Colour = '0';
 	C_Colour = getch();
