@@ -27,4 +27,4 @@
                        *              |__|             |_____|                  *
                        *                                                        *
                        **********************************************************
-                                      Press 3 to go back to main menu            
+                                    Press any key to go back to main menu            

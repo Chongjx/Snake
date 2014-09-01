@@ -450,7 +450,9 @@ void UpdateSnake()
 
 		if (elapsedTime > D_Time)
 		{
-			D_Time += elapsedTime + 10;
+            elapsedTime = 0.00000;
+            D_FoodTimer = 0.00000;
+			D_Time += elapsedTime + 5;
 		}
 
 		if (I_Bonus == 0)
@@ -462,7 +464,6 @@ void UpdateSnake()
 		{
 			I_Current = 1;
 		}
-
 		Array_2D[coord_Special.Y][coord_Special.X] = '0';
 	}
 
@@ -598,7 +599,7 @@ void ScoreBoard()
 {
 	cls();
 	string S_Name;
-	cout << "                    Enter your name: ";
+	cout << "                                              Enter your name: ";
 	getline (cin, S_Name);
 	cout << endl;
 

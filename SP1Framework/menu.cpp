@@ -54,7 +54,7 @@ int GetInputMenu()
 			Game2();
 			MainMenu();
 		}
-		else if (C_Game == '3')
+		else
 		{
 			MainMenu();
 		}
@@ -438,7 +438,6 @@ void MapOptions()
         getline(MapOptions,S_MapOptions);
         cout << S_MapOptions << endl;
     }
-
 
 	char C_Maps;
 	C_Maps = getch();
