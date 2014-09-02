@@ -20,6 +20,7 @@ int main()
 {
 	Init();				// initialize your variables
 	int I_Refresh = 1;
+    playGameSound(S_INTRO);
 	while (!GB_QuitGame) // run this loop until user wants to quit 
 	{
 		if (I_Refresh == 1)

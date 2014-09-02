@@ -11,6 +11,7 @@
 #include <ctime>
 #include <fstream>
 #include <conio.h>
+#include "Framework\sound.h"
 
 using std::cin;
 using std::cout;
@@ -45,6 +46,7 @@ char **Custom_2D;
 bool KeyPressed[E_COUNT];
 bool KeyPressed2[EP2_COUNT];
 bool KeyPressedMap[E_MAPCOUNT];
+Sound snd;
 vector<s_Snake> Vs_P1;
 vector<s_Snake> Vs_P2;
 WORD ChosenColour[];
@@ -80,7 +82,30 @@ void Init()
 	D_FoodTimer = 10.00000;
 	D_Time = 0.00000;
 
-	ClearCustomMap();
+
+    snd.loadWave( "powerup", "Sounds\\powerup.wav");
+    snd.loadWave( "food" , "Sounds\\food.wav");
+    snd.loadWave( "intro" , "Sounds\\intro.wav");
+    snd.loadWave( "gameover" , "Sounds\\gameover.wav");
+    snd.loadWave( "choice" , "Sounds\\choice.wav");
+
+}
+
+void playGameSound(SoundType sound)
+{
+    switch (sound)
+    {
+        case S_POWERUP :snd.playSound("powerup");
+            break;
+        case S_FOOD :snd.playSound("food");
+            break;
+        case S_INTRO :snd.playSound("intro");
+            break;
+        case S_GAMEOVER :snd.playSound("gameover");
+            break;
+        case S_CHOICE :snd.playSound("choice");
+            break;
+    }
 }
 
 // for 1 player till line 500
@@ -553,6 +578,7 @@ void CheckCollision()
 
 	if (GB_GameOver == true)
 	{
+        playGameSound(S_GAMEOVER);
 		for ( int i = 0; i < 10; i++)
 		{
 			gotoXY (Vs_P1[0].CharLocation);
@@ -576,7 +602,7 @@ void UpdateSnake()
 
 	if (Vs_P1[0].CharLocation == coord_Apple)
 	{
-		Beep (1045, 100);
+        playGameSound(S_FOOD);
 		B_FoodEaten = true;
 		I_Food = 0;
 		Vs_P1.push_back(s_Snake());
@@ -595,9 +621,7 @@ void UpdateSnake()
 
 	if (Vs_P1[0].CharLocation == coord_Special)
 	{
-		Beep (1046, 100);
-		Beep (1046, 100);
-		Beep (1046, 100);
+		playGameSound(S_POWERUP);
 		B_SpecialFoodEaten = true;
 		I_Special = 0;
 		Vs_P1.push_back(s_Snake());

@@ -48,6 +48,18 @@ enum EP2_KEY
     EP2_COUNT
 };
 
+enum SoundType
+{
+    S_POWERUP,
+    S_FOOD,
+    S_INTRO,
+    S_GAMEOVER,
+    S_CHOICE,
+    S_COUNT
+};
+
+void playGameSound(SoundType);
+
 void UpdateCustom();
 void GetMap();
 void InputBlock();

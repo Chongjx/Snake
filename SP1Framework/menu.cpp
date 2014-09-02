@@ -5,6 +5,8 @@
 #include <vector>
 #include <conio.h>
 #include "Framework\console.h"
+#include "Framework\sound.h"
+#include "game.h"
 #include "menu.h"
 #include "game.h"
 
@@ -34,12 +36,14 @@ int GetInputMenu()
 
 	switch(C_Choice)
 	{
-	case '1': // create a new function that ask the user to choose the gamemode he wants
+	case '1': // create a new function that ask the user to choose the gamemode he want
 		cls();
+        playGameSound(S_CHOICE);
 		GameAscii();
 		C_Game = getch();
 		if (C_Game == '1')
-		{
+		{   
+            playGameSound(S_CHOICE);
 			MapOptions();
 			cls();
 			ColourOptions();
@@ -49,6 +53,7 @@ int GetInputMenu()
 		}
 		else if (C_Game == '2')
 		{
+            playGameSound(S_CHOICE);
 			MapOptions();
 			cls();
 			ColourOptions2();
@@ -63,33 +68,41 @@ int GetInputMenu()
 		Sleep(200);
 		break;
 	case '2':	Instruction();
+        playGameSound(S_CHOICE);
 		C_Choice;
 		C_Choice = getch();
 		if (C_Choice != 27)
 		{
+            playGameSound(S_CHOICE);
 			MainMenu();
 		}
 		else
 		{
+            playGameSound(S_CHOICE);
 			MainMenu();
 		}
 		Sleep(200);
 		break;
-	case '3':	HighScore();
+	case '3':
+        playGameSound(S_CHOICE);
+        HighScore();
 		C_Choice;
 		C_Choice = getch();
 		if (C_Choice != 27)
 		{
+            playGameSound(S_CHOICE);
 			MainMenu();
 		}
 		else
 		{
+            playGameSound(S_CHOICE);
 			MainMenu();
 		}
 		Sleep(200);
 		break;
 	case '4':
 		{
+            playGameSound(S_CHOICE);
 			QuitGame();
 		}
 		break;
@@ -453,7 +466,7 @@ void MapOptions()
 				I_Map = 1;
 			} break;
 		case '2':
-			{
+            {
 				I_Map = 2;
 			} break;
 		case '3':
@@ -494,26 +507,31 @@ void MapOptions()
 		char C_Maps;
 		C_Maps = getch();
 
-		switch(C_Maps)
-		{
+	switch(C_Maps)
+	{
 		case '1':
 			{
+            playGameSound(S_CHOICE);
 				I_Map = 1;
 			} break;
 		case '2':
 			{
+            playGameSound(S_CHOICE);
 				I_Map = 2;
 			} break;
 		case '3':
 			{
+            playGameSound(S_CHOICE);
 				I_Map = 3;
 			} break;
 		case '4':
 			{
+            playGameSound(S_CHOICE);
 				I_Map = 4;
 			} break;
 		case '5':
 			{
+            playGameSound(S_CHOICE);
 				I_Map = 5;
 			} break;
 		case '6':
@@ -528,10 +546,11 @@ void MapOptions()
 			} break;
 		default :
 			{
+            playGameSound(S_CHOICE);
 				I_Map = 1;
 			} break;
 		}
-	}
+    }
 }
 
 void ColourOptions()
@@ -593,14 +612,17 @@ void ColourOptions()
 	C_Colour = getch();
 	switch (C_Colour - 48)
 	{
-	case BLUE: colour(0x9); ChosenColour[0] = 0x9;
-		break;
-	case CYAN: colour(0xB); ChosenColour[0] = 0xB;
-		break;
-	case PURPLE: colour(0xD); ChosenColour[0] = 0xD;
-		break;
-	case YELLOW: colour(0xE); ChosenColour[0] = 0xE;
-		break;
+		case BLUE: playGameSound(S_CHOICE); colour(0x9); ChosenColour[0] = 0x9;
+			break;
+		case CYAN: playGameSound(S_CHOICE); colour(0xB); ChosenColour[0] = 0xB;
+			break;
+		case PURPLE: playGameSound(S_CHOICE); colour(0xD); ChosenColour[0] = 0xD;
+			break;
+		case YELLOW: playGameSound(S_CHOICE); colour(0xE); ChosenColour[0] = 0xE;
+			break;
+        default: playGameSound(S_CHOICE); colour(0xB); ChosenColour[0] = 0xB;
+            break;
+
 	}
 
 	Player1.close();
@@ -682,14 +704,16 @@ void ColourOptions2()
 	C_Colour = getch();
 	switch (C_Colour - 48)
 	{
-	case BLUE: colour(0x9); ChosenColour[0] = 0x9;
-		break;
-	case CYAN: colour(0xB); ChosenColour[0] = 0xB;
-		break;
-	case PURPLE: colour(0xD); ChosenColour[0] = 0xD;
-		break;
-	case YELLOW: colour(0xE); ChosenColour[0] = 0xE;
-		break;
+		case BLUE: playGameSound(S_CHOICE); colour(0x9); ChosenColour[0] = 0x9;
+			break;
+		case CYAN: playGameSound(S_CHOICE); colour(0xB); ChosenColour[0] = 0xB;
+			break;
+		case PURPLE: playGameSound(S_CHOICE); colour(0xD); ChosenColour[0] = 0xD;
+			break;
+		case YELLOW: playGameSound(S_CHOICE); colour(0xE); ChosenColour[0] = 0xE;
+			break;
+        default: playGameSound(S_CHOICE); colour(0xB); ChosenColour[0] = 0xB;
+            break;
 	}
 
 	cls();
@@ -739,14 +763,16 @@ void ColourOptions2()
 	C_Colour = getch();
 	switch (C_Colour - 48)
 	{
-	case BLUE: colour(0x9); ChosenColour2[0] = 0x9;
-		break;
-	case CYAN: colour(0xB); ChosenColour2[0] = 0xB;
-		break;
-	case PURPLE: colour(0xD); ChosenColour2[0] = 0xD;
-		break;
-	case YELLOW: colour(0xE); ChosenColour2[0] = 0xE;
-		break;
+		case BLUE: playGameSound(S_CHOICE); colour(0x9); ChosenColour2[0] = 0x9;
+			break;
+		case CYAN: playGameSound(S_CHOICE); colour(0xB); ChosenColour2[0] = 0xB;
+			break;
+		case PURPLE: playGameSound(S_CHOICE); colour(0xD); ChosenColour2[0] = 0xD;
+			break;
+		case YELLOW: playGameSound(S_CHOICE); colour(0xE); ChosenColour2[0] = 0xE;
+			break;
+        default: playGameSound(S_CHOICE); colour(0xB); ChosenColour2[0] = 0xB;
+            break;
 	}
 
 	Player1.close();

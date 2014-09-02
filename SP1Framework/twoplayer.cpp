@@ -2,6 +2,7 @@
 
 #include "menu.h"
 #include "Framework\console.h"
+#include "Framework\sound.h"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -439,6 +440,8 @@ void CheckCollision2()
 
 	if (B_P1_Over == true && B_P2_Over != true)
 	{
+        // P1 lose
+        playGameSound(S_GAMEOVER);
 		for (int i = 0; i < 10; i++)
 		{
 			gotoXY (Vs_P1[0].CharLocation);
@@ -455,6 +458,8 @@ void CheckCollision2()
 
 	else if (B_P2_Over == true && B_P1_Over != true)
 	{
+        // P2 lose
+        playGameSound(S_GAMEOVER);
 		for (int i = 0; i < 10; i++)
 		{
 			gotoXY (Vs_P2[0].CharLocation);
@@ -471,6 +476,8 @@ void CheckCollision2()
 
 	else if (B_P1_Over == true && B_P2_Over == true)
 	{
+        // both dies
+        playGameSound(S_GAMEOVER);
 		for (int i = 0; i < 10; i++)
 		{
 			gotoXY (Vs_P1[0].CharLocation);
@@ -501,6 +508,7 @@ void snakeEatSnake(vector<s_Snake>& predator, vector<s_Snake>& prey)
 		//checks if the predator eats the prey
 		if (predator[0].CharLocation == prey[i].CharLocation)
 		{
+            // SOUND
 			int cutLength = prey.size() - i - 1;
 
 			// increase the predator length
@@ -526,7 +534,7 @@ void UpdateSnake2()
 
 	if (Vs_P1[0].CharLocation == coord_Apple)
 	{
-		Beep (1045, 100);
+		playGameSound(S_FOOD);
 		B_FoodEaten = true;
 		I_Food = 0;
 		Vs_P1.push_back(s_Snake());
@@ -538,7 +546,7 @@ void UpdateSnake2()
 
 	if (Vs_P2[0].CharLocation == coord_Apple)
 	{
-		Beep (1045, 100);
+		playGameSound(S_FOOD);
 		B_FoodEaten = true;
 		I_Food = 0;
 		Vs_P2.push_back(s_Snake());
@@ -551,53 +559,6 @@ void UpdateSnake2()
 	snakeEatSnake(Vs_P1, Vs_P2);
 	snakeEatSnake(Vs_P2, Vs_P1);
 
-	//for (int i = 2; i < Vs_P2.size(); i++)
-	//{
-	//	if ( Vs_P1[0].CharLocation.X == Vs_P2[i].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[i].CharLocation.Y)
-	//	{
-	//		int I_Length = Vs_P2.size();
-
-	//		for (int x = i; x < I_Length; x++)
-	//		{
-	//			// increase the S1 length 
-	//			Vs_P1.push_back(s_Snake());
-
-	//			//Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
-	//			//Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
-	//			Vs_P2.back() = Vs_P1[Vs_P1.size()-2];
-
-	//			//
-	//			gotoXY (Vs_P2.back().CharLocation);
-	//			cout << ' ';
-	//			Vs_P2.pop_back();				
-	//		}
-	//		
-	//		break;
-	//	}
-	//}
-
-	//for (int i = 2; i < Vs_P1.size(); i++)
-	//{
-	//	if ( Vs_P2[0].CharLocation.X == Vs_P1[i].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[i].CharLocation.Y)
-	//	{
-	//		int I_Length = Vs_P1.size();
-
-	//		for (int x = i; x < I_Length; x++)
-	//		{
-	//			Vs_P2.push_back(s_Snake());
-
-	//			Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
-	//			Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.X;
-
-	//			gotoXY (Vs_P1[Vs_P1.size()-1].CharLocation);
-	//			cout << ' ';
-
-	//			Vs_P1.erase(Vs_P1.begin() + (Vs_P1.size()-1));
-	//		}
-	//		break;
-	//	}
-	//}
-
 	if (B_FoodEaten == false && I_Food == 0)
 	{
 		Spawn2();
@@ -606,9 +567,7 @@ void UpdateSnake2()
 
 	if (Vs_P1[0].CharLocation == coord_Special)
 	{
-		Beep (1046, 100);
-		Beep (1046, 100);
-		Beep (1046, 100);
+		playGameSound(S_POWERUP);
 		B_SpecialFoodEaten = true;
 		I_Special = 0;
 		Vs_P1.push_back(s_Snake());
@@ -635,9 +594,7 @@ void UpdateSnake2()
 
 	if (Vs_P2[0].CharLocation == coord_Special)
 	{
-		Beep (1046, 100);
-		Beep (1046, 100);
-		Beep (1046, 100);
+		playGameSound(S_POWERUP);
 		B_SpecialFoodEaten = true;
 		I_Special = 0;
 		Vs_P2.push_back(s_Snake());
