@@ -17,12 +17,14 @@ using std::cout;
 using std::endl;
 using std::string;
 using std::ifstream;
+using std::ofstream;
 using std::vector;
 
 COORD coord_ConsoleSize;
 COORD coord_Block;
 COORD coord_Apple;
 COORD coord_Special;
+COORD coord_Map;
 
 double elapsedTime;
 double deltaTime;
@@ -77,12 +79,8 @@ void Init()
 	I_Current = 0;
 	D_FoodTimer = 10.00000;
 	D_Time = 0.00000;
-}
 
-void ShutDown()
-{
-	// Reset to white text on black background
-	colour(FOREGROUND_BLUE | FOREGROUND_GREEN | FOREGROUND_RED);
+	ClearCustomMap();
 }
 
 // for 1 player till line 500
@@ -98,25 +96,10 @@ void CreateSnake(int size)
 	}
 }
 
-/*void CreateMap()
+void CreateMap()
 {
-	bool B_Complete = false;
+	cls();
 
-	colour (0x7);
-	cout << "0 - Blank" << endl;
-	colour (0x2);
-	cout << "1 - " << char(178);
-	colour (0x6);
-	cout << "2 - " << char(254);
-	colour (0xC);
-	cout << "3 - " << char(219);
-
-	while (B_Complete == false)
-	{
-		GetMap();
-		UpdateCustom();
-	}
-	
 	ifstream CustomMap;
 	CustomMap.open ("Map\\Custom.txt");
 
@@ -127,80 +110,7 @@ void CreateSnake(int size)
 		Custom_2D[row] = new char[100];
 		for (int col = 0; col < Width; col++)
 		{
-			{
-				CustomMap >> Custom_2D[row][col];
-			}
-		}
-	}
-}*/
-
-/*void UpdateCustom()
-{
-    // Updating the location of the character based on the key press
-	if (keyPressedMap[E_MAPUP] && coord_Block.X > 1)
-    {
-        charLocation.Y--; 
-    }
-    if (keyPressed[K_LEFT] && charLocation.X > 0)
-    {
-        Beep(1440, 30);
-        charLocation.X--; 
-    }
-    if (keyPressed[K_DOWN] && charLocation.Y < consoleSize.Y - 1)
-    {
-        Beep(1440, 30);
-        charLocation.Y++; 
-    }
-    if (keyPressed[K_RIGHT] && charLocation.X < consoleSize.X - 1)
-    {
-        Beep(1440, 30);
-        charLocation.X++; 
-    }
-
-    // quits the game if player hits the escape key
-    if (keyPressed[K_ESCAPE])
-        g_quitGame = true;    
-}*/
-
-void Map()
-{
-	COORD coord_Score;
-
-	ifstream PrintMap;
-	switch(I_Map)
-	{
-	case 1:
-		{
-			PrintMap.open("Map\\Cage.txt");
-		} break;
-	case 2:
-		{
-			PrintMap.open("Map\\Christmas.txt");
-		} break;
-	case 3:
-		{
-			PrintMap.open("Map\\Garden.txt");
-		} break;
-	case 4:
-		{
-			PrintMap.open("Map\\Maze.txt");
-		} break;
-	case 5:
-		{
-			PrintMap.open("Map\\Mine.txt");
-		} break;
-	}
-
-	Array_2D = new char*[40];
-
-	for (int row = 0; row < Height; row++)
-	{
-		Array_2D[row] = new char[100];
-		for (int col = 0; col < Width; col++)
-		{
-			{
-				PrintMap >> Array_2D[row][col];
-			}
+			CustomMap >> Custom_2D[row][col];
 		}
 	}
 
@@ -208,22 +118,10 @@ void Map()
 	{
 		for (int col = 0; col < Width; col++)
 		{
-			if (Array_2D[row][col] == '1')
+			if (Custom_2D[row][col] == '1')
 			{
 				colour (0x2);
 				cout << char(178);
-			}
-
-			else if (Array_2D[row][col] == '2')
-			{
-				colour (0x6);
-				cout << char(254);
-			}
-
-			else if (Array_2D[row][col] == '3')
-			{
-				colour (0xC);
-				cout << char(219);
 			}
 
 			else
@@ -232,14 +130,275 @@ void Map()
 			}
 		}
 	}
+
+	CustomMap.close();
+
+	colour (0x7);
+	cout << "1 - Blank ";
+	colour (0x2);
+	cout << " 2 - " << char(178);
+	colour (0x6);
+	cout << " 3 - " << char(254);
+	colour (0xC);
+	cout << " 4 - " << char(219);
+
+	coord_Block.X = 2;
+	coord_Block.Y = 2;
+
+	while (B_Complete == false)
+	{
+		GetMap();
+		UpdateCustom();
+		if (B_Complete == false)
+		{
+			InputBlock();
+		}
+	}
+
+	Custom_2D[2][2] = '0';
+
+	ofstream CreateMap;
+	CreateMap.open ("Map\\Custom.txt");
+
+	for (int row = 0; row < Height; row++)
+	{
+		for (int col = 0; col < Width; col++)
+		{
+			CreateMap << Custom_2D[row][col];
+		}
+		CreateMap << endl;
+	}
+
+	CreateMap.close();
+
+	for ( int row = 0; row < Height; row++)
+	{
+		delete[] Custom_2D[row];
+	}
+	delete[] Custom_2D;
+}
+
+void UpdateCustom()
+{
+	// Updating the location of the character based on the key press
+	if (KeyPressedMap[E_MAPUP] && coord_Block.Y > 1)
+	{
+		coord_Block.Y--;
+	}
+
+	if (KeyPressedMap[E_MAPLEFT] && coord_Block.X > 1)
+	{
+		coord_Block.X--;
+	}
+
+	if (KeyPressedMap[E_MAPDOWN] && coord_Block.Y < 38)
+	{
+		coord_Block.Y++;
+	}
+
+	if (KeyPressedMap[E_MAPRIGHT] && coord_Block.X < 98)
+	{
+		coord_Block.X++;
+	}
+
+	if (KeyPressedMap[E_MAPESCAPE])
+	{
+		B_Complete = true;
+	}
+}
+
+void InputBlock()
+{
+	gotoXY(coord_Block);
+	char C_Block;
+	C_Block = getch();
+	switch (C_Block)
+	{
+	case '1':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '0';
+			cout << char(32);
+		} break;
+	case '2':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '1';
+			colour (0x2);
+			cout << char(178);
+		} break;
+	case '3':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '2';
+			colour (0x6);
+			cout << char(254);
+		} break;
+	case '4':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '3';
+			colour (0xC);
+			cout << char(219);
+		} break;
+	}
+	colour (0xC);
+}
+
+void Map()
+{
+	COORD coord_Score;
+
+	if (B_Complete == false)
+	{
+		ifstream PrintMap;
+		switch(I_Map)
+		{
+		case 1:
+			{
+				PrintMap.open("Map\\Cage.txt");
+			} break;
+		case 2:
+			{
+				PrintMap.open("Map\\Christmas.txt");
+			} break;
+		case 3:
+			{
+				PrintMap.open("Map\\Garden.txt");
+			} break;
+		case 4:
+			{
+				PrintMap.open("Map\\Maze.txt");
+			} break;
+		case 5:
+			{
+				PrintMap.open("Map\\Mine.txt");
+			} break;
+		}
+
+		Array_2D = new char*[40];
+
+		for (int row = 0; row < Height; row++)
+		{
+			Array_2D[row] = new char[100];
+			for (int col = 0; col < Width; col++)
+			{
+				{
+					PrintMap >> Array_2D[row][col];
+				}
+			}
+		}
+
+		for (int row = 0; row < Height; row++)
+		{
+			for (int col = 0; col < Width; col++)
+			{
+				if (Array_2D[row][col] == '1')
+				{
+					colour (0x2);
+					cout << char(178);
+				}
+
+				else if (Array_2D[row][col] == '2')
+				{
+					colour (0x6);
+					cout << char(254);
+				}
+
+				else if (Array_2D[row][col] == '3')
+				{
+					colour (0xC);
+					cout << char(219);
+				}
+
+				else
+				{
+					cout << char(32);
+				}
+			}
+		}
+
+		PrintMap.close();
+	}
+
+	else if (B_Complete == true)
+	{
+		ifstream PrintMap;
+		switch(I_Map)
+		{
+		case 1:
+			{
+				PrintMap.open("Map\\Cage.txt");
+			} break;
+		case 2:
+			{
+				PrintMap.open("Map\\Christmas.txt");
+			} break;
+		case 3:
+			{
+				PrintMap.open("Map\\Garden.txt");
+			} break;
+		case 4:
+			{
+				PrintMap.open("Map\\Maze.txt");
+			} break;
+		case 5:
+			{
+				PrintMap.open("Map\\Mine.txt");
+			} break;
+		case 6:
+			{
+				PrintMap.open("Map\\Custom.txt");
+			} break;
+		}
+
+		Array_2D = new char*[40];
+
+		for (int row = 0; row < Height; row++)
+		{
+			Array_2D[row] = new char[100];
+			for (int col = 0; col < Width; col++)
+			{
+				{
+					PrintMap >> Array_2D[row][col];
+				}
+			}
+		}
+
+		for (int row = 0; row < Height; row++)
+		{
+			for (int col = 0; col < Width; col++)
+			{
+				if (Array_2D[row][col] == '1')
+				{
+					colour (0x2);
+					cout << char(178);
+				}
+
+				else if (Array_2D[row][col] == '2')
+				{
+					colour (0x6);
+					cout << char(254);
+				}
+
+				else if (Array_2D[row][col] == '3')
+				{
+					colour (0xC);
+					cout << char(219);
+				}
+
+				else
+				{
+					cout << char(32);
+				}
+			}
+		}
+
+		PrintMap.close();
+	}
+
 	//Score for player 1
 	coord_Score.X = 0;
 	coord_Score.Y = 40;
 
 	gotoXY(coord_Score);
 	cout << "Your score: ";
-
-	PrintMap.close();
 }
 
 void GetInput()
@@ -442,8 +601,8 @@ void UpdateSnake()
 
 		if (elapsedTime > D_Time)
 		{
-            elapsedTime = 0.00000;
-            D_FoodTimer = 0.00000;
+			elapsedTime = 0.00000;
+			D_FoodTimer = 0.00000;
 			D_Time += elapsedTime + 5;
 		}
 
@@ -590,8 +749,9 @@ void SpawnSpecial()
 void ScoreBoard()
 {
 	cls();
-	string S_Name;
-	cout << "                                              Enter your name: ";
+	string S_Name ="";
+	cout << endl;
+	cout << "                                             Enter your name: ";
 	getline (cin, S_Name);
 	cout << endl;
 
@@ -619,5 +779,24 @@ void GG()
 
 bool operator ==(COORD const& lhs, COORD const& rhs)
 {
-    return lhs.X == rhs.X && lhs.Y == rhs.Y;
+	return lhs.X == rhs.X && lhs.Y == rhs.Y;
+}
+
+void ClearCustomMap()
+{
+	ifstream OriginalMap;
+	ofstream YourMap;
+	string S_OriginalMap;
+
+	OriginalMap.open("Map\\Cage.txt");
+	YourMap.open ("Map\\Custom.txt");
+
+	while (!OriginalMap.eof())
+	{
+		getline (OriginalMap, S_OriginalMap);
+		YourMap << S_OriginalMap << endl;
+	}
+
+	OriginalMap.close();
+	YourMap.close();
 }

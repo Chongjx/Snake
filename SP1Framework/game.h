@@ -16,9 +16,7 @@ struct s_Snake
 
 bool operator ==(COORD const& lhs, COORD const& rhs);
 
-
 void Init();			// initialize your variables, allocate memory, etc
-void ShutDown();		// do clean up, free memory
 
 enum E_Map
 {
@@ -52,6 +50,7 @@ enum EP2_KEY
 
 void UpdateCustom();
 void GetMap();
+void InputBlock();
 void Map();					// border around the map using 2D array
 void GetInput();			// get input from player
 int Update(double);			// update the game and the state of the game
@@ -64,6 +63,7 @@ void CreateSnake(int);		// create my snake at the intial location
 void UpdateSnake();			// update the snake
 void ScoreBoard();
 void GG();					// reset all the variables to default values
+void ClearCustomMap();
 
 extern StopWatch g_timer;
 extern bool GB_QuitGame;

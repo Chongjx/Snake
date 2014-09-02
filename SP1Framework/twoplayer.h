@@ -17,6 +17,7 @@ void EatSnake2();			// check if the snake eats each other
 void CheckCollision2();		// check collision of for the snake
 void CreateSnake2(int);		// Create my snake at the intial location
 void UpdateSnake2();		// update the snake
+void GameOver();			// Display which players win
 void GG2();					// reset all the variables to default values
 
 void snakeEatSnake(vector<s_Snake>& s1, vector<s_Snake>& s2);

@@ -10,6 +10,7 @@ extern WORD ChosenColour[];
 extern WORD ChosenColour2[];
 
 extern int I_Map;
+extern bool B_Complete;
 
 enum E_Colours
 {
@@ -18,6 +19,10 @@ enum E_Colours
 	PURPLE,
 	YELLOW,
 };
+
+void UpdateCustom();
+void GetMap();
+void InputBlock();
 
 void MainMenu();
 void Instruction();
@@ -30,7 +35,6 @@ void QuitGame();
 void ColourOptions();
 void ColourOptions2();
 void MapOptions();
-void MapOptions2();
 void CreateMap();
 void HiScore(int, string);
 int GetInputMenu();

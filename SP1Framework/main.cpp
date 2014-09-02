@@ -29,8 +29,6 @@ int main()
 		}
 		I_Refresh = GetInputMenu();
 	}
-	ShutDown(); // do clean up, if any. free memory.
-
 	return 0;
 }
 
@@ -50,7 +48,11 @@ void Game1()
 		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
 	colour(0x2);
-	ScoreBoard();
+
+	if (I_Map != 6)
+	{
+		ScoreBoard();
+	}
 	GG();
 }
 
@@ -68,5 +70,6 @@ void Game2()
 		Render2();						// render the graphics output to screen
 		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
+	GameOver();
 	GG2();
 }

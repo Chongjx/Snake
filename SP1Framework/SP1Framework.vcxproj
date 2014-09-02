@@ -73,6 +73,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -89,6 +90,41 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="twoplayer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="AsciiArt\Blue.txt" />
+    <None Include="AsciiArt\Cyan.txt" />
+    <None Include="AsciiArt\CYC.txt" />
+    <None Include="AsciiArt\Draw.txt" />
+    <None Include="AsciiArt\HighScore.txt" />
+    <None Include="AsciiArt\Instructions.txt" />
+    <None Include="AsciiArt\MapOptions.txt" />
+    <None Include="AsciiArt\NewMapOptions.txt" />
+    <None Include="AsciiArt\Player1.txt" />
+    <None Include="AsciiArt\Player1Wins.txt" />
+    <None Include="AsciiArt\Player2.txt" />
+    <None Include="AsciiArt\Player2Wins.txt" />
+    <None Include="AsciiArt\Players.txt" />
+    <None Include="AsciiArt\Purple.txt" />
+    <None Include="AsciiArt\QuitGame.txt" />
+    <None Include="AsciiArt\Snake.txt" />
+    <None Include="AsciiArt\Yellow.txt" />
+    <None Include="Highscore\CageName.txt" />
+    <None Include="Highscore\CageScore.txt" />
+    <None Include="Highscore\ChristmasName.txt" />
+    <None Include="Highscore\ChristmasScore.txt" />
+    <None Include="Highscore\GardenName.txt" />
+    <None Include="Highscore\GardenScore.txt" />
+    <None Include="Highscore\MazeName.txt" />
+    <None Include="Highscore\MazeScore.txt" />
+    <None Include="Highscore\MineName.txt" />
+    <None Include="Highscore\MineScore.txt" />
+    <None Include="Map\Cage.txt" />
+    <None Include="Map\Christmas.txt" />
+    <None Include="Map\Custom.txt" />
+    <None Include="Map\Garden.txt" />
+    <None Include="Map\Maze.txt" />
+    <None Include="Map\Mine.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

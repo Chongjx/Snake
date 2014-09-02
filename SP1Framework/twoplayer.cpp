@@ -4,7 +4,6 @@
 #include "Framework\console.h"
 #include <iostream>
 #include <fstream>
-#include <sstream>
 #include <string>
 #include <vector>
 
@@ -37,73 +36,152 @@ void CreateSnake2(int size)
 
 void Map2()
 {
-	ifstream PrintMap;
-	switch(I_Map)
+	if (B_Complete == false)
 	{
-	case 1:
+		ifstream PrintMap;
+		switch(I_Map)
 		{
-			PrintMap.open("Map\\Cage.txt");
-		} break;
-	case 2:
-		{
-			PrintMap.open("Map\\Christmas.txt");
-		} break;
-	case 3:
-		{
-			PrintMap.open("Map\\Garden.txt");
-		} break;
-	case 4:
-		{
-			PrintMap.open("Map\\Maze.txt");
-		} break;
-	case 5:
-		{
-			PrintMap.open("Map\\Mine.txt");
-		} break;
-	}
-
-	Array_2D = new char*[40];
-
-	for (int row = 0; row < Height; row++)
-	{
-		Array_2D[row] = new char[100];
-		for (int col = 0; col < Width; col++)
-		{
+		case 1:
 			{
-				PrintMap >> Array_2D[row][col];
+				PrintMap.open("Map\\Cage.txt");
+			} break;
+		case 2:
+			{
+				PrintMap.open("Map\\Christmas.txt");
+			} break;
+		case 3:
+			{
+				PrintMap.open("Map\\Garden.txt");
+			} break;
+		case 4:
+			{
+				PrintMap.open("Map\\Maze.txt");
+			} break;
+		case 5:
+			{
+				PrintMap.open("Map\\Mine.txt");
+			} break;
+		}
+
+		Array_2D = new char*[40];
+
+		for (int row = 0; row < Height; row++)
+		{
+			Array_2D[row] = new char[100];
+			for (int col = 0; col < Width; col++)
+			{
+				{
+					PrintMap >> Array_2D[row][col];
+				}
 			}
 		}
-	}
 
-	for (int row = 0; row < Height; row++)
-	{
-		for (int col = 0; col < Width; col++)
+		for (int row = 0; row < Height; row++)
 		{
-			if (Array_2D[row][col] == '1')
+			for (int col = 0; col < Width; col++)
 			{
-				colour (0x2);
-				cout << char(178);
-			}
+				if (Array_2D[row][col] == '1')
+				{
+					colour (0x2);
+					cout << char(178);
+				}
 
-			else if (Array_2D[row][col] == '2')
-			{
-				colour (0x6);
-				cout << char(254);
-			}
+				else if (Array_2D[row][col] == '2')
+				{
+					colour (0x6);
+					cout << char(254);
+				}
 
-			else if (Array_2D[row][col] == '3')
-			{
-				colour (0xC);
-				cout << char(219);
-			}
+				else if (Array_2D[row][col] == '3')
+				{
+					colour (0xC);
+					cout << char(219);
+				}
 
-			else
-			{
-				cout << char(32);
+				else
+				{
+					cout << char(32);
+				}
 			}
 		}
+		PrintMap.close();
 	}
-	PrintMap.close();
+
+	else if (B_Complete == true)
+	{
+		ifstream PrintMap;
+		switch(I_Map)
+		{
+		case 1:
+			{
+				PrintMap.open("Map\\Cage.txt");
+			} break;
+		case 2:
+			{
+				PrintMap.open("Map\\Christmas.txt");
+			} break;
+		case 3:
+			{
+				PrintMap.open("Map\\Garden.txt");
+			} break;
+		case 4:
+			{
+				PrintMap.open("Map\\Maze.txt");
+			} break;
+		case 5:
+			{
+				PrintMap.open("Map\\Mine.txt");
+			} break;
+		case 6:
+			{
+				PrintMap.open("Map\\Custom.txt");
+			} break;
+		}
+
+		Array_2D = new char*[40];
+
+		for (int row = 0; row < Height; row++)
+		{
+			Array_2D[row] = new char[100];
+			for (int col = 0; col < Width; col++)
+			{
+				{
+					PrintMap >> Array_2D[row][col];
+				}
+			}
+		}
+
+		for (int row = 0; row < Height; row++)
+		{
+			for (int col = 0; col < Width; col++)
+			{
+				if (Array_2D[row][col] == '1')
+				{
+					colour (0x2);
+					cout << char(178);
+				}
+
+				else if (Array_2D[row][col] == '2')
+				{
+					colour (0x6);
+					cout << char(254);
+				}
+
+				else if (Array_2D[row][col] == '3')
+				{
+					colour (0xC);
+					cout << char(219);
+				}
+
+				else
+				{
+					cout << char(32);
+				}
+			}
+		}
+
+		PrintMap.close();
+	}
 }
 
 void GetInput2()
@@ -398,7 +476,7 @@ void CheckCollision2()
 			gotoXY (Vs_P1[0].CharLocation);
 			colour (0xC);
 			cout << char(254);
-			
+
 			gotoXY (Vs_P2[0].CharLocation);
 			colour (0xC);
 			cout << char(254);
@@ -718,7 +796,7 @@ void SpawnSpecial2()
 	}
 
 	Array_2D[coord_Special.Y][coord_Special.X] = '5';
-	
+
 	I_Bonus = rand() % 2;
 
 	if (I_Bonus == 0)
@@ -736,27 +814,86 @@ void SpawnSpecial2()
 	}
 }
 
-void GG2()
+void GameOver()
 {
 	cls();
-	/*if ( Vs_P1.size() > Vs_P2.size())
+	colour (0xC);
+	if (B_P1_Over != true && B_P2_Over == true)
 	{
-		cout << "Player 1 wins!" << endl;
+		ifstream P1wins;
+		string S_P1wins;
+		P1wins.open ("AsciiArt\\Player1Wins.txt");
+		while(!P1wins.eof())
+		{
+			getline (P1wins, S_P1wins);
+			cout << S_P1wins << endl;
+		}
 		Sleep(1000);
+		P1wins.close();
 	}
 
-	else if ( Vs_P2.size() > Vs_P1.size())
+	else if (B_P2_Over != true && B_P1_Over == true)
 	{
-		cout << "Player 2 wins!" << endl;
+		ifstream P2wins;
+		string S_P2wins;
+		P2wins.open ("AsciiArt\\Player2Wins.txt");
+		while(!P2wins.eof())
+		{
+			getline (P2wins, S_P2wins);
+			cout << S_P2wins << endl;
+		}
 		Sleep(1000);
+		P2wins.close();
 	}
 
-	else
+	else if (B_P2_Over == true && B_P1_Over == true)
 	{
-		cout << "Its a draw!" << endl;
-		Sleep(1000);
-	}*/
+		if (Vs_P1.size() > Vs_P2.size())
+		{
+			ifstream P1wins;
+			string S_P1wins;
+			P1wins.open ("AsciiArt\\Player1Wins.txt");
+			while(!P1wins.eof())
+			{
+				getline (P1wins, S_P1wins);
+				cout << S_P1wins << endl;
+			}
+			Sleep(1000);
+			P1wins.close();
+		}
 
+		else if (Vs_P2.size() > Vs_P1.size())
+		{
+			ifstream P2wins;
+			string S_P2wins;
+			P2wins.open ("AsciiArt\\Player2Wins.txt");
+			while(!P2wins.eof())
+			{
+				getline (P2wins, S_P2wins);
+				cout << S_P2wins << endl;
+			}
+			Sleep(1000);
+			P2wins.close();
+		}
+
+		else
+		{
+			ifstream Draw;
+			string S_Draw;
+			Draw.open ("AsciiArt\\Draw.txt");
+			while(!Draw.eof())
+			{
+				getline (Draw, S_Draw);
+				cout << S_Draw << endl;
+			}
+			Sleep(1000);
+			Draw.close();
+		}
+	}
+}
+
+void GG2()
+{
 	I_Move = 4;
 	I_Prev = 0;
 	I_Move2 = 4;
@@ -768,6 +905,8 @@ void GG2()
 	Vs_P1.erase(Vs_P1.begin(), Vs_P1.begin()+Vs_P1.size());
 	Vs_P2.erase(Vs_P2.begin(), Vs_P2.begin()+Vs_P2.size());
 	GB_GameOver = false;
+	B_P1_Over = false;
+	B_P2_Over = false;
 
 	ChosenColour[0] = (0x7);
 	ChosenColour2[0] = (0x7);

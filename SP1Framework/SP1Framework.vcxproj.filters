@@ -19,6 +19,15 @@
     <Filter Include="Source Files\Framework">
       <UniqueIdentifier>{37c19c94-9502-4b2b-b3f1-70fa908b49af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Map">
+      <UniqueIdentifier>{915a2463-9293-43d6-97a8-ce08b24c5a64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Highscore">
+      <UniqueIdentifier>{48053757-d552-45c0-a440-816e436c2e03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\AsciiArt">
+      <UniqueIdentifier>{99a85eef-f5ad-4898-8d30-7aaf5bdae467}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -56,5 +65,106 @@
     <ClInclude Include="twoplayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Map\Cage.txt">
+      <Filter>Resource Files\Map</Filter>
+    </None>
+    <None Include="Map\Christmas.txt">
+      <Filter>Resource Files\Map</Filter>
+    </None>
+    <None Include="Map\Custom.txt">
+      <Filter>Resource Files\Map</Filter>
+    </None>
+    <None Include="Map\Garden.txt">
+      <Filter>Resource Files\Map</Filter>
+    </None>
+    <None Include="Map\Maze.txt">
+      <Filter>Resource Files\Map</Filter>
+    </None>
+    <None Include="Map\Mine.txt">
+      <Filter>Resource Files\Map</Filter>
+    </None>
+    <None Include="Highscore\CageScore.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\ChristmasName.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\ChristmasScore.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\GardenName.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\GardenScore.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\MazeName.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\MazeScore.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\MineName.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\MineScore.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="Highscore\CageName.txt">
+      <Filter>Resource Files\Highscore</Filter>
+    </None>
+    <None Include="AsciiArt\Blue.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Cyan.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\CYC.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Draw.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\HighScore.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Instructions.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\MapOptions.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\NewMapOptions.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Player1.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Player1Wins.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Player2.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Player2Wins.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Players.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Purple.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\QuitGame.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Snake.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="AsciiArt\Yellow.txt">
+      <Filter>Resource Files\AsciiArt</Filter>
+    </None>
   </ItemGroup>
 </Project>
