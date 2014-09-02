@@ -13,6 +13,7 @@
           *       Eat more food produced randomly in the map to progress further.       *
           *           The game gets more challenging as the snake gets longer.          *
           * However,the snake will die if it touches its own body or touches the walls. *
+	  *           eat the up arrow to speed up and down arrow to slow down.         *
 	  *                                                                             *
           *******************************************************************************
                                               
