@@ -18,16 +18,6 @@ bool operator ==(COORD const& lhs, COORD const& rhs);
 
 void Init();			// initialize your variables, allocate memory, etc
 
-enum E_Map
-{
-    E_MAPUP,
-    E_MAPDOWN,
-    E_MAPLEFT,
-    E_MAPRIGHT,
-	E_MAPESCAPE,
-    E_MAPCOUNT
-};
-
 enum E_KEY
 {
     E_UP,
@@ -58,11 +48,8 @@ enum SoundType
     S_COUNT
 };
 
-void playGameSound(SoundType);
+void playGameSound(SoundType);	// contains all the sound
 
-void UpdateCustom();
-void GetMap();
-void InputBlock();
 void Map();					// border around the map using 2D array
 void GetInput();			// get input from player
 int Update(double);			// update the game and the state of the game

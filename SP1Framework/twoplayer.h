@@ -6,7 +6,6 @@
 
 using std::vector;
 
-void Map2();				// border around the map using 2D array
 void GetInput2();			// get input from player
 int Update2(double);		// update the game and the state of the game
 void Render2();				// renders the current state of the game to the console

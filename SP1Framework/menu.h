@@ -18,16 +18,28 @@ enum E_Colours
 	CYAN,
 	PURPLE,
 	YELLOW,
+	MAX
 };
 
-void UpdateCustom();
-void GetMap();
-void InputBlock();
+enum E_Map
+{
+    E_MAPUP,
+    E_MAPDOWN,
+    E_MAPLEFT,
+    E_MAPRIGHT,
+	E_MAPESCAPE,
+    E_MAPCOUNT
+};
+
+void UpdateCustom();			// update the custom map
+void GetMap();					// move the user coord to the respective location
+void InputBlock();				// get the user input for the custom map
 
 void MainMenu();
 void Instruction();
 void GameAscii();
 void Game1();
+void Score();
 void Game2();
 void HighScore();
 void DisplayHighScore();

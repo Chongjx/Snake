@@ -127,6 +127,11 @@
     <None Include="Map\Garden.txt" />
     <None Include="Map\Maze.txt" />
     <None Include="Map\Mine.txt" />
+    <None Include="Sounds\choice.wav" />
+    <None Include="Sounds\food.wav" />
+    <None Include="Sounds\gameover.wav" />
+    <None Include="Sounds\intro.wav" />
+    <None Include="Sounds\powerup.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -40,6 +40,7 @@ void Game1()
 	CreateSnake(3);
 	colour (0x2);
 	Map();
+	Score();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{
@@ -49,7 +50,6 @@ void Game1()
 		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
 	colour(0x2);
-
 	if (I_Map != 6)
 	{
 		ScoreBoard();
@@ -62,7 +62,7 @@ void Game2()
 	int I_Current = 500;
 	CreateSnake2(3);
 	colour (0x2);
-	Map2();
+	Map();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{

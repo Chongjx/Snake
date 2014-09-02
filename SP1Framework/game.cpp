@@ -22,7 +22,6 @@ using std::ofstream;
 using std::vector;
 
 COORD coord_ConsoleSize;
-COORD coord_Block;
 COORD coord_Apple;
 COORD coord_Special;
 COORD coord_Map;
@@ -42,10 +41,8 @@ int I_Current;
 int I_Bonus;
 
 char **Array_2D;
-char **Custom_2D;
 bool KeyPressed[E_COUNT];
 bool KeyPressed2[EP2_COUNT];
-bool KeyPressedMap[E_MAPCOUNT];
 Sound snd;
 vector<s_Snake> Vs_P1;
 vector<s_Snake> Vs_P2;
@@ -82,13 +79,11 @@ void Init()
 	D_FoodTimer = 10.00000;
 	D_Time = 0.00000;
 
-
     snd.loadWave( "powerup", "Sounds\\powerup.wav");
     snd.loadWave( "food" , "Sounds\\food.wav");
     snd.loadWave( "intro" , "Sounds\\intro.wav");
     snd.loadWave( "gameover" , "Sounds\\gameover.wav");
     snd.loadWave( "choice" , "Sounds\\choice.wav");
-
 }
 
 void playGameSound(SoundType sound)
@@ -121,162 +116,8 @@ void CreateSnake(int size)
 	}
 }
 
-void CreateMap()
-{
-	cls();
-
-	ifstream CustomMap;
-	CustomMap.open ("Map\\Custom.txt");
-
-	Custom_2D = new char*[40];
-
-	for (int row = 0; row < Height; row++)
-	{
-		Custom_2D[row] = new char[100];
-		for (int col = 0; col < Width; col++)
-		{
-			CustomMap >> Custom_2D[row][col];
-		}
-	}
-
-	for (int row = 0; row < Height; row++)
-	{
-		for (int col = 0; col < Width; col++)
-		{
-			if (Custom_2D[row][col] == '1')
-			{
-				colour (0x2);
-				cout << char(178);
-			}
-
-			else
-			{
-				cout << char(32);
-			}
-		}
-	}
-
-	CustomMap.close();
-
-	cout << endl;
-	colour (0x7);
-	cout << "1 - Blank ";
-	colour (0x2);
-	cout << " 2 - " << char(178);
-	colour (0x6);
-	cout << " 3 - " << char(254);
-	colour (0xC);
-	cout << " 4 - " << char(219);
-	colour (0x7);
-	cout << " Enter: Create Map ";
-
-	coord_Block.X = 2;
-	coord_Block.Y = 2;
-
-	while (B_Complete == false)
-	{
-		GetMap();
-		UpdateCustom();
-		if (B_Complete == false)
-		{
-			InputBlock();
-		}
-	}
-
-	Custom_2D[2][2] = '0';
-
-	ofstream CreateMap;
-	CreateMap.open ("Map\\Custom.txt");
-
-	for (int row = 0; row < Height; row++)
-	{
-		for (int col = 0; col < Width; col++)
-		{
-			CreateMap << Custom_2D[row][col];
-		}
-		CreateMap << endl;
-	}
-
-	CreateMap.close();
-
-	for ( int row = 0; row < Height; row++)
-	{
-		delete[] Custom_2D[row];
-	}
-	delete[] Custom_2D;
-}
-
-void UpdateCustom()
-{
-	// Updating the location of the character based on the key press
-	if (KeyPressedMap[E_MAPUP] && coord_Block.Y > 1)
-	{
-		coord_Block.Y--;
-		Sleep(120);
-	}
-
-	if (KeyPressedMap[E_MAPLEFT] && coord_Block.X > 1)
-	{
-		coord_Block.X--;
-		Sleep(120);
-	}
-
-	if (KeyPressedMap[E_MAPDOWN] && coord_Block.Y < 38)
-	{
-		coord_Block.Y++;
-		Sleep(120);
-	}
-
-	if (KeyPressedMap[E_MAPRIGHT] && coord_Block.X < 98)
-	{
-		coord_Block.X++;
-		Sleep(120);
-	}
-
-	if (KeyPressedMap[E_MAPESCAPE])
-	{
-		B_Complete = true;
-	}
-}
-
-void InputBlock()
-{
-	gotoXY(coord_Block);
-	char C_Block;
-	C_Block = getch();
-	switch (C_Block)
-	{
-	case '1':
-		{
-			Custom_2D[coord_Block.Y][coord_Block.X] = '0';
-			cout << char(32);
-		} break;
-	case '2':
-		{
-			Custom_2D[coord_Block.Y][coord_Block.X] = '1';
-			colour (0x2);
-			cout << char(178);
-		} break;
-	case '3':
-		{
-			Custom_2D[coord_Block.Y][coord_Block.X] = '2';
-			colour (0x6);
-			cout << char(254);
-		} break;
-	case '4':
-		{
-			Custom_2D[coord_Block.Y][coord_Block.X] = '3';
-			colour (0xC);
-			cout << char(219);
-		} break;
-	}
-	colour (0xC);
-}
-
 void Map()
 {
-	COORD coord_Score;
-
 	if (B_Complete == false)
 	{
 		ifstream PrintMap;
@@ -421,16 +262,8 @@ void Map()
 				}
 			}
 		}
-
 		PrintMap.close();
 	}
-
-	//Score for player 1
-	coord_Score.X = 0;
-	coord_Score.Y = 40;
-
-	gotoXY(coord_Score);
-	cout << "Your score: ";
 }
 
 void GetInput()
@@ -439,15 +272,6 @@ void GetInput()
 	KeyPressed[E_DOWN] = isKeyPressed(VK_DOWN);
 	KeyPressed[E_LEFT] = isKeyPressed(VK_LEFT);
 	KeyPressed[E_RIGHT] = isKeyPressed(VK_RIGHT);
-}
-
-void GetMap()
-{
-	KeyPressedMap[E_MAPUP] = isKeyPressed(VK_UP);
-	KeyPressedMap[E_MAPDOWN] = isKeyPressed(VK_DOWN);
-	KeyPressedMap[E_MAPLEFT] = isKeyPressed(VK_LEFT);
-	KeyPressedMap[E_MAPRIGHT] = isKeyPressed(VK_RIGHT);
-	KeyPressedMap[E_MAPESCAPE] = isKeyPressed(VK_RETURN);
 }
 
 int Update(double dt)

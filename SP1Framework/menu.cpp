@@ -8,7 +8,6 @@
 #include "Framework\sound.h"
 #include "game.h"
 #include "menu.h"
-#include "game.h"
 
 using std::cin;
 using std::cout;
@@ -24,6 +23,11 @@ int I_Frame = 0;
 int I_Map;
 
 bool B_Complete = false;
+COORD coord_Block;
+
+char **Custom_2D;
+
+bool KeyPressedMap[E_MAPCOUNT];
 
 WORD ChosenColour[] = {0x7};
 WORD ChosenColour2[] = {0x7};
@@ -137,7 +141,18 @@ void Instruction()
 		getline(Instruction , S_Instruction);
 		cout << S_Instruction << endl;
 	}
-	cout << endl << endl << endl << endl << endl;
+	cout << endl;
+}
+
+void Score()
+{
+	COORD coord_Score;
+	
+	coord_Score.X = 0;
+	coord_Score.Y = 40;
+
+	gotoXY(coord_Score);
+	cout << "Your score: ";
 }
 
 void HighScore()
@@ -430,6 +445,7 @@ void HiScore(int I_PlayerScore, string S_Name)
 void QuitGame()
 {
 	cls();
+	ClearCustomMap();
 	ifstream QuitGame;
 	string S_QuitGame;
 	QuitGame.open("AsciiArt\\QuitGame.txt");
@@ -440,6 +456,167 @@ void QuitGame()
 	}
 	cout << "                                      ";
 	exit(0);
+}
+
+void CreateMap()
+{
+	cls();
+
+	ifstream CustomMap;
+	CustomMap.open ("Map\\Custom.txt");
+
+	Custom_2D = new char*[40];
+
+	for (int row = 0; row < Height; row++)
+	{
+		Custom_2D[row] = new char[100];
+		for (int col = 0; col < Width; col++)
+		{
+			CustomMap >> Custom_2D[row][col];
+		}
+	}
+
+	for (int row = 0; row < Height; row++)
+	{
+		for (int col = 0; col < Width; col++)
+		{
+			if (Custom_2D[row][col] == '1')
+			{
+				colour (0x2);
+				cout << char(178);
+			}
+
+			else
+			{
+				cout << char(32);
+			}
+		}
+	}
+
+	CustomMap.close();
+
+	cout << endl;
+	colour (0x7);
+	cout << "1 - Blank ";
+	colour (0x2);
+	cout << " 2 - " << char(178);
+	colour (0x6);
+	cout << " 3 - " << char(254);
+	colour (0xC);
+	cout << " 4 - " << char(219);
+	colour (0x7);
+	cout << " Enter: Create Map ";
+
+	coord_Block.X = 2;
+	coord_Block.Y = 2;
+
+	while (B_Complete == false)
+	{
+		GetMap();
+		UpdateCustom();
+		if (B_Complete == false)
+		{
+			InputBlock();
+		}
+	}
+
+	Custom_2D[2][2] = '0';
+
+	ofstream CreateMap;
+	CreateMap.open ("Map\\Custom.txt");
+
+	for (int row = 0; row < Height; row++)
+	{
+		for (int col = 0; col < Width; col++)
+		{
+			CreateMap << Custom_2D[row][col];
+		}
+		CreateMap << endl;
+	}
+
+	CreateMap.close();
+
+	for ( int row = 0; row < Height; row++)
+	{
+		delete[] Custom_2D[row];
+	}
+	delete[] Custom_2D;
+}
+
+void GetMap()
+{
+	KeyPressedMap[E_MAPUP] = isKeyPressed(VK_UP);
+	KeyPressedMap[E_MAPDOWN] = isKeyPressed(VK_DOWN);
+	KeyPressedMap[E_MAPLEFT] = isKeyPressed(VK_LEFT);
+	KeyPressedMap[E_MAPRIGHT] = isKeyPressed(VK_RIGHT);
+	KeyPressedMap[E_MAPESCAPE] = isKeyPressed(VK_RETURN);
+}
+
+void UpdateCustom()
+{
+	// Updating the location of the character based on the key press
+	if (KeyPressedMap[E_MAPUP] && coord_Block.Y > 1)
+	{
+		coord_Block.Y--;
+		Sleep(120);
+	}
+
+	if (KeyPressedMap[E_MAPLEFT] && coord_Block.X > 1)
+	{
+		coord_Block.X--;
+		Sleep(120);
+	}
+
+	if (KeyPressedMap[E_MAPDOWN] && coord_Block.Y < 38)
+	{
+		coord_Block.Y++;
+		Sleep(120);
+	}
+
+	if (KeyPressedMap[E_MAPRIGHT] && coord_Block.X < 98)
+	{
+		coord_Block.X++;
+		Sleep(120);
+	}
+
+	if (KeyPressedMap[E_MAPESCAPE])
+	{
+		B_Complete = true;
+	}
+}
+
+void InputBlock()
+{
+	gotoXY(coord_Block);
+	char C_Block;
+	C_Block = getch();
+	switch (C_Block)
+	{
+	case '1':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '0';
+			cout << char(32);
+		} break;
+	case '2':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '1';
+			colour (0x2);
+			cout << char(178);
+		} break;
+	case '3':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '2';
+			colour (0x6);
+			cout << char(254);
+		} break;
+	case '4':
+		{
+			Custom_2D[coord_Block.Y][coord_Block.X] = '3';
+			colour (0xC);
+			cout << char(219);
+		} break;
+	}
+	colour (0xC);
 }
 
 void MapOptions()
@@ -635,36 +812,26 @@ void ColourOptions()
 
 void ColourOptions2()
 {
-	ifstream Player1;
-	ifstream Player2;
+	ifstream Player;
 	ifstream Blue;
-	ifstream Blue2;
 	ifstream Cyan;
-	ifstream Cyan2;
 	ifstream Purple;
-	ifstream Purple2;
 	ifstream Yellow;
-	ifstream Yellow2;
 	ifstream CYC;
-	ifstream CYC2;
-	string S_Player1;
-	string S_Player2;
+	string S_Player;
 	string S_Blue;
-	string S_Blue2;
 	string S_Cyan;
-	string S_Cyan2;
 	string S_Purple;
-	string S_Purple2;
 	string S_Yellow;
-	string S_Yellow2;
 	string S_CYC;
-	string S_CYC2;
-	Player1.open("AsciiArt\\Player1.txt");
-	while(!Player1.eof())
+
+	Player.open("AsciiArt\\Player1.txt");
+	while(!Player.eof())
 	{
-		getline(Player1,S_Player1);
-		cout << S_Player1 << endl;
+		getline(Player,S_Player);
+		cout << S_Player << endl;
 	}
+
 	colour(0x9);
 	Blue.open("AsciiArt\\Blue.txt");
 	while(!Blue.eof())
@@ -672,6 +839,7 @@ void ColourOptions2()
 		getline(Blue,S_Blue);
 		cout << S_Blue << endl;
 	}
+
 	colour(0xB);
 	Cyan.open("AsciiArt\\Cyan.txt");
 	while(!Cyan.eof())
@@ -679,6 +847,7 @@ void ColourOptions2()
 		getline(Cyan,S_Cyan);
 		cout << S_Cyan << endl;
 	}
+
 	colour(0xD);
 	Purple.open("AsciiArt\\Purple.txt");
 	while(!Purple.eof())
@@ -686,6 +855,7 @@ void ColourOptions2()
 		getline(Purple,S_Purple);
 		cout << S_Purple << endl;
 	}
+
 	colour(0xE);
 	Yellow.open("AsciiArt\\Yellow.txt");
 	while(!Yellow.eof())
@@ -693,6 +863,7 @@ void ColourOptions2()
 		getline(Yellow,S_Yellow);
 		cout << S_Yellow << endl;
 	}
+
 	colour(0x2);
 	CYC.open("AsciiArt\\CYC.txt");
 	while(!CYC.eof())
@@ -700,6 +871,7 @@ void ColourOptions2()
 		getline(CYC,S_CYC);
 		cout << S_CYC << endl;
 	}
+
 	char C_Colour = '0';
 	C_Colour = getch();
 	switch (C_Colour - 48)
@@ -716,49 +888,68 @@ void ColourOptions2()
             break;
 	}
 
+	Player.close();
+	Blue.close();
+	Cyan.close();
+	Purple.close();
+	Yellow.close();
+	CYC.close();
+	S_Player = "";
+	S_Blue = "";
+	S_Cyan = "";
+	S_Purple = "";
+	S_Yellow = "";
+	S_CYC = "";
+
 	cls();
 	colour (0x2);
-	Player2.open("AsciiArt\\Player2.txt");
-	while(!Player2.eof())
+	Player.open("AsciiArt\\Player2.txt");
+	while(!Player.eof())
 	{
-		getline(Player2,S_Player2);
-		cout << S_Player2 << endl;
+		getline(Player, S_Player);
+		cout << S_Player << endl;
 	}
+
 	colour(0x9);
-	Blue2.open("AsciiArt\\Blue.txt");
-	while(!Blue2.eof())
+	Blue.open("AsciiArt\\Blue.txt");
+	while(!Blue.eof())
 	{
-		getline(Blue2,S_Blue2);
-		cout << S_Blue2 << endl;
+		getline(Blue, S_Blue);
+		cout << S_Blue << endl;
 	}
+
 	colour(0xB);
-	Cyan2.open("AsciiArt\\Cyan.txt");
-	while(!Cyan2.eof())
+	Cyan.open("AsciiArt\\Cyan.txt");
+	while(!Cyan.eof())
 	{
-		getline(Cyan2,S_Cyan2);
-		cout << S_Cyan2 << endl;
+		getline(Cyan, S_Cyan);
+		cout << S_Cyan << endl;
 	}
+
 	colour(0xD);
-	Purple2.open("AsciiArt\\Purple.txt");
-	while(!Purple2.eof())
+	Purple.open("AsciiArt\\Purple.txt");
+	while(!Purple.eof())
 	{
-		getline(Purple2,S_Purple2);
-		cout << S_Purple2 << endl;
+		getline(Purple, S_Purple);
+		cout << S_Purple << endl;
 	}
 	colour(0xE);
-	Yellow2.open("AsciiArt\\Yellow.txt");
-	while(!Yellow2.eof())
+
+	Yellow.open("AsciiArt\\Yellow.txt");
+	while(!Yellow.eof())
 	{
-		getline(Yellow2,S_Yellow2);
-		cout << S_Yellow2 << endl;
+		getline(Yellow, S_Yellow);
+		cout << S_Yellow << endl;
 	}
 	colour(0x2);
-	CYC2.open("AsciiArt\\CYC.txt");
-	while(!CYC2.eof())
+
+	CYC.open("AsciiArt\\CYC.txt");
+	while(!CYC.eof())
 	{
-		getline(CYC2,S_CYC2);
-		cout << S_CYC2 << endl;
+		getline(CYC, S_CYC);
+		cout << S_CYC << endl;
 	}
+
 	C_Colour = '0';
 	C_Colour = getch();
 	switch (C_Colour - 48)
@@ -775,18 +966,12 @@ void ColourOptions2()
             break;
 	}
 
-	Player1.close();
-	Player2.close();
+	Player.close();
 	Blue.close();
-	Blue2.close();
 	Cyan.close();
-	Cyan2.close();
 	Purple.close();
-	Purple2.close();
 	Yellow.close();
-	Yellow2.close();
 	CYC.close();
-	CYC2.close();
 }
 
 void GameAscii()

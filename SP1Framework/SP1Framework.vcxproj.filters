@@ -28,6 +28,9 @@
     <Filter Include="Resource Files\AsciiArt">
       <UniqueIdentifier>{99a85eef-f5ad-4898-8d30-7aaf5bdae467}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Sounds">
+      <UniqueIdentifier>{33b92ba0-3461-4421-b361-15a5fac333be}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -171,6 +174,21 @@
     </None>
     <None Include="AsciiArt\Yellow.txt">
       <Filter>Resource Files\AsciiArt</Filter>
+    </None>
+    <None Include="Sounds\choice.wav">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="Sounds\food.wav">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="Sounds\gameover.wav">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="Sounds\intro.wav">
+      <Filter>Resource Files\Sounds</Filter>
+    </None>
+    <None Include="Sounds\powerup.wav">
+      <Filter>Resource Files\Sounds</Filter>
     </None>
   </ItemGroup>
 </Project>
