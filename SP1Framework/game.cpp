@@ -303,8 +303,7 @@ int Update(double dt)
 	case E_UP:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.Y--;
 		break;
@@ -312,8 +311,7 @@ int Update(double dt)
 	case E_DOWN:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.Y++;
 		break;
@@ -321,8 +319,7 @@ int Update(double dt)
 	case E_LEFT:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.X--;
 		break;
@@ -330,8 +327,7 @@ int Update(double dt)
 	case E_RIGHT:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.X++;
 		break;
@@ -339,8 +335,7 @@ int Update(double dt)
 	case E_NORM:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.Y++;
 		break;
@@ -369,7 +364,7 @@ void CheckCollision()
 {
 	for (int i = 1; i < Vs_P1.size(); i++)
 	{
-		if ( Vs_P1[0].CharLocation.X == Vs_P1[i].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P1[i].CharLocation.Y)
+		if ( Vs_P1[0].CharLocation == Vs_P1[i].CharLocation)
 		{
 			GB_GameOver = true;
 		}
@@ -404,7 +399,6 @@ void CheckCollision()
 			cout << char(254);
 			Sleep (100);
 		}
-
 		Sleep(1000);
 	}
 }
@@ -414,15 +408,14 @@ void UpdateSnake()
 	bool B_FoodEaten = false;
 	bool B_SpecialFoodEaten = false;
 
-	if (Vs_P1[0].CharLocation.X == coord_Apple.X && Vs_P1[0].CharLocation.Y == coord_Apple.Y)
+	if (Vs_P1[0].CharLocation == coord_Apple)
 	{
 		Beep (1045, 100);
 		B_FoodEaten = true;
 		I_Food = 0;
 		Vs_P1.push_back(s_Snake());
 
-		Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
-		Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
+		Vs_P1[Vs_P1.size()-1].CharLocation = Vs_P1[Vs_P1.size()-2].CharLocation;
 
 		I_Score += 10;
 		Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
@@ -434,7 +427,7 @@ void UpdateSnake()
 		I_Food++;
 	}
 
-	if (Vs_P1[0].CharLocation.X == coord_Special.X && Vs_P1[0].CharLocation.Y == coord_Special.Y)
+	if (Vs_P1[0].CharLocation == coord_Special)
 	{
 		Beep (1046, 100);
 		Beep (1046, 100);
@@ -443,8 +436,7 @@ void UpdateSnake()
 		I_Special = 0;
 		Vs_P1.push_back(s_Snake());
 
-		Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
-		Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
+		Vs_P1[Vs_P1.size()-1].CharLocation = Vs_P1[Vs_P1.size()-2].CharLocation;
 
 		I_Score += 20;
 
@@ -489,7 +481,7 @@ void Spawn()
 
 		for (int i = 0; i < Vs_P1.size(); i++)
 		{
-			if (coord_Apple.X == Vs_P1[i].CharLocation.X && coord_Apple.Y == Vs_P1[i].CharLocation.Y)
+			if (coord_Apple == Vs_P1[i].CharLocation)
 			{
 				B_CheckLocation = false;
 			}
@@ -569,7 +561,7 @@ void SpawnSpecial()
 		}
 		for ( int i = 0; i < Vs_P1.size(); i++)
 		{
-			if (coord_Special.X == Vs_P1[i].CharLocation.X && coord_Special.Y == Vs_P1[i].CharLocation.Y)
+			if (coord_Special == Vs_P1[i].CharLocation)
 			{
 				B_CheckLocation = false;
 			}

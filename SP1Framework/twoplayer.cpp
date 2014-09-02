@@ -15,6 +15,9 @@ using std::ifstream;
 using std::string;
 using std::vector;
 
+bool B_P1_Over = false;
+bool B_P2_Over = false;
+
 void CreateSnake2(int size)
 {
 	// Create a snake at top right of the map
@@ -163,8 +166,7 @@ int Update2(double dt)
 	case E_UP:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.Y--;
 		break;
@@ -172,8 +174,7 @@ int Update2(double dt)
 	case E_DOWN:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.Y++;
 		break;
@@ -181,8 +182,7 @@ int Update2(double dt)
 	case E_LEFT:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.X--;
 		break;
@@ -190,8 +190,7 @@ int Update2(double dt)
 	case E_RIGHT:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.X++;
 		break;
@@ -199,8 +198,7 @@ int Update2(double dt)
 	case E_NORM:
 		for (int i = Vs_P1.size()-1; i > 0 ; i--)
 		{
-			Vs_P1[i].CharLocation.X = Vs_P1[i-1].CharLocation.X;
-			Vs_P1[i].CharLocation.Y = Vs_P1[i-1].CharLocation.Y;
+			Vs_P1[i].CharLocation = Vs_P1[i-1].CharLocation;
 		}
 		Vs_P1[0].CharLocation.Y++;
 		break;
@@ -240,8 +238,7 @@ int Update2(double dt)
 	case EP2_W:
 		for (int i = Vs_P2.size()-1; i > 0 ; i--)
 		{
-			Vs_P2[i].CharLocation.X = Vs_P2[i-1].CharLocation.X;
-			Vs_P2[i].CharLocation.Y = Vs_P2[i-1].CharLocation.Y;
+			Vs_P2[i].CharLocation = Vs_P2[i-1].CharLocation;
 		}
 		Vs_P2[0].CharLocation.Y--;
 		break;
@@ -249,8 +246,7 @@ int Update2(double dt)
 	case EP2_S:
 		for (int i = Vs_P2.size()-1; i > 0 ; i--)
 		{
-			Vs_P2[i].CharLocation.X = Vs_P2[i-1].CharLocation.X;
-			Vs_P2[i].CharLocation.Y = Vs_P2[i-1].CharLocation.Y;
+			Vs_P2[i].CharLocation = Vs_P2[i-1].CharLocation;
 		}
 		Vs_P2[0].CharLocation.Y++;
 		break;
@@ -258,8 +254,7 @@ int Update2(double dt)
 	case EP2_A:
 		for (int i = Vs_P2.size()-1; i > 0 ; i--)
 		{
-			Vs_P2[i].CharLocation.X = Vs_P2[i-1].CharLocation.X;
-			Vs_P2[i].CharLocation.Y = Vs_P2[i-1].CharLocation.Y;
+			Vs_P2[i].CharLocation = Vs_P2[i-1].CharLocation;
 		}
 		Vs_P2[0].CharLocation.X--;
 		break;
@@ -267,8 +262,7 @@ int Update2(double dt)
 	case EP2_D:
 		for (int i = Vs_P2.size()-1; i > 0 ; i--)
 		{
-			Vs_P2[i].CharLocation.X = Vs_P2[i-1].CharLocation.X;
-			Vs_P2[i].CharLocation.Y = Vs_P2[i-1].CharLocation.Y;
+			Vs_P2[i].CharLocation = Vs_P2[i-1].CharLocation;
 		}
 		Vs_P2[0].CharLocation.X++;
 		break;
@@ -276,8 +270,7 @@ int Update2(double dt)
 	case EP2_NORM:
 		for (int i = Vs_P2.size()-1; i > 0 ; i--)
 		{
-			Vs_P2[i].CharLocation.X = Vs_P2[i-1].CharLocation.X;
-			Vs_P2[i].CharLocation.Y = Vs_P2[i-1].CharLocation.Y;
+			Vs_P2[i].CharLocation = Vs_P2[i-1].CharLocation;
 		}
 		Vs_P2[0].CharLocation.Y++;
 		break;
@@ -304,12 +297,10 @@ int Update2(double dt)
 
 void CheckCollision2()
 {
-	bool B_P1_Over = false;
-	bool B_P2_Over = false;
 	for (int i = 1; i < Vs_P1.size(); i++)
 	{
 		//Check collision for the snake's own body
-		if (Vs_P1[0].CharLocation.X == Vs_P1[i].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P1[i].CharLocation.Y)
+		if (Vs_P1[0].CharLocation == Vs_P1[i].CharLocation)
 		{
 			B_P1_Over = true;
 		}
@@ -317,18 +308,18 @@ void CheckCollision2()
 
 	for (int i = 1; i < Vs_P2.size(); i++)
 	{
-		if (Vs_P2[0].CharLocation.X == Vs_P2[i].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P2[i].CharLocation.Y)
+		if (Vs_P2[0].CharLocation == Vs_P2[i].CharLocation)
 		{
 			B_P2_Over = true;
 		}
 	}
 
-	if (Vs_P1[0].CharLocation.X == Vs_P2[1].CharLocation.X && Vs_P1[0].CharLocation.Y == Vs_P2[1].CharLocation.Y)
+	if (Vs_P1[0].CharLocation == Vs_P2[1].CharLocation)
 	{
 		B_P1_Over = true;
 	}
 
-	if (Vs_P2[0].CharLocation.X == Vs_P1[1].CharLocation.X && Vs_P2[0].CharLocation.Y == Vs_P1[1].CharLocation.Y)
+	if (Vs_P2[0].CharLocation == Vs_P1[1].CharLocation)
 	{
 		B_P2_Over = true;
 	}
@@ -455,28 +446,26 @@ void UpdateSnake2()
 	bool B_FoodEaten = false;
 	bool B_SpecialFoodEaten = false;
 
-	if (Vs_P1[0].CharLocation.X == coord_Apple.X && Vs_P1[0].CharLocation.Y == coord_Apple.Y)
+	if (Vs_P1[0].CharLocation == coord_Apple)
 	{
 		Beep (1045, 100);
 		B_FoodEaten = true;
 		I_Food = 0;
 		Vs_P1.push_back(s_Snake());
 
-		Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
-		Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
+		Vs_P1[Vs_P1.size()-1].CharLocation = Vs_P1[Vs_P1.size()-2].CharLocation;
 
 		Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
 
-	if (Vs_P2[0].CharLocation.X == coord_Apple.X && Vs_P2[0].CharLocation.Y == coord_Apple.Y)
+	if (Vs_P2[0].CharLocation == coord_Apple)
 	{
 		Beep (1045, 100);
 		B_FoodEaten = true;
 		I_Food = 0;
 		Vs_P2.push_back(s_Snake());
 
-		Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
-		Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.Y;
+		Vs_P2[Vs_P2.size()-1].CharLocation = Vs_P2[Vs_P2.size()-2].CharLocation;
 
 		Array_2D[coord_Apple.Y][coord_Apple.X] = '0';
 	}
@@ -537,7 +526,7 @@ void UpdateSnake2()
 		I_Food++;
 	}
 
-	if (Vs_P1[0].CharLocation.X == coord_Special.X && Vs_P1[0].CharLocation.Y == coord_Special.Y)
+	if (Vs_P1[0].CharLocation == coord_Special)
 	{
 		Beep (1046, 100);
 		Beep (1046, 100);
@@ -546,8 +535,7 @@ void UpdateSnake2()
 		I_Special = 0;
 		Vs_P1.push_back(s_Snake());
 
-		Vs_P1[Vs_P1.size()-1].CharLocation.X = Vs_P1[Vs_P1.size()-2].CharLocation.X;
-		Vs_P1[Vs_P1.size()-1].CharLocation.Y = Vs_P1[Vs_P1.size()-2].CharLocation.Y;
+		Vs_P1[Vs_P1.size()-1].CharLocation = Vs_P1[Vs_P1.size()-2].CharLocation;
 
 		if (elapsedTime > D_Time)
 		{
@@ -559,7 +547,7 @@ void UpdateSnake2()
 			I_Current = 0;
 		}
 
-		else
+		else if (I_Bonus == 1)
 		{
 			I_Current = 1;
 		}
@@ -567,7 +555,7 @@ void UpdateSnake2()
 		Array_2D[coord_Special.Y][coord_Special.X] = '0';
 	}
 
-	if (Vs_P2[0].CharLocation.X == coord_Special.X && Vs_P2[0].CharLocation.Y == coord_Special.Y)
+	if (Vs_P2[0].CharLocation == coord_Special)
 	{
 		Beep (1046, 100);
 		Beep (1046, 100);
@@ -576,8 +564,7 @@ void UpdateSnake2()
 		I_Special = 0;
 		Vs_P2.push_back(s_Snake());
 
-		Vs_P2[Vs_P2.size()-1].CharLocation.X = Vs_P2[Vs_P2.size()-2].CharLocation.X;
-		Vs_P2[Vs_P2.size()-1].CharLocation.Y = Vs_P2[Vs_P2.size()-2].CharLocation.Y;
+		Vs_P2[Vs_P2.size()-1].CharLocation = Vs_P2[Vs_P2.size()-2].CharLocation;
 
 		if (elapsedTime > D_Time)
 		{
@@ -586,12 +573,12 @@ void UpdateSnake2()
 
 		if (I_Bonus = 0)
 		{
-			I_Current = 1;
+			I_Current = 0;
 		}
 
 		else
 		{
-			I_Current = 0;
+			I_Current = 1;
 		}
 
 		Array_2D[coord_Special.Y][coord_Special.X] = '0';
@@ -629,7 +616,7 @@ void Spawn2()
 
 		for (int i = 0; i < Vs_P1.size(); i++)
 		{
-			if (coord_Apple.X == Vs_P1[i].CharLocation.X && coord_Apple.Y == Vs_P1[i].CharLocation.Y)
+			if (coord_Apple == Vs_P1[i].CharLocation)
 			{
 				B_CheckLocation = false;
 			}
@@ -637,7 +624,7 @@ void Spawn2()
 
 		for (int i = 0; i < Vs_P2.size(); i++)
 		{
-			if (coord_Apple.X == Vs_P2[i].CharLocation.X && coord_Apple.Y == Vs_P2[i].CharLocation.Y)
+			if (coord_Apple == Vs_P2[i].CharLocation)
 			{
 				B_CheckLocation = false;
 			}
@@ -715,7 +702,7 @@ void SpawnSpecial2()
 
 		for ( int i = 0; i < Vs_P1.size(); i++)
 		{
-			if (coord_Special.X == Vs_P1[i].CharLocation.X && coord_Special.Y == Vs_P1[i].CharLocation.Y)
+			if (coord_Special == Vs_P1[i].CharLocation)
 			{
 				B_CheckLocation = false;
 			}
@@ -723,7 +710,7 @@ void SpawnSpecial2()
 
 		for ( int i = 0; i < Vs_P2.size(); i++)
 		{
-			if (coord_Special.X == Vs_P2[i].CharLocation.X && coord_Special.Y == Vs_P2[i].CharLocation.Y)
+			if (coord_Special == Vs_P2[i].CharLocation)
 			{
 				B_CheckLocation = false;
 			}
