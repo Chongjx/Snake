@@ -133,6 +133,7 @@ void CreateMap()
 
 	CustomMap.close();
 
+	cout << endl;
 	colour (0x7);
 	cout << "1 - Blank ";
 	colour (0x2);
@@ -141,6 +142,8 @@ void CreateMap()
 	cout << " 3 - " << char(254);
 	colour (0xC);
 	cout << " 4 - " << char(219);
+	colour (0x7);
+	cout << " Enter: Create Map ";
 
 	coord_Block.X = 2;
 	coord_Block.Y = 2;
@@ -184,21 +187,25 @@ void UpdateCustom()
 	if (KeyPressedMap[E_MAPUP] && coord_Block.Y > 1)
 	{
 		coord_Block.Y--;
+		Sleep(120);
 	}
 
 	if (KeyPressedMap[E_MAPLEFT] && coord_Block.X > 1)
 	{
 		coord_Block.X--;
+		Sleep(120);
 	}
 
 	if (KeyPressedMap[E_MAPDOWN] && coord_Block.Y < 38)
 	{
 		coord_Block.Y++;
+		Sleep(120);
 	}
 
 	if (KeyPressedMap[E_MAPRIGHT] && coord_Block.X < 98)
 	{
 		coord_Block.X++;
+		Sleep(120);
 	}
 
 	if (KeyPressedMap[E_MAPESCAPE])
