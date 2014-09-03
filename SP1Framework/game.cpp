@@ -85,6 +85,7 @@ void Init()
     snd.loadWave( "intro" , "Sounds\\intro.wav");
     snd.loadWave( "gameover" , "Sounds\\gameover.wav");
     snd.loadWave( "choice" , "Sounds\\choice.wav");
+    snd.loadWave( "eatsnake" , "Sounds\\eatsnake.wav");
 }
 
 void ResetMove (int numplayers)
@@ -115,6 +116,7 @@ void playGameSound(SoundType sound)
         break;
     case S_CHOICE :snd.playSound("choice");
         break;
+    case S_EATSNAKE:snd.playSound("eatsnake");
     }
 }
 
@@ -811,6 +813,7 @@ void SnakeEatSnake(vector<s_Snake>& predator, vector<s_Snake>& prey)
         if (predator[0].CharLocation == prey[i].CharLocation)
         {
             // SOUND
+            playGameSound(S_EATSNAKE);
             int cutLength = prey.size() - i - 1;
 
             // increase the predator length

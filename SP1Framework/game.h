@@ -46,6 +46,7 @@ enum SoundType
     S_INTRO,
     S_GAMEOVER,
     S_CHOICE,
+    S_EATSNAKE,
     S_COUNT
 };
 
