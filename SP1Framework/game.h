@@ -41,6 +41,7 @@ enum EP2_KEY
 enum SoundType
 {
     S_POWERUP,
+    S_POWERDOWN,
     S_FOOD,
     S_INTRO,
     S_GAMEOVER,
