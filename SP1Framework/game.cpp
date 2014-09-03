@@ -620,7 +620,7 @@ void P1Lose()
 		cout << char(254);
 		Sleep (100);
 	}
-	Sleep(2000);
+	Sleep(1000);
 }
 
 void P2Lose()
@@ -638,7 +638,7 @@ void P2Lose()
 		cout << char(254);
 		Sleep (100);
 	}
-	Sleep(2000);
+	Sleep(1000);
 }
 
 void BothLose()
@@ -664,7 +664,7 @@ void BothLose()
 		cout << char(254);
 		Sleep (100);
 	}
-	Sleep(2000);
+	Sleep(1000);
 }
 
 void EatFood(int numplayers)
