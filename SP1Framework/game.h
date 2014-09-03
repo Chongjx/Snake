@@ -76,7 +76,6 @@ void ScoreBoard();
 void GG(int);					// reset all the variables to default values
 void GameOver();
 void ClearCustomMap();
-void ResetMove(int numplayers);
 
 extern StopWatch g_timer;
 extern bool GB_QuitGame;
