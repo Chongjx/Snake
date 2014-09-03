@@ -599,7 +599,17 @@ void Head2Head()
 		B_P1_Over = true;
 	}
 
+	if (Vs_P1[0].CharLocation == Vs_P2[0].CharLocation)
+	{
+		B_P1_Over = true;
+	}
+
 	if (Vs_P2[0].CharLocation == Vs_P1[1].CharLocation)
+	{
+		B_P2_Over = true;
+	}
+
+	if (Vs_P2[0].CharLocation == Vs_P1[0].CharLocation)
 	{
 		B_P2_Over = true;
 	}
