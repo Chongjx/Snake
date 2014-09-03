@@ -4,6 +4,7 @@
 #include <fstream>
 #include <vector>
 #include <conio.h>
+#include <Windows.h>
 #include "Framework\console.h"
 #include "Framework\sound.h"
 #include "game.h"
@@ -19,7 +20,6 @@ using std::vector;
 using std::stringstream;
 
 int I_Gamemode = 0;
-int I_Frame = 0;
 int I_Map;
 
 bool B_Complete = false;
@@ -32,7 +32,7 @@ bool KeyPressedMap[E_MAPCOUNT];
 WORD ChosenColour[] = {0x7};
 WORD ChosenColour2[] = {0x7};
 
-int GetInputMenu()
+void GetInputMenu()
 {
 	char C_Choice;
 	char C_Game;
@@ -49,25 +49,32 @@ int GetInputMenu()
 		{   
             playGameSound(S_CHOICE);
 			MapOptions();
+			FlushInput();
 			cls();
 			ColourOptions();
+			FlushInput();
 			cls();
+			Sleep(120);
 			Game1();
-			MainMenu();
+			break;
 		}
 		else if (C_Game == '2')
 		{
             playGameSound(S_CHOICE);
 			MapOptions();
+			FlushInput();
 			cls();
 			ColourOptions2();
+			FlushInput();
 			cls();
+			Sleep(120);
 			Game2();
-			MainMenu();
+			FlushInput();
+			break;
 		}
 		else
 		{
-			MainMenu();
+			break;
 		}
 		Sleep(200);
 		break;
@@ -78,12 +85,10 @@ int GetInputMenu()
 		if (C_Choice != 27)
 		{
             playGameSound(S_CHOICE);
-			MainMenu();
 		}
 		else
 		{
             playGameSound(S_CHOICE);
-			MainMenu();
 		}
 		Sleep(200);
 		break;
@@ -95,23 +100,24 @@ int GetInputMenu()
 		if (C_Choice != 27)
 		{
             playGameSound(S_CHOICE);
-			MainMenu();
 		}
 		else
 		{
             playGameSound(S_CHOICE);
-			MainMenu();
 		}
 		Sleep(200);
 		break;
 	case '4':
 		{
+			if (B_Complete == true)
+			{
+				ClearCustomMap();
+			}
             playGameSound(S_CHOICE);
 			QuitGame();
 		}
 		break;
 		Sleep(150);
-		return I_Frame;
 	}
 }
 
@@ -445,7 +451,6 @@ void HiScore(int I_PlayerScore, string S_Name)
 void QuitGame()
 {
 	cls();
-	ClearCustomMap();
 	ifstream QuitGame;
 	string S_QuitGame;
 	QuitGame.open("AsciiArt\\QuitGame.txt");
@@ -541,6 +546,8 @@ void CreateMap()
 		delete[] Custom_2D[row];
 	}
 	delete[] Custom_2D;
+
+	colour (0x2);
 }
 
 void GetMap()
@@ -622,6 +629,9 @@ void InputBlock()
 void MapOptions()
 {
 	cls();
+	char C_Maps;
+	bool B_ValidInput = false;
+
 	if (B_Complete == false)
 	{
 		ifstream MapOptions;
@@ -632,9 +642,16 @@ void MapOptions()
 			getline(MapOptions,S_MapOptions);
 			cout << S_MapOptions << endl;
 		}
+		
+		while (B_ValidInput == false)
+		{
+			C_Maps = getch();
 
-		char C_Maps;
-		C_Maps = getch();
+			if (C_Maps >= '1' && C_Maps <= '6')
+			{
+				B_ValidInput = true;
+			}
+		}
 
 		switch(C_Maps)
 		{
@@ -668,8 +685,9 @@ void MapOptions()
 				I_Map = 1;
 			} break;
 		}
+		B_ValidInput = false;
 	}
-
+	
 	else if (B_Complete == true)
 	{
 		ifstream MapOptions;
@@ -681,34 +699,41 @@ void MapOptions()
 			cout << S_MapOptions << endl;
 		}
 
-		char C_Maps;
-		C_Maps = getch();
+		while (B_ValidInput == false)
+		{
+			C_Maps = getch();
+
+			if (C_Maps >= '1' && C_Maps <= '7')
+			{
+				B_ValidInput = true;
+			}
+		}
 
 	switch(C_Maps)
 	{
 		case '1':
 			{
-            playGameSound(S_CHOICE);
+				playGameSound(S_CHOICE);
 				I_Map = 1;
 			} break;
 		case '2':
 			{
-            playGameSound(S_CHOICE);
+				playGameSound(S_CHOICE);
 				I_Map = 2;
 			} break;
 		case '3':
 			{
-            playGameSound(S_CHOICE);
+				playGameSound(S_CHOICE);
 				I_Map = 3;
 			} break;
 		case '4':
 			{
-            playGameSound(S_CHOICE);
+				playGameSound(S_CHOICE);
 				I_Map = 4;
 			} break;
 		case '5':
 			{
-            playGameSound(S_CHOICE);
+				playGameSound(S_CHOICE);
 				I_Map = 5;
 			} break;
 		case '6':
@@ -723,10 +748,11 @@ void MapOptions()
 			} break;
 		default :
 			{
-            playGameSound(S_CHOICE);
+				playGameSound(S_CHOICE);
 				I_Map = 1;
 			} break;
 		}
+		B_ValidInput = false;
     }
 }
 
@@ -786,7 +812,16 @@ void ColourOptions()
 		cout << S_CYC << endl;
 	}
 	char C_Colour = '0';
-	C_Colour = getch();
+	bool B_ValidInput = false;
+	while (B_ValidInput == false)
+	{
+		C_Colour = getch();
+
+		if (C_Colour >= '1' && C_Colour <= '4')
+		{
+			B_ValidInput = true;
+		}
+	}
 	switch (C_Colour - 48)
 	{
 		case BLUE: playGameSound(S_CHOICE); colour(0x9); ChosenColour[0] = 0x9;
@@ -801,7 +836,7 @@ void ColourOptions()
             break;
 
 	}
-
+	B_ValidInput = false;
 	Player1.close();
 	Blue.close();
 	Cyan.close();
@@ -873,7 +908,16 @@ void ColourOptions2()
 	}
 
 	char C_Colour = '0';
-	C_Colour = getch();
+	bool B_ValidInput = false;
+	while (B_ValidInput == false)
+	{
+		C_Colour = getch();
+
+		if (C_Colour >= '1' && C_Colour <= '4')
+		{
+			B_ValidInput = true;
+		}
+	}
 	switch (C_Colour - 48)
 	{
 		case BLUE: playGameSound(S_CHOICE); colour(0x9); ChosenColour[0] = 0x9;
@@ -887,7 +931,7 @@ void ColourOptions2()
         default: playGameSound(S_CHOICE); colour(0xB); ChosenColour[0] = 0xB;
             break;
 	}
-
+	B_ValidInput = false;
 	Player.close();
 	Blue.close();
 	Cyan.close();
@@ -951,7 +995,15 @@ void ColourOptions2()
 	}
 
 	C_Colour = '0';
-	C_Colour = getch();
+	while (B_ValidInput == false)
+	{
+		C_Colour = getch();
+
+		if (C_Colour >= '1' && C_Colour <= '4')
+		{
+			B_ValidInput = true;
+		}
+	}
 	switch (C_Colour - 48)
 	{
 		case BLUE: playGameSound(S_CHOICE); colour(0x9); ChosenColour2[0] = 0x9;
@@ -965,7 +1017,7 @@ void ColourOptions2()
         default: playGameSound(S_CHOICE); colour(0xB); ChosenColour2[0] = 0xB;
             break;
 	}
-
+	B_ValidInput = false;
 	Player.close();
 	Blue.close();
 	Cyan.close();
@@ -984,4 +1036,16 @@ void GameAscii()
 		getline(Players,S_Players);
 		cout << S_Players << endl;
 	}
+}
+
+void CallMenu()
+{
+	MainMenu();
+	GetInputMenu();
+}
+
+void FlushInput()
+{
+	HANDLE hIn = GetStdHandle(STD_INPUT_HANDLE);
+	FlushConsoleInputBuffer(hIn);
 }

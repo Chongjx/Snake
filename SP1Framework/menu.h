@@ -49,6 +49,8 @@ void ColourOptions2();
 void MapOptions();
 void CreateMap();
 void HiScore(int, string);
-int GetInputMenu();
+void GetInputMenu();
+void CallMenu();
+void FlushInput();
 
 #endif // _MENU_H

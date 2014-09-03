@@ -4,7 +4,6 @@
 #include "Framework\console.h"
 #include "game.h"
 #include "menu.h"
-#include "twoplayer.h"
 
 StopWatch g_timer;            // Timer function to keep track of time and the frame rate
 bool GB_QuitGame = false;     // Set to true if you want to quit the game
@@ -21,15 +20,12 @@ int main()
 	Init();				// initialize your variables
 	int I_Refresh = 1;
     playGameSound(S_INTRO);
-	while (!GB_QuitGame) // run this loop until user wants to quit 
+	while(!GB_QuitGame)
 	{
-		if (I_Refresh == 1)
-		{
-			MainMenu(); // runs the menu screen
-			I_Refresh++;
-		}
-		I_Refresh = GetInputMenu();
+		MainMenu();
+		GetInputMenu();
 	}
+	
 	return 0;
 }
 
@@ -37,16 +33,16 @@ int main()
 void Game1()
 {
 	int I_Current = 500;
-	CreateSnake(3);
 	colour (0x2);
 	Map();
 	Score();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
+	CreateSnake(1,3);
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{
-		GetInput();							// get keyboard input
-		I_Current = Update(g_timer.getElapsedTime());	// update the game
-		Render();							 // render the graphics output to screen
+		GetInput(1);							// get keyboard input
+		I_Current = Update(1, g_timer.getElapsedTime());	// update the game
+		Render(1);							 // render the graphics output to screen
 		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
 	colour(0x2);
@@ -54,23 +50,23 @@ void Game1()
 	{
 		ScoreBoard();
 	}
-	GG();
+	GG(1);
 }
 
 void Game2()
 {
 	int I_Current = 500;
-	CreateSnake2(3);
 	colour (0x2);
 	Map();
 	g_timer.startTimer();	// Start timer to calculate how long it takes to render this frame
+	CreateSnake(2, 3);
 	while (!GB_GameOver)      // run this loop until user wants to quit
 	{
-		GetInput2();							// get keyboard input
-		I_Current = Update2(g_timer.getElapsedTime());	// update the game
-		Render2();						// render the graphics output to screen
+		GetInput(2);							// get keyboard input
+		I_Current = Update(2, g_timer.getElapsedTime());	// update the game
+		Render(2);						// render the graphics output to screen
 		g_timer.waitUntil(I_Current/FPS);		 // Frame rate limiter. Limits each frame to a specified time in ms.      
 	}
 	GameOver();
-	GG2();
+	GG(2);
 }

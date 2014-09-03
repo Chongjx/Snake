@@ -51,41 +51,33 @@ enum SoundType
 void playGameSound(SoundType);	// contains all the sound
 
 void Map();					// border around the map using 2D array
-void GetInput();			// get input from player
-int Update(double);			// update the game and the state of the game
-void Render();				// renders the current state of the game to the console
-void Timer();				// Time to spawn the special food
-void Spawn();				// spawn food
-void SpawnSpecial();		// spawn special food
-void CheckCollision();		// check collision of for the snake
-void CreateSnake(int);		// create my snake at the intial location
-void UpdateSnake();			// update the snake
+void GetInput(int numplayers);			// get input from player
+int Update(int numplayers, double);		// update the game and the state of the game
+void Render(int numplayers);			// renders the current state of the game to the console
+void Timer(int numplayers);				// Time to spawn the special food
+void Spawn(int numplayers);				// spawn food
+void SpawnSpecial(int numplayers);		// spawn special food
+void CheckCollision(int numplayers);		// check collision of for the snake
+void OneHitsWall();
+void OneEatsSelf();
+void TwoHitsWall();
+void TwoEatsSelf();
+void Head2Head();
+void P1Lose();
+void P2Lose();
+void BothLose();
+void SnakeEatSnake(vector<s_Snake>& predator, vector<s_Snake>& prey);
+void CreateSnake(int numplayers, int size);		// create my snake at the intial location
+void EatFood(int numplayers);
+void EatSpecialFood(int numplayers);
 void ScoreBoard();
-void GG();					// reset all the variables to default values
+void GG(int);					// reset all the variables to default values
+void GameOver();
 void ClearCustomMap();
+void ResetMove(int numplayers);
 
 extern StopWatch g_timer;
 extern bool GB_QuitGame;
 extern bool GB_GameOver;
-extern double elapsedTime;
-extern double deltaTime;
-extern COORD coord_Apple;
-extern COORD coord_Special;
-extern int I_Food;
-extern int I_Special;
-extern int I_Move;
-extern int I_Prev;
-extern int I_Current;
-extern int I_Bonus;
-extern double D_FoodTimer;
-extern double D_Time;
-extern char **Array_2D;
-extern bool KeyPressed[E_COUNT];
-extern vector<s_Snake> Vs_P1;
-
-extern int I_Move2;
-extern int I_Prev2;
-extern bool KeyPressed2[EP2_COUNT];
-extern vector<s_Snake> Vs_P2;
 
 #endif // _GAME_H
